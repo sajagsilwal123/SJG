@@ -91,5 +91,97 @@ function initCarousels() {
     });
 }
 
-// Initialize carousels when DOM is ready
+// Constellation Canvas Animation for Journey Section
+const initConstellation = () => {
+    const canvas = document.getElementById('journeyCanvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+
+    // Configuration
+    const particleCountDesktop = 80;
+    const particleCountMobile = 30;
+    const particleColor = '#F97316'; // Orange
+    const connectionColor = '148, 163, 184'; // Slate Grey (rgb)
+    const connectionDistance = 150;
+
+    // Resize handling
+    const resize = () => {
+        width = canvas.width = canvas.parentElement.offsetWidth;
+        height = canvas.height = canvas.parentElement.offsetHeight;
+        initParticles();
+    };
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.vx = (Math.random() - 0.5) * 0.5; // Slow horizontal drift
+            this.vy = (Math.random() - 0.5) * 0.5; // Slow vertical drift
+            this.size = Math.random() * 2 + 1; // Size 1-3px
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            // Bounce off edges
+            if (this.x < 0 || this.x > width) this.vx *= -1;
+            if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = particleColor;
+            ctx.fill();
+        }
+    }
+
+    const initParticles = () => {
+        particles = [];
+        const count = window.innerWidth < 768 ? particleCountMobile : particleCountDesktop;
+        for (let i = 0; i < count; i++) {
+            particles.push(new Particle());
+        }
+    };
+
+    const animate = () => {
+        ctx.clearRect(0, 0, width, height);
+
+        particles.forEach((p, index) => {
+            p.update();
+            p.draw();
+
+            // Draw connections
+            for (let j = index + 1; j < particles.length; j++) {
+                const p2 = particles[j];
+                const dx = p.x - p2.x;
+                const dy = p.y - p2.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < connectionDistance) {
+                    const opacity = 0.2 * (1 - distance / connectionDistance);
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(${connectionColor}, ${opacity})`;
+                    ctx.lineWidth = 1;
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                }
+            }
+        });
+
+        requestAnimationFrame(animate);
+    };
+
+    window.addEventListener('resize', resize);
+    resize();
+    animate();
+};
+
+// Initialize carousels and constellation when DOM is ready
 initCarousels();
+initConstellation();

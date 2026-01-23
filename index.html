@@ -147,7 +147,7 @@
       <h2 class="section-title">Professional Impact</h2>
       <div class="section-title-bar"></div>
       <p class="section-subtitle">Merging 3 years of product development, 6 years of market analysis, and the mentorship
-        of 800+ students.</p>
+        of 900+ students.</p>
     </div>
 
     <div class="cards-grid">
@@ -181,9 +181,9 @@
         </div>
         <h3 class="experience-card-title">Educator</h3>
         <p class="experience-card-role">Tutor & FYP Supervisor @ Herald College</p>
-        <div class="experience-card-stat"><span>800+ Students</span></div>
+        <div class="experience-card-stat"><span>900+ Students</span></div>
         <p class="experience-card-description">
-          Mentored 800+ students in Object-Oriented Design & Collaborative Development. Supervising 14 FYP students.
+          Mentored 900+ students in Object-Oriented Design & Collaborative Development. Supervising 14 FYP students.
         </p>
       </div>
 
@@ -208,15 +208,17 @@
     <!-- Narrative Block -->
     <div class="narrative-block">
       <p>
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat."
+        "As a Nepali builder and educator, my mission is simple: <span
+          style="color: var(--color-orange-500); font-weight: 700;">creating
+          impact</span>. Whether developing products or guiding
+        students, I focus on driving meaningful progress and fostering sustainable growth."
       </p>
     </div>
   </section>
 
   <!-- JOURNEY SECTION -->
   <section id="journey" class="section journey-section">
+    <canvas id="journeyCanvas"></canvas>
     <div class="timeline-container">
       <div class="section-header">
         <h2 class="section-title">The Journey</h2>
@@ -312,84 +314,93 @@
 
     <div class="hobbies-grid">
       <!-- Music Card -->
-      <div class="hobby-card" data-carousel>
-        <div class="hobby-card-bg orange"></div>
-        <div class="carousel-images">
-          <img src="music_2.png" alt="Playing Guitar" class="hobby-card-image active">
-          <img src="guitar.jpg" alt="Guitar" class="hobby-card-image">
-          <img src="music_3.png" alt="Sheet Music" class="hobby-card-image">
-        </div>
-        <div class="hobby-card-overlay">
-          <div class="hobby-card-header">
-            <div class="hobby-card-icon-wrapper">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18V5l12-2v13" />
-                <circle cx="6" cy="18" r="3" />
-                <circle cx="18" cy="16" r="3" />
-              </svg>
-            </div>
-            <h3 class="hobby-card-title">Music</h3>
+      <div class="hobby-card-wrapper">
+        <div class="hobby-card" data-carousel>
+          <div class="hobby-card-bg orange"></div>
+          <div class="carousel-images">
+            <img src="music_2.png" alt="Playing Guitar" class="hobby-card-image active">
+            <img src="guitar.jpg" alt="Guitar" class="hobby-card-image">
+            <img src="music_3.png" alt="Sheet Music" class="hobby-card-image">
           </div>
-          <p class="hobby-card-caption">Unwinding with 6 strings. Finding rhythm in chaos.</p>
+          <div class="hobby-card-overlay">
+            <div class="hobby-card-header">
+              <div class="hobby-card-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18V5l12-2v13" />
+                  <circle cx="6" cy="18" r="3" />
+                  <circle cx="18" cy="16" r="3" />
+                </svg>
+              </div>
+              <h3 class="hobby-card-title">Music</h3>
+            </div>
+            <p class="hobby-card-caption">Unwinding with 6 strings. Finding rhythm in chaos.</p>
+          </div>
+          <div class="carousel-dots">
+            <span class="carousel-dot active"></span>
+            <span class="carousel-dot"></span>
+            <span class="carousel-dot"></span>
+          </div>
         </div>
-        <div class="carousel-dots">
-          <span class="carousel-dot active"></span>
-          <span class="carousel-dot"></span>
-          <span class="carousel-dot"></span>
-        </div>
+        <p class="hobby-label">Music</p>
       </div>
 
       <!-- Travel Card -->
-      <div class="hobby-card" data-carousel>
-        <div class="hobby-card-bg sky"></div>
-        <div class="carousel-images">
-          <img src="trekking.jpg" alt="Trekking" class="hobby-card-image active">
-          <img src="travel_2.png" alt="Himalayan Sunrise" class="hobby-card-image">
-          <img src="travel_3.png" alt="Mountain Hiker" class="hobby-card-image">
-        </div>
-        <div class="hobby-card-overlay">
-          <div class="hobby-card-header">
-            <div class="hobby-card-icon-wrapper">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-              </svg>
-            </div>
-            <h3 class="hobby-card-title">Travel</h3>
+      <div class="hobby-card-wrapper">
+        <div class="hobby-card" data-carousel>
+          <div class="hobby-card-bg sky"></div>
+          <div class="carousel-images">
+            <img src="trekking.jpg" alt="Trekking" class="hobby-card-image active">
+            <img src="travel_2.png" alt="Himalayan Sunrise" class="hobby-card-image">
+            <img src="travel_3.png" alt="Mountain Hiker" class="hobby-card-image">
           </div>
-          <p class="hobby-card-caption">Exploring new elevations. Trekking through the Himalayas.</p>
+          <div class="hobby-card-overlay">
+            <div class="hobby-card-header">
+              <div class="hobby-card-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+                </svg>
+              </div>
+              <h3 class="hobby-card-title">Travel</h3>
+            </div>
+            <p class="hobby-card-caption">Exploring new elevations. Trekking through the Himalayas.</p>
+          </div>
+          <div class="carousel-dots">
+            <span class="carousel-dot active"></span>
+            <span class="carousel-dot"></span>
+            <span class="carousel-dot"></span>
+          </div>
         </div>
-        <div class="carousel-dots">
-          <span class="carousel-dot active"></span>
-          <span class="carousel-dot"></span>
-          <span class="carousel-dot"></span>
-        </div>
+        <p class="hobby-label">Travel</p>
       </div>
 
       <!-- Trading Card -->
-      <div class="hobby-card trading-card" data-carousel>
-        <div class="carousel-images">
-          <img src="trading_1.png" alt="Trading Setup" class="hobby-card-image active">
-          <img src="trading_2.png" alt="Trading Desk" class="hobby-card-image">
-        </div>
-        <div class="trading-card-overlay">
-          <div class="hobby-card-header">
-            <div class="trading-card-icon-wrapper">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-                <polyline points="16 7 22 7 22 13" />
-              </svg>
-            </div>
-            <h3 class="hobby-card-title">Trading</h3>
+      <div class="hobby-card-wrapper">
+        <div class="hobby-card trading-card" data-carousel>
+          <div class="carousel-images">
+            <img src="trading_1.png" alt="Trading Setup" class="hobby-card-image active">
+            <img src="trading_2.png" alt="Trading Desk" class="hobby-card-image">
           </div>
-          <p class="trading-card-caption">Analyzing the pulse of the market.</p>
+          <div class="trading-card-overlay">
+            <div class="hobby-card-header">
+              <div class="trading-card-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                  <polyline points="16 7 22 7 22 13" />
+                </svg>
+              </div>
+              <h3 class="hobby-card-title">Trading</h3>
+            </div>
+            <p class="trading-card-caption">Analyzing the pulse of the market.</p>
+          </div>
+          <div class="carousel-dots">
+            <span class="carousel-dot active"></span>
+            <span class="carousel-dot"></span>
+          </div>
         </div>
-        <div class="carousel-dots">
-          <span class="carousel-dot active"></span>
-          <span class="carousel-dot"></span>
-        </div>
+        <p class="hobby-label">Trading</p>
       </div>
     </div>
   </section>

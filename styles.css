@@ -947,45 +947,32 @@ select {
    JOURNEY / TIMELINE
 ============================================= */
 .journey-section {
-  background-color: var(--color-white);
+  background-color: #0f172a;
+  /* Deep Slate */
   position: relative;
   overflow: hidden;
 }
 
-/* Journey Mountain Background */
-.journey-mountains {
+#journeyCanvas {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 40%;
+  height: 100%;
   z-index: 0;
-  opacity: 0.1;
   pointer-events: none;
 }
 
-@media (min-width: 768px) {
-  .journey-mountains {
-    height: 50%;
-    opacity: 0.15;
-  }
+.timeline-container {
+  position: relative;
+  z-index: 10;
 }
 
-.journey-mountain-1 {
-  stroke: var(--color-slate-400);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+/* Hide previous background elements */
+.journey-section::before,
+.journey-mountains {
+  display: none;
 }
-
-.journey-mountain-2 {
-  stroke: var(--color-slate-300);
-  stroke-width: 1;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0.7;
-}
-
 
 .timeline-container {
   max-width: 56rem;
@@ -1000,7 +987,7 @@ select {
   transform: translateX(-50%);
   height: 100%;
   width: 0.25rem;
-  background-color: var(--color-slate-200);
+  background-color: rgba(255, 255, 255, 0.1);
   display: none;
 }
 
@@ -1029,14 +1016,39 @@ select {
 
 .timeline-card {
   width: 100%;
-  background-color: var(--color-white);
+  background-color: rgba(30, 41, 59, 0.7);
   padding: var(--spacing-6);
   border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-slate-100);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transition: box-shadow var(--transition-fast);
   position: relative;
   z-index: 10;
+}
+
+/* Update text colors for Dark Theme */
+.journey-section .section-title,
+.timeline-title {
+  color: #e2e8f0;
+  /* Slate-200 */
+}
+
+.journey-section .section-subtitle,
+.timeline-place {
+  color: #94a3b8;
+  /* Slate-400 */
+}
+
+/* Custom text alignments for timeline text */
+.timeline-year {
+  color: var(--color-orange-500) !important;
+  font-weight: 600;
+}
+
+.timeline-place {
+  color: var(--color-slate-500) !important;
 }
 
 @media (min-width: 768px) {
@@ -1073,12 +1085,14 @@ select {
 .timeline-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--color-slate-800);
+  color: #e2e8f0;
+  /* Slate-200 */
   margin-top: var(--spacing-1);
 }
 
 .timeline-place {
-  color: var(--color-slate-500);
+  color: #94a3b8;
+  /* Slate-400 */
 }
 
 .timeline-dot {
@@ -1124,6 +1138,19 @@ select {
   .hobbies-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+.hobby-card-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.hobby-label {
+  text-align: center;
+  margin-top: var(--spacing-4);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--color-slate-700);
 }
 
 .hobby-card {
