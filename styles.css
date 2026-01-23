@@ -493,8 +493,8 @@ select {
 }
 
 #heroFlagCanvas {
-  width: 80px;
-  height: 100px;
+  width: 72px;
+  height: 90px;
   /* Position absolute to avoid shifting the text */
   position: absolute;
   left: 100%;

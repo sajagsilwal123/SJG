@@ -196,8 +196,8 @@ const initHeroFlag = () => {
     // Settings
     const pixelRatio = window.devicePixelRatio || 1;
     // Display size matches CSS
-    const displayWidth = 80;
-    const displayHeight = 100;
+    const displayWidth = 72;
+    const displayHeight = 90;
 
     // Set actual canvas size (high DPI support)
     canvas.width = displayWidth * pixelRatio;
