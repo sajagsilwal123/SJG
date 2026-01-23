@@ -461,6 +461,24 @@ select {
   display: inline-block;
 }
 
+.hero-name-nepali-wrapper {
+  /* Absolute positioning to align with "Silwal" */
+  position: absolute;
+  right: auto;
+  left: 100%;
+  margin-left: 0.3em;
+  /* Slightly closer */
+  bottom: 0.1em;
+  /* Align with baseline */
+  /* Align with baseline */
+  top: auto;
+  transform: none;
+  white-space: nowrap;
+
+  /* Reset */
+  opacity: 1;
+}
+
 .hero-name-nepali {
   font-family: serif;
   font-size: 1.56em;
@@ -471,14 +489,27 @@ select {
   background-clip: text;
   letter-spacing: 0.02em;
   opacity: 0.64;
+  /* Keep text transparent */
+}
 
-  /* Absolute positioning to center vertically */
+#heroFlagCanvas {
+  width: 80px;
+  height: 100px;
+  /* Position absolute to avoid shifting the text */
   position: absolute;
-  right: -2.1em;
+  left: 100%;
   top: 50%;
   transform: translateY(-50%);
-  white-space: nowrap;
+  margin-left: 16px;
+  cursor: pointer;
+
+  /* Reset text fill effects from parent */
+  -webkit-text-fill-color: initial;
+  background: none;
+  opacity: 0.83;
 }
+
+/* Removed hover scale to prevent any perceived shifting */
 
 .hero-subtitle {
   font-size: 1.125rem;

@@ -185,3 +185,137 @@ const initConstellation = () => {
 // Initialize carousels and constellation when DOM is ready
 initCarousels();
 initConstellation();
+
+// Waving Flag Animation for Hero Section
+const initHeroFlag = () => {
+    const canvas = document.getElementById('heroFlagCanvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    // Settings
+    const pixelRatio = window.devicePixelRatio || 1;
+    // Display size matches CSS
+    const displayWidth = 80;
+    const displayHeight = 100;
+
+    // Set actual canvas size (high DPI support)
+    canvas.width = displayWidth * pixelRatio;
+    canvas.height = displayHeight * pixelRatio;
+
+    // Wave Physics
+    let time = 0;
+    const waveSpeed = 0.064;
+    const waveFrequency = 0.1; // Increased for smaller size
+    const waveAmplitude = 3 * pixelRatio;
+
+    // 1. CREATE OFFSCREEN CANVAS (The Static Texture)
+    const bufferCanvas = document.createElement('canvas');
+    const bufferCtx = bufferCanvas.getContext('2d');
+    bufferCanvas.width = canvas.width;
+    bufferCanvas.height = canvas.height;
+
+    // Colors
+    const CRIMSON = '#DC143C';
+    const BLUE = '#003893';
+    const WHITE = '#FFFFFF';
+
+    function drawStaticFlag(ctx, w, h) {
+        // Clear
+        ctx.clearRect(0, 0, w, h);
+
+        // Scale for drawing coordinates (assuming 100x120 coordinate space for ease)
+        ctx.save();
+        const scaleX = w / 100;
+        const scaleY = h / 120;
+        ctx.scale(scaleX, scaleY);
+
+        // --- BORDER (Blue) ---
+        ctx.beginPath();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = BLUE;
+        ctx.lineJoin = 'round';
+        ctx.fillStyle = CRIMSON;
+
+        // Geometry points (Simplified double triangle)
+        // Start top-left
+        ctx.moveTo(5, 5);
+        // Top triangle right
+        ctx.lineTo(80, 45);
+        // Top triangle bottom-inner
+        ctx.lineTo(35, 45);
+        // Bottom triangle right
+        ctx.lineTo(80, 95);
+        // Bottom triangle bottom
+        ctx.lineTo(5, 95);
+        // Close loop
+        ctx.lineTo(5, 5);
+
+        ctx.fill();
+        ctx.stroke();
+
+        // --- MOON (Top Triangle) ---
+        ctx.fillStyle = WHITE;
+        ctx.beginPath();
+        // Crescent
+        ctx.arc(25, 30, 8, 0, Math.PI * 2);
+        ctx.fill();
+        // Cutout for crescent effect (red circle over white)
+        ctx.fillStyle = CRIMSON;
+        ctx.beginPath();
+        ctx.arc(25, 26, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        // --- SUN (Bottom Triangle) ---
+        ctx.fillStyle = WHITE;
+        ctx.beginPath();
+        // Sun body
+        ctx.arc(25, 75, 7, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Sun rays (simple lines)
+        ctx.strokeStyle = WHITE;
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 12; i++) {
+            ctx.beginPath();
+            const angle = (i / 12) * Math.PI * 2;
+            ctx.moveTo(25 + Math.cos(angle) * 8, 75 + Math.sin(angle) * 8);
+            ctx.lineTo(25 + Math.cos(angle) * 11, 75 + Math.sin(angle) * 11);
+            ctx.stroke();
+        }
+
+        ctx.restore();
+    }
+
+    // Draw the static flag once to buffer
+    drawStaticFlag(bufferCtx, bufferCanvas.width, bufferCanvas.height);
+
+    // 2. ANIMATION LOOP
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Loop through every vertical slice of the buffer
+        for (let x = 0; x < canvas.width; x++) {
+
+            // Calculate wave offset
+            // dampener: left side (pole) moves less
+            const dampener = x / canvas.width;
+            const yOffset = Math.sin(x * waveFrequency - time) * (waveAmplitude * dampener);
+
+            // Draw Slice
+            ctx.drawImage(
+                bufferCanvas,
+                x, 0, 1, bufferCanvas.height, // Source slice
+                x, yOffset, 1, bufferCanvas.height // Dest slice
+            );
+        }
+
+        time += waveSpeed;
+        requestAnimationFrame(animate);
+    }
+
+    // Start
+    animate();
+};
+
+initHeroFlag();
