@@ -1130,14 +1130,14 @@ select {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-3xl);
-  height: 16rem;
+  height: 20rem;
   background-color: var(--color-slate-100);
   cursor: pointer;
 }
 
 @media (min-width: 768px) {
   .hobby-card {
-    height: 20rem;
+    height: 24rem;
   }
 }
 
@@ -1158,6 +1158,51 @@ select {
 
 .hobby-card-bg.sky {
   background-color: var(--color-sky-500);
+}
+
+.hobby-card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.hobby-card-image.active {
+  opacity: 1;
+}
+
+.carousel-images {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 20;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.carousel-dot.active {
+  background-color: var(--color-white);
+  transform: scale(1.2);
 }
 
 .hobby-card-placeholder {
@@ -1639,6 +1684,16 @@ select {
 
 .social-link.instagram:hover {
   background-color: var(--color-pink-600);
+  color: var(--color-white);
+}
+
+.social-link.twitter:hover {
+  background-color: #000000;
+  color: var(--color-white);
+}
+
+.social-link.facebook:hover {
+  background-color: #1877f2;
   color: var(--color-white);
 }
 

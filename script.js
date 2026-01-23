@@ -52,3 +52,44 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// Hobby Cards Carousel - Auto-cycle every 4 seconds
+function initCarousels() {
+    const carousels = document.querySelectorAll('[data-carousel]');
+
+    carousels.forEach(carousel => {
+        const images = carousel.querySelectorAll('.hobby-card-image');
+        const dots = carousel.querySelectorAll('.carousel-dot');
+        let currentIndex = 0;
+
+        if (images.length <= 1) return;
+
+        function showSlide(index) {
+            images.forEach((img, i) => {
+                img.classList.toggle('active', i === index);
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showSlide(currentIndex);
+        }
+
+        // Auto-cycle every 4 seconds
+        setInterval(nextSlide, 4000);
+
+        // Click on dots to navigate
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                showSlide(currentIndex);
+            });
+        });
+    });
+}
+
+// Initialize carousels when DOM is ready
+initCarousels();
