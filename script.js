@@ -319,3 +319,37 @@ const initHeroFlag = () => {
 };
 
 initHeroFlag();
+
+// Dynamics Timeline Line Sizing (Connect the dots exactly)
+const adjustTimelineLine = () => {
+    const line = document.querySelector('.timeline-line');
+    const dots = document.querySelectorAll('.timeline-dot');
+
+    if (!line || dots.length < 2) return;
+
+    const firstDot = dots[0];
+    const lastDot = dots[dots.length - 1];
+
+    const container = line.parentElement;
+    // Assuming line is direct child of the relative wrapper
+
+    const containerRect = container.getBoundingClientRect();
+    const firstDotRect = firstDot.getBoundingClientRect();
+    const lastDotRect = lastDot.getBoundingClientRect();
+
+    // Calculate relative top positions (center of dots)
+    // dot center = dot top + height/2
+    const firstDotCenter = (firstDotRect.top + firstDotRect.height / 2) - containerRect.top;
+    const lastDotCenter = (lastDotRect.top + lastDotRect.height / 2) - containerRect.top;
+
+    const height = lastDotCenter - firstDotCenter;
+
+    line.style.top = `${firstDotCenter}px`;
+    line.style.height = `${height}px`;
+};
+
+// Run on load and resize
+window.addEventListener('load', adjustTimelineLine);
+window.addEventListener('resize', adjustTimelineLine);
+// Also run immediately in case
+adjustTimelineLine();

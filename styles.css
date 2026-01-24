@@ -413,19 +413,28 @@ select {
 }
 
 .hero-text {
-  text-align: center;
+  text-align: left;
+  /* Align all text left so "Sajag" aligns with "Building" */
   order: 2;
+  /* Fit width to content so left-aligned text aligns with widest element */
+  max-width: fit-content;
+  margin: 0 auto;
 }
 
 @media (min-width: 768px) {
   .hero-text {
     text-align: left;
     order: 1;
+    max-width: none;
+    margin: 0;
   }
 }
 
 .hero-badge {
-  display: inline-block;
+  display: block;
+  width: fit-content;
+  margin: 0 0 var(--spacing-2) 2.4rem;
+  /* Align with title (left offset) */
   padding: var(--spacing-1) var(--spacing-4);
   background-color: var(--color-slate-200);
   color: var(--color-slate-700);
@@ -433,15 +442,26 @@ select {
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  margin-bottom: var(--spacing-2);
+}
+
+@media (min-width: 768px) {
+  .hero-badge {
+    margin: 0 0 var(--spacing-2) 0;
+    /* Reset left align */
+  }
 }
 
 .hero-title {
-  font-size: 2.25rem;
+  font-size: 2rem;
+  /* Reduced by ~10% */
   font-weight: 800;
   color: var(--color-slate-900);
   line-height: 1.1;
   margin-bottom: var(--spacing-4);
+  text-align: left;
+  /* Align "Sajag" with "Silwal" internally */
+  margin-left: 3.1rem;
+  /* Shift slightly right relative to subtitle */
 }
 
 @media (min-width: 640px) {
@@ -453,6 +473,8 @@ select {
 @media (min-width: 768px) {
   .hero-title {
     font-size: 4.5rem;
+    margin-left: 0;
+    /* Reset on desktop */
   }
 }
 
@@ -466,7 +488,7 @@ select {
   position: absolute;
   right: auto;
   left: 100%;
-  margin-left: 0.3em;
+  margin-left: 0.5em;
   /* Slightly closer */
   bottom: 0.1em;
   /* Align with baseline */
@@ -481,7 +503,7 @@ select {
 
 .hero-name-nepali {
   font-family: serif;
-  font-size: 1.56em;
+  font-size: 1.7em;
   font-weight: 400;
   background: linear-gradient(135deg, var(--color-orange-500), var(--color-rose-500));
   -webkit-background-clip: text;
@@ -509,6 +531,15 @@ select {
   opacity: 0.83;
 }
 
+@media (max-width: 768px) {
+  #heroFlagCanvas {
+    width: 48px;
+    /* Reduced by ~10% (was 54) */
+    height: 60px;
+    /* Reduced by ~10% (was 67.5) */
+  }
+}
+
 /* Removed hover scale to prevent any perceived shifting */
 
 .hero-subtitle {
@@ -517,6 +548,8 @@ select {
   font-weight: 500;
   line-height: 1.75;
   margin-bottom: var(--spacing-4);
+  text-align: center;
+  /* Center on mobile */
 }
 
 @media (min-width: 640px) {
@@ -528,33 +561,42 @@ select {
 @media (min-width: 768px) {
   .hero-subtitle {
     font-size: 1.5rem;
+    text-align: left;
+    /* Reset on desktop */
   }
 }
 
 .hero-subtitle .text-emerald {
   color: var(--color-emerald-600);
+  font-weight: 600;
 }
 
 .hero-subtitle .text-rose {
   color: var(--color-rose-600);
+  font-weight: 600;
 }
 
 .hero-subtitle .text-orange {
-  color: var(--color-orange-600);
+  color: var(--color-orange-500);
+  font-weight: 600;
 }
 
 .hero-description {
   color: var(--color-slate-500);
-  max-width: 32rem;
-  margin: 0 auto var(--spacing-6);
+  max-width: 36rem;
+  margin-bottom: var(--spacing-8);
   font-size: 1rem;
-  line-height: 1.75;
+  line-height: 1.6;
+  text-align: center;
+  /* Center on mobile */
 }
 
 @media (min-width: 768px) {
   .hero-description {
-    margin: 0 0 var(--spacing-6) 0;
+    margin: 0;
     font-size: 1.125rem;
+    text-align: left;
+    /* Reset on desktop */
   }
 }
 
@@ -1012,19 +1054,22 @@ select {
   padding: 0 var(--spacing-6);
 }
 
+/* Timeline Line: Visible on mobile, left-aligned */
 .timeline-line {
   position: absolute;
-  left: 50%;
+  left: 3rem;
+  /* Align with dots on mobile */
   transform: translateX(-50%);
   height: 100%;
   width: 0.25rem;
   background-color: rgba(255, 255, 255, 0.1);
-  display: none;
+  display: block;
 }
 
 @media (min-width: 768px) {
   .timeline-line {
-    display: block;
+    left: 50%;
+    /* Center on desktop */
   }
 }
 
@@ -1035,6 +1080,9 @@ select {
   width: 100%;
   margin-bottom: var(--spacing-8);
   gap: var(--spacing-4);
+  /* Mobile: Space for line */
+  padding-left: 5rem;
+  position: relative;
 }
 
 @media (min-width: 768px) {
@@ -1042,6 +1090,8 @@ select {
     flex-direction: row;
     justify-content: center;
     gap: var(--spacing-6);
+    padding-left: 0;
+    /* Reset */
   }
 }
 
@@ -1057,6 +1107,26 @@ select {
   transition: box-shadow var(--transition-fast);
   position: relative;
   z-index: 10;
+}
+
+/* Connector Line for Mobile */
+.timeline-card::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  /* Reach to the dot */
+  top: 2.5rem;
+  /* Vertically align with dot */
+  width: 2rem;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (min-width: 768px) {
+  .timeline-card::before {
+    display: none;
+    /* Hide on desktop */
+  }
 }
 
 /* Update text colors for Dark Theme */
@@ -1127,23 +1197,54 @@ select {
 }
 
 .timeline-dot {
-  width: 2rem;
-  height: 2rem;
+  width: 1.5rem;
+  /* Smaller dot for mobile? kept 1.5 for prop */
+  height: 1.5rem;
   border-radius: 50%;
   background-color: var(--color-slate-900);
-  border: 4px solid var(--color-white);
+  border: 3px solid var(--color-white);
+  /* Slightly thinner border */
   box-shadow: var(--shadow-lg);
-  z-index: 10;
+  z-index: 20;
   flex-shrink: 0;
-  display: none;
+
+  /* Mobile Positioning */
+  display: block;
+  position: absolute;
+  left: 3rem;
+  /* Match line position + container padding context? 
+                 Actually timeline-item is inside container. 
+                 Container has padding. 
+                 Line is absolute in container. item is child. 
+                 If item has padding-left 5rem. 
+                 We want dot at 3rem from left edge of container?
+                 Or relative to item?
+                 If item is relative, left: 3rem is inside item.
+                 If timeline-line is absolute in container (left 3rem).
+                 Then keeping dot at left: -2rem (inside 5rem padding)?
+                 Let's try absolute left: 3rem relative to container if item is full width?
+                 No, item is relative.
+                 Let's assume item left edge = container content left edge.
+                 Line is at 3rem from container content left (if container relative).
+                 Dot should be at 3rem from item left.
+                 */
+  left: 3rem;
+  top: 2.5rem;
+  /* Align with card top content approx */
+  transform: translate(-50%, -50%);
 }
 
 @media (min-width: 768px) {
   .timeline-dot {
-    display: flex;
+    width: 2rem;
+    height: 2rem;
+    border: 4px solid var(--color-white);
+
+    /* Desktop Positioning */
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
