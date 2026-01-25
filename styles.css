@@ -1124,8 +1124,18 @@ select {
 
 @media (min-width: 768px) {
   .timeline-card::before {
-    display: none;
-    /* Hide on desktop */
+    display: block;
+    top: 50%;
+    width: 11.2%;
+    /* Connect to center line */
+    left: 100%;
+    /* Default for left-aligned cards */
+  }
+
+  .timeline-item.align-right .timeline-card::before {
+    left: auto;
+    right: 100%;
+    /* For right-aligned cards */
   }
 }
 
