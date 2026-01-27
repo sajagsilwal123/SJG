@@ -1649,6 +1649,23 @@ select {
   }
 }
 
+.connect-cta {
+  margin-top: var(--spacing-8);
+  display: flex;
+  justify-content: center;
+}
+
+.btn-outline-white {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+}
+
+.btn-outline-white:hover {
+  border-color: var(--color-white);
+  background: rgba(255, 255, 255, 0.05);
+}
+
 /* Contact Form */
 .contact-form-wrapper {
   background-color: rgba(30, 41, 59, 0.5);
