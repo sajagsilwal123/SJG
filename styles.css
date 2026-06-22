@@ -777,6 +777,17 @@ select {
   transform: scale(1.05);
 }
 
+[data-theme="dark"] .btn-primary {
+  background: linear-gradient(135deg, var(--color-orange-500), var(--color-orange-600));
+  color: var(--color-white);
+  box-shadow: 0 4px 14px -4px rgba(249, 115, 22, 0.4);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  background: linear-gradient(135deg, var(--color-orange-400), var(--color-orange-500));
+  box-shadow: 0 6px 20px -4px rgba(249, 115, 22, 0.5);
+}
+
 .btn-secondary {
   background-color: var(--theme-bg-card);
   color: var(--theme-text-primary);
