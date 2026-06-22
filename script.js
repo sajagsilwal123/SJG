@@ -1,5 +1,40 @@
-// Navbar scroll effect
+// Theme Toggle - Initialize ASAP to prevent flash
+const initTheme = () => {
+    const html = document.documentElement;
+    const stored = localStorage.getItem('theme');
+
+    if (stored) {
+        html.setAttribute('data-theme', stored);
+    }
+
+    const toggleTheme = () => {
+        const current = html.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+    };
+
+    // Both desktop and mobile toggle buttons
+    const themeToggle = document.getElementById('themeToggle');
+    const themeToggleMobile = document.getElementById('themeToggleMobile');
+
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+
+    // Listen for OS theme changes (only if no stored preference)
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            // Don't auto-switch; keep light as default
+        }
+    });
+};
+
+initTheme();
+
+// Navbar scroll effect + Active nav highlight
 const navbar = document.getElementById('navbar');
+const navLinks = document.querySelectorAll('.navbar-link');
+const sections = document.querySelectorAll('section[id]');
 let lastScrollTop = 0;
 
 window.addEventListener('scroll', () => {
@@ -10,6 +45,23 @@ window.addEventListener('scroll', () => {
     } else {
         navbar.classList.remove('scrolled');
     }
+
+    // Scrollspy: highlight active nav link
+    let currentSection = '';
+    sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 120;
+        const sectionHeight = section.offsetHeight;
+        if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
+            currentSection = section.getAttribute('id');
+        }
+    });
+
+    navLinks.forEach((link) => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+        }
+    });
 
     lastScrollTop = scrollTop;
 });
@@ -22,6 +74,7 @@ const closeIcon = navbarToggle.querySelector('.close-icon');
 
 navbarToggle.addEventListener('click', () => {
     const isOpen = mobileMenu.classList.toggle('open');
+    navbarToggle.setAttribute('aria-expanded', isOpen);
     menuIcon.style.display = isOpen ? 'none' : 'block';
     closeIcon.style.display = isOpen ? 'block' : 'none';
 });
@@ -31,9 +84,29 @@ const mobileMenuLinks = mobileMenu.querySelectorAll('.mobile-menu-link');
 mobileMenuLinks.forEach(link => {
     link.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
+        navbarToggle.setAttribute('aria-expanded', 'false');
         menuIcon.style.display = 'block';
         closeIcon.style.display = 'none';
     });
+});
+
+// Card selection toggle (experience, hobby, and timeline cards)
+document.querySelectorAll('.experience-card, .hobby-card, .timeline-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isSelected = card.classList.contains('selected');
+        // Deselect all cards
+        document.querySelectorAll('.experience-card.selected, .hobby-card.selected, .timeline-card.selected')
+            .forEach(c => c.classList.remove('selected'));
+        // Toggle this card
+        if (!isSelected) card.classList.add('selected');
+    });
+});
+
+// Click anywhere else to deselect all cards
+document.addEventListener('click', () => {
+    document.querySelectorAll('.experience-card.selected, .hobby-card.selected, .timeline-card.selected')
+        .forEach(c => c.classList.remove('selected'));
 });
 
 // Update current year in footer
@@ -396,3 +469,109 @@ const initPdfViewer = () => {
 };
 
 initPdfViewer();
+
+// =============================================
+// TYPED TEXT ANIMATION
+// =============================================
+const initTypedText = () => {
+    const subtitle = document.querySelector('.hero-subtitle');
+    if (!subtitle) return;
+
+    // Skip animation for reduced-motion users
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return; // Keep the static HTML as-is
+
+    // The full subtitle as segments with optional color
+    const segments = [
+        { text: 'Building Tech. ', color: '' },
+        { text: 'Analyzing Markets.', color: 'var(--color-emerald-500)' },
+        { text: '\n', color: '' }, // line break
+        { text: 'Mentoring Minds. ', color: 'var(--color-rose-500)' },
+        { text: 'Creating Impact.', color: 'var(--color-orange-500)' },
+    ];
+
+    // Flatten segments into a character array with color info
+    const chars = [];
+    segments.forEach((seg) => {
+        for (const ch of seg.text) {
+            chars.push({ ch, color: seg.color });
+        }
+    });
+
+    subtitle.classList.add('typing-active');
+
+    // Create typed output and cursor
+    const typedOutput = document.createElement('span');
+    typedOutput.className = 'typed-output';
+    const cursor = document.createElement('span');
+    cursor.className = 'typed-cursor';
+
+    subtitle.appendChild(typedOutput);
+    subtitle.appendChild(cursor);
+
+    const typeSpeed = 90;
+    const deleteSpeed = 25;
+    const pauseAfterType = 2200;
+    const pauseAfterDelete = 400;
+    const totalCycles = 1;
+    let currentCycle = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    const buildHTML = (upTo) => {
+        let html = '';
+        let currentColor = null;
+        for (let i = 0; i < upTo; i++) {
+            const { ch, color } = chars[i];
+            if (ch === '\n') {
+                if (currentColor) { html += '</span>'; currentColor = null; }
+                html += '<br>';
+                continue;
+            }
+            if (color !== (currentColor || '')) {
+                if (currentColor) html += '</span>';
+                if (color) html += `<span style="color: ${color}">`;
+                currentColor = color || null;
+            }
+            html += ch;
+        }
+        if (currentColor) html += '</span>';
+        return html;
+    };
+
+    const tick = () => {
+        if (!isDeleting) {
+            charIndex++;
+            typedOutput.innerHTML = buildHTML(charIndex);
+
+            if (charIndex === chars.length) {
+                currentCycle++;
+                if (currentCycle >= totalCycles) {
+                    // Final cycle — remove cursor completely
+                    setTimeout(() => {
+                        cursor.remove();
+                    }, 1000);
+                    return;
+                }
+                // Pause then start deleting
+                setTimeout(() => { isDeleting = true; tick(); }, pauseAfterType);
+                return;
+            }
+            setTimeout(tick, typeSpeed + Math.random() * 25);
+        } else {
+            charIndex--;
+            typedOutput.innerHTML = buildHTML(charIndex);
+
+            if (charIndex === 0) {
+                isDeleting = false;
+                setTimeout(tick, pauseAfterDelete);
+                return;
+            }
+            setTimeout(tick, deleteSpeed);
+        }
+    };
+
+    setTimeout(tick, 600);
+};
+
+initTypedText();
