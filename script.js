@@ -353,3 +353,46 @@ window.addEventListener('load', adjustTimelineLine);
 window.addEventListener('resize', adjustTimelineLine);
 // Also run immediately in case
 adjustTimelineLine();
+
+// PDF Viewer Modal
+const initPdfViewer = () => {
+    const viewCvBtn = document.getElementById('viewCvBtn');
+    const pdfModal = document.getElementById('pdfModal');
+    const pdfCloseBtn = document.getElementById('pdfCloseBtn');
+    const pdfFrame = document.getElementById('pdfFrame');
+
+    if (!viewCvBtn || !pdfModal) return;
+
+    const openModal = () => {
+        // Lazy-load the PDF only when opening
+        if (!pdfFrame.src || pdfFrame.src === window.location.href) {
+            pdfFrame.src = 'cv.pdf';
+        }
+        pdfModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+        pdfModal.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    viewCvBtn.addEventListener('click', openModal);
+    pdfCloseBtn.addEventListener('click', closeModal);
+
+    // Close on clicking backdrop
+    pdfModal.addEventListener('click', (e) => {
+        if (e.target === pdfModal) {
+            closeModal();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && pdfModal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+};
+
+initPdfViewer();
