@@ -3,20 +3,40 @@ const initTheme = () => {
     const html = document.documentElement;
     const stored = localStorage.getItem('theme');
 
-    if (stored) {
-        html.setAttribute('data-theme', stored);
+    // Determine target initial theme
+    let currentTheme = stored;
+    if (!currentTheme) {
+        currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        html.setAttribute('data-theme', currentTheme);
+    } else {
+        html.setAttribute('data-theme', currentTheme);
     }
 
+    const themeToggle = document.getElementById('themeToggle');
+    const themeToggleMobile = document.getElementById('themeToggleMobile');
+
+    const updateAria = (theme) => {
+        const nextTheme = theme === 'dark' ? 'light' : 'dark';
+        const labelText = `Switch to ${nextTheme} theme`;
+        if (themeToggle) {
+            themeToggle.setAttribute('aria-label', labelText);
+            themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        }
+        if (themeToggleMobile) {
+            themeToggleMobile.setAttribute('aria-label', labelText);
+            themeToggleMobile.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        }
+    };
+
+    updateAria(currentTheme);
+
     const toggleTheme = () => {
-        const current = html.getAttribute('data-theme');
+        const current = html.getAttribute('data-theme') || 'light';
         const next = current === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
+        updateAria(next);
     };
-
-    // Both desktop and mobile toggle buttons
-    const themeToggle = document.getElementById('themeToggle');
-    const themeToggleMobile = document.getElementById('themeToggleMobile');
 
     if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
     if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
@@ -24,7 +44,9 @@ const initTheme = () => {
     // Listen for OS theme changes (only if no stored preference)
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('theme')) {
-            // Don't auto-switch; keep light as default
+            const next = e.matches ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            updateAria(next);
         }
     });
 };
@@ -134,6 +156,7 @@ function initCarousels() {
         const images = carousel.querySelectorAll('.hobby-card-image');
         const dots = carousel.querySelectorAll('.carousel-dot');
         let currentIndex = 0;
+        let intervalId = null;
 
         if (images.length <= 1) return;
 
@@ -151,14 +174,53 @@ function initCarousels() {
             showSlide(currentIndex);
         }
 
-        // Auto-cycle every 4 seconds
-        setInterval(nextSlide, 4000);
+        function startAutoCycle() {
+            if (!intervalId) {
+                intervalId = setInterval(nextSlide, 4000);
+            }
+        }
 
-        // Click on dots to navigate
+        function stopAutoCycle() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+
+        // Start auto cycle initially
+        startAutoCycle();
+
+        // Pause auto-rotation on mouse hover & keyboard focus
+        carousel.addEventListener('mouseenter', stopAutoCycle);
+        carousel.addEventListener('mouseleave', startAutoCycle);
+        carousel.addEventListener('focusin', stopAutoCycle);
+        carousel.addEventListener('focusout', startAutoCycle);
+
+        // Click and keyboard interaction on dots to navigate
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 currentIndex = index;
                 showSlide(currentIndex);
+            });
+
+            // Keyboard navigation (Enter/Space support)
+            dot.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    currentIndex = index;
+                    showSlide(currentIndex);
+                }
+                if (e.key === ' ') {
+                    e.preventDefault(); // Prevent viewport scrolling
+                }
+            });
+
+            dot.addEventListener('keyup', (e) => {
+                if (e.key === ' ') {
+                    e.preventDefault();
+                    currentIndex = index;
+                    showSlide(currentIndex);
+                }
             });
         });
     });
@@ -441,13 +503,23 @@ const initPdfViewer = () => {
         if (!pdfFrame.src || pdfFrame.src === window.location.href) {
             pdfFrame.src = 'cv.pdf';
         }
-        pdfModal.classList.add('active');
+        pdfModal.showModal();
         document.body.style.overflow = 'hidden';
+
+        // Add active class on next frame to trigger CSS transitions smoothly
+        requestAnimationFrame(() => {
+            pdfModal.classList.add('active');
+        });
     };
 
     const closeModal = () => {
         pdfModal.classList.remove('active');
         document.body.style.overflow = '';
+
+        // Wait for CSS transitions (0.35s / 350ms) before calling close()
+        setTimeout(() => {
+            pdfModal.close();
+        }, 350);
     };
 
     viewCvBtn.addEventListener('click', openModal);
@@ -460,11 +532,10 @@ const initPdfViewer = () => {
         }
     });
 
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && pdfModal.classList.contains('active')) {
-            closeModal();
-        }
+    // Handle Esc key smooth exit animation by intercepting dialog cancel event
+    pdfModal.addEventListener('cancel', (e) => {
+        e.preventDefault(); // Prevent instant browser close
+        closeModal();
     });
 };
 
@@ -575,3 +646,71 @@ const initTypedText = () => {
 };
 
 initTypedText();
+
+// =============================================
+// SCROLL REVEAL ANIMATIONS (Intersection Observer + Spring Physics)
+// =============================================
+const initScrollReveal = () => {
+    // Respect reduced motion preferences
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    // Elements to animate on scroll
+    const revealSelectors = [
+        '.experience-card',
+        '.timeline-item',
+        '.hobby-card-wrapper',
+        '.narrative-block',
+        '.language-item',
+        '.connect-header',
+        '.social-links',
+        '.section-header'
+    ];
+
+    // Add initial hidden state via inline styles (avoids CSS flash)
+    const allRevealElements = document.querySelectorAll(revealSelectors.join(', '));
+    allRevealElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(32px)';
+        el.style.transition = 'none'; // Prevent flash during setup
+    });
+
+    // Small delay to ensure styles are applied before enabling transitions
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            allRevealElements.forEach(el => {
+                el.style.transition = 'opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            });
+        });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+
+                // Calculate stagger delay based on sibling index
+                const parent = el.parentElement;
+                const siblings = parent ? Array.from(parent.children).filter(
+                    child => allRevealElements.length === 0 || child.style.opacity === '0' || child.style.opacity !== undefined
+                ) : [];
+                const index = siblings.indexOf(el);
+                const staggerDelay = Math.max(0, index) * 80; // 80ms stagger
+
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, staggerDelay);
+
+                observer.unobserve(el); // Only animate once
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -48px 0px'
+    });
+
+    allRevealElements.forEach(el => observer.observe(el));
+};
+
+initScrollReveal();
