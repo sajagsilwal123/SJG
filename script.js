@@ -648,3 +648,54 @@ const initTypedText = () => {
 initTypedText();
 
 
+// =============================================
+// ABOUT & STORY (TABS / ACCORDION) CONTROLLERS
+// =============================================
+const initAboutBioToggle = () => {
+    const aboutBioBtn = document.getElementById('aboutBioBtn');
+    const aboutBioExpandable = document.getElementById('aboutBioExpandable');
+
+    if (!aboutBioBtn || !aboutBioExpandable) return;
+
+    aboutBioBtn.addEventListener('click', () => {
+        const isExpanded = aboutBioExpandable.classList.toggle('expanded');
+        aboutBioBtn.classList.toggle('expanded', isExpanded);
+        aboutBioBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        
+        const textSpan = aboutBioBtn.querySelector('span');
+        if (textSpan) {
+            textSpan.textContent = isExpanded ? 'View Less' : 'View More';
+        }
+    });
+};
+
+const initAboutTabs = () => {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    if (tabButtons.length === 0) return;
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all tab buttons
+            tabButtons.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
+            btn.classList.add('active');
+
+            // Hide all panels
+            tabPanels.forEach(panel => panel.classList.remove('active'));
+
+            // Show target panel
+            const tabName = btn.getAttribute('data-tab');
+            const targetPanel = document.getElementById(`panel-${tabName}`);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+            }
+        });
+    });
+};
+
+initAboutBioToggle();
+initAboutTabs();
+
+
