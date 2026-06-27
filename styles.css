@@ -870,12 +870,13 @@ select {
 .btn-secondary {
   background-color: var(--theme-bg-subtle);
   color: var(--theme-text-primary);
-  border: none;
+  border: 1px solid var(--theme-border-strong);
 }
 
 .btn-secondary:hover {
   transform: translateY(-1px);
   background-color: var(--theme-bg-badge);
+  border-color: var(--theme-text-muted);
 }
 
 .btn-secondary:active {
