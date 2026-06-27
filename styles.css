@@ -791,6 +791,7 @@ select {
     flex-direction: row;
     max-width: none;
     margin: 0;
+    gap: var(--spacing-4);
   }
   .hero-cta .btn {
     width: auto;
@@ -1902,6 +1903,7 @@ select {
     margin-left: 0;
     margin-right: 0;
     justify-content: center;
+    gap: var(--spacing-4);
   }
   .connect-cta .btn {
     width: auto;
