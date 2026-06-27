@@ -132,7 +132,10 @@ document.addEventListener('click', () => {
 });
 
 // Update current year in footer
-document.getElementById('currentYear').textContent = new Date().getFullYear();
+const currentYearEl = document.getElementById('currentYear');
+if (currentYearEl) {
+    currentYearEl.textContent = new Date().getFullYear();
+}
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -583,14 +586,11 @@ const initTypedText = () => {
 
     subtitle.classList.add('typing-active');
 
-    // Create typed output and cursor
+    // Create typed output
     const typedOutput = document.createElement('span');
     typedOutput.className = 'typed-output';
-    const cursor = document.createElement('span');
-    cursor.className = 'typed-cursor';
 
     subtitle.appendChild(typedOutput);
-    subtitle.appendChild(cursor);
 
     const typeSpeed = 90;
     const deleteSpeed = 25;
@@ -630,10 +630,6 @@ const initTypedText = () => {
             if (charIndex === chars.length) {
                 currentCycle++;
                 if (currentCycle >= totalCycles) {
-                    // Final cycle — remove cursor completely
-                    setTimeout(() => {
-                        cursor.remove();
-                    }, 1000);
                     return;
                 }
                 // Pause then start deleting

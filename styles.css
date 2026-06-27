@@ -636,7 +636,7 @@ select {
 }
 
 .hero-title {
-  font-size: clamp(2.5rem, 6vw, 2.75rem);
+  font-size: clamp(2.8rem, 8vw, 3.4rem);
   font-weight: 800;
   color: var(--theme-text-primary);
   line-height: 1.1;
@@ -648,7 +648,7 @@ select {
 
 @media (min-width: 768px) {
   .hero-title {
-    font-size: var(--text-4xl);
+    font-size: clamp(4rem, 7vw, 4.8rem);
     text-align: left;
   }
 }
@@ -676,13 +676,13 @@ select {
     left: 100%;
     margin-left: 0.5em;
     margin-top: 0;
-    bottom: 0.1em;
+    bottom: -0.1em;
   }
 }
 
 .hero-name-nepali {
   font-family: serif;
-  font-size: 1.7em;
+  font-size: 1.35em;
   font-weight: 400;
   background: linear-gradient(135deg, var(--color-orange-500), var(--color-rose-500));
   -webkit-background-clip: text;
@@ -710,7 +710,7 @@ select {
   #heroFlagCanvas {
     position: absolute;
     left: 100%;
-    top: 36%;
+    top: 42%;
     transform: translateY(-50%);
     margin-left: 16px;
     width: 72px;
@@ -1784,7 +1784,7 @@ select {
    CONNECT / CONTACT SECTION
 ============================================= */
 .connect-section {
-  background-color: #0b1120; /* Deep space-vibe navy background */
+  background-color: #0b1120 !important; /* Deep space-vibe navy background matching journey section */
   color: #f5f5f7;
   position: relative;
   overflow: hidden;
