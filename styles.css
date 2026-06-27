@@ -1454,7 +1454,7 @@ select {
   }
 }
 
-.timeline-card:hover,
+.timeline-card:hover:not(.closed-by-user),
 .timeline-card.selected {
   transform: translateY(-4px) scale(1.015);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
@@ -1466,7 +1466,7 @@ select {
   box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.25);
 }
 
-.timeline-card:hover + .timeline-dot,
+.timeline-card:hover:not(.closed-by-user) + .timeline-dot,
 .timeline-card.selected + .timeline-dot {
   background-color: var(--color-orange-500);
   border-color: var(--color-orange-400);
@@ -1474,65 +1474,108 @@ select {
 }
 
 .timeline-desc {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  width: 100%;
-  background: rgba(30, 41, 59, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-xl);
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  z-index: 100;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
   font-size: 15px;
   line-height: 1.6;
   color: #f5f5f7;
-  opacity: 0;
-  visibility: hidden;
-  filter: blur(8px);
-  transform: translateY(10px);
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.4s;
-  pointer-events: none;
   text-align: left;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s ease,
+              margin-top 0.4s ease,
+              padding-top 0.4s ease;
 }
 
-/* Vertical connector stem from card to bubble */
-.timeline-desc::before {
-  content: '';
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 10px;
-  background: linear-gradient(to bottom, rgba(249, 115, 22, 0.4), var(--color-orange-500));
-}
-
-/* Glowing anchor dot connecting to the bottom edge of the card */
-.timeline-desc::after {
-  content: '';
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--color-orange-500);
-  box-shadow: 0 0 8px var(--color-orange-500);
-}
-
-.timeline-card:hover .timeline-desc,
+.timeline-card:hover:not(.closed-by-user) .timeline-desc,
 .timeline-card.selected .timeline-desc {
+  max-height: 250px;
   opacity: 1;
-  visibility: visible;
-  filter: blur(0);
-  transform: translateY(0);
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (min-width: 768px) {
+  .timeline-desc {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 0;
+    width: 100%;
+    background: rgba(30, 41, 59, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-xl);
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    margin-top: 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    filter: blur(8px);
+    transform: translateY(10px);
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.4s;
+    pointer-events: none;
+  }
+
+  .timeline-card:hover:not(.closed-by-user) .timeline-desc,
+  .timeline-card.selected .timeline-desc {
+    max-height: 500px;
+    opacity: 1;
+    visibility: visible;
+    filter: blur(0);
+    transform: translateY(0);
+    margin-top: 0;
+  }
+
+  /* Vertical connector stem from card to bubble */
+  .timeline-desc::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    width: 2px;
+    height: 14px;
+    background: linear-gradient(to bottom, rgba(249, 115, 22, 0.4), var(--color-orange-500));
+  }
+
+  /* Glowing anchor dot connecting to the bottom edge of the card */
+  .timeline-desc::after {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 12px);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-orange-500);
+    box-shadow: 0 0 8px var(--color-orange-500);
+  }
+
+  /* Position connector stem for left-aligned cards */
+  .timeline-item:not(.align-right) .timeline-desc::before {
+    right: 32px;
+    left: auto;
+  }
+  .timeline-item:not(.align-right) .timeline-desc::after {
+    right: 30px;
+    left: auto;
+  }
+
+  /* Position connector stem for right-aligned cards */
+  .timeline-item.align-right .timeline-desc::before {
+    left: 32px;
+    right: auto;
+  }
+  .timeline-item.align-right .timeline-desc::after {
+    left: 30px;
+    right: auto;
+  }
 }
 
 .timeline-dot {

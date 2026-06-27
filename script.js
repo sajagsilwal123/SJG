@@ -117,18 +117,29 @@ document.querySelectorAll('.experience-card, .hobby-card, .timeline-card').forEa
     card.addEventListener('click', (e) => {
         e.stopPropagation();
         const isSelected = card.classList.contains('selected');
+        
         // Deselect all cards
-        document.querySelectorAll('.experience-card.selected, .hobby-card.selected, .timeline-card.selected')
+        document.querySelectorAll('.experience-card, .hobby-card, .timeline-card')
             .forEach(c => c.classList.remove('selected'));
-        // Toggle this card
-        if (!isSelected) card.classList.add('selected');
+
+        if (isSelected) {
+            card.classList.add('closed-by-user');
+        } else {
+            document.querySelectorAll('.experience-card, .hobby-card, .timeline-card')
+                .forEach(c => c.classList.remove('closed-by-user'));
+            card.classList.add('selected');
+        }
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.classList.remove('closed-by-user');
     });
 });
 
 // Click anywhere else to deselect all cards
 document.addEventListener('click', () => {
-    document.querySelectorAll('.experience-card.selected, .hobby-card.selected, .timeline-card.selected')
-        .forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('.experience-card, .hobby-card, .timeline-card')
+        .forEach(c => c.classList.remove('selected', 'closed-by-user'));
 });
 
 // Update current year in footer
