@@ -518,7 +518,9 @@ const initPdfViewer = () => {
                          (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent));
 
         if (isMobile) {
-            // Let the natural link behavior occur on mobile
+            // Redirect to the CV wrapper page that has a back button
+            if (e) e.preventDefault();
+            window.location.href = 'cv.html';
             return;
         }
 

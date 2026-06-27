@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sajag Silwal — CV</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0a0a;
+      color: #f5f5f5;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cv-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(20px) saturate(1.6);
+      -webkit-backdrop-filter: blur(20px) saturate(1.6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .cv-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .cv-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      color: #f5f5f5;
+      font-size: 0.85rem;
+      font-weight: 500;
+      font-family: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .cv-back-btn:hover, .cv-back-btn:active {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .cv-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0.85;
+    }
+
+    .cv-toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .cv-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: none;
+      background: #f5f5f5;
+      color: #0a0a0a;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .cv-download-btn:hover, .cv-download-btn:active {
+      opacity: 0.85;
+    }
+
+    .cv-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cv-body iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: #1a1a1a;
+    }
+
+    /* Fallback for browsers that can't render PDFs in iframe */
+    .cv-fallback {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .cv-fallback-icon {
+      opacity: 0.4;
+    }
+
+    .cv-fallback p {
+      font-size: 1rem;
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    .cv-fallback .cv-open-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: #f5f5f5;
+      color: #0a0a0a;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cv-toolbar">
+    <div class="cv-toolbar-left">
+      <a href="index.html" class="cv-back-btn" id="cvBackBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+        <span>Back</span>
+      </a>
+      <span class="cv-title">Sajag Silwal — CV</span>
+    </div>
+    <div class="cv-toolbar-right">
+      <a href="cv.pdf" download="Sajag_Silwal_CV.pdf" class="cv-download-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        <span>Download</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="cv-body">
+    <iframe id="cvIframe" src="cv.pdf" title="CV PDF Viewer"></iframe>
+    <div class="cv-fallback" id="cvFallback">
+      <svg class="cv-fallback-icon" xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+        <polyline points="14 2 14 8 20 8" />
+      </svg>
+      <p>Your browser can't display the PDF inline.<br>Tap below to open or download it.</p>
+      <a href="cv.pdf" class="cv-open-btn">
+        Open PDF
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+          <polyline points="15 3 21 3 21 9" />
+          <line x1="10" y1="14" x2="21" y2="3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // If the iframe fails to load (some mobile browsers can't render PDFs inline),
+    // show the fallback with a direct link
+    const iframe = document.getElementById('cvIframe');
+    const fallback = document.getElementById('cvFallback');
+
+    iframe.addEventListener('error', () => {
+      iframe.style.display = 'none';
+      fallback.style.display = 'flex';
+    });
+
+    // Some mobile browsers silently fail — detect if PDF didn't load after timeout
+    setTimeout(() => {
+      try {
+        // Try accessing iframe content; if cross-origin or empty, show fallback
+        const doc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (doc && doc.body && doc.body.innerHTML === '') {
+          iframe.style.display = 'none';
+          fallback.style.display = 'flex';
+        }
+      } catch (e) {
+        // Cross-origin error means the PDF loaded fine in the browser's viewer
+      }
+    }, 3000);
+  </script>
+</body>
+
+</html>
