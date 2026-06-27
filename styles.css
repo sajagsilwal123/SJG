@@ -27,7 +27,8 @@
   --color-orange-900: #7c2d12;
 
   --color-blue-200: #bfdbfe;
-  --color-blue-500: #0066cc; /* Apple Brand Blue Accent */
+  --color-blue-500: #0066cc;
+  /* Apple Brand Blue Accent */
   --color-blue-600: #004f9e;
 
   --color-emerald-100: #d1fae5;
@@ -45,28 +46,43 @@
   --color-pink-600: #db2777;
 
   /* Spacing (Locked to 8-point grid) */
-  --spacing-1: 0.25rem;  /* 4px */
-  --spacing-2: 0.5rem;   /* 8px */
-  --spacing-3: 0.75rem;  /* 12px */
-  --spacing-4: 1rem;     /* 16px */
-  --spacing-6: 1.5rem;   /* 24px */
-  --spacing-8: 2rem;     /* 32px */
-  --spacing-10: 2.5rem;  /* 40px */
-  --spacing-12: 3rem;    /* 48px */
-  --spacing-16: 4rem;    /* 64px */
-  --spacing-20: 5rem;    /* 80px */
-  --spacing-24: 6rem;    /* 96px */
-  --spacing-30: 7.5rem;   /* 120px Section Padding */
-  --spacing-32: 8rem;    /* 128px */
+  --spacing-1: 0.25rem;
+  /* 4px */
+  --spacing-2: 0.5rem;
+  /* 8px */
+  --spacing-3: 0.75rem;
+  /* 12px */
+  --spacing-4: 1rem;
+  /* 16px */
+  --spacing-6: 1.5rem;
+  /* 24px */
+  --spacing-8: 2rem;
+  /* 32px */
+  --spacing-10: 2.5rem;
+  /* 40px */
+  --spacing-12: 3rem;
+  /* 48px */
+  --spacing-16: 4rem;
+  /* 64px */
+  --spacing-20: 5rem;
+  /* 80px */
+  --spacing-24: 6rem;
+  /* 96px */
+  --spacing-30: 7.5rem;
+  /* 120px Section Padding */
+  --spacing-32: 8rem;
+  /* 128px */
 
   /* Border radius — lock to two premium Apple radii */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  --radius-xl: 24px;     /* Card radius */
+  --radius-xl: 24px;
+  /* Card radius */
   --radius-2xl: 24px;
   --radius-3xl: 24px;
-  --radius-full: 9999px; /* Pill radius */
+  --radius-full: 9999px;
+  /* Pill radius */
 
   /* Shadows — extremely subtle Apple styling */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.02);
@@ -75,10 +91,10 @@
   --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.08);
 
   /* Transitions — unified premium bezier curves */
-  --transition-smooth: all 220ms cubic-bezier(.2,.8,.2,1);
-  --transition-fast: 150ms cubic-bezier(.2,.8,.2,1);
-  --transition-normal: 220ms cubic-bezier(.2,.8,.2,1);
-  --transition-slow: 400ms cubic-bezier(.2,.8,.2,1);
+  --transition-smooth: all 220ms cubic-bezier(.2, .8, .2, 1);
+  --transition-fast: 150ms cubic-bezier(.2, .8, .2, 1);
+  --transition-normal: 220ms cubic-bezier(.2, .8, .2, 1);
+  --transition-slow: 400ms cubic-bezier(.2, .8, .2, 1);
   --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* Font — Inter from Google Fonts */
@@ -367,10 +383,24 @@ select {
 }
 
 @keyframes dot-bounce {
-  0% { transform: scale(0) translateY(0); opacity: 0; }
-  50% { transform: scale(1.6) translateY(-3px); opacity: 1; }
-  75% { transform: scale(0.9) translateY(1px); }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
+  0% {
+    transform: scale(0) translateY(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.6) translateY(-3px);
+    opacity: 1;
+  }
+
+  75% {
+    transform: scale(0.9) translateY(1px);
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
 }
 
 .navbar-links {
@@ -427,7 +457,7 @@ select {
   padding: var(--spacing-8) var(--spacing-6);
   transform: translateY(-120%);
   opacity: 0;
-  transition: transform 300ms cubic-bezier(.2,.8,.2,1), opacity 300ms cubic-bezier(.2,.8,.2,1);
+  transition: transform 300ms cubic-bezier(.2, .8, .2, 1), opacity 300ms cubic-bezier(.2, .8, .2, 1);
   z-index: 45;
   pointer-events: none;
   border-bottom-left-radius: 24px;
@@ -793,6 +823,7 @@ select {
     margin: 0;
     gap: var(--spacing-4);
   }
+
   .hero-cta .btn {
     width: auto;
   }
@@ -874,6 +905,7 @@ select {
     margin-top: 0;
     margin-bottom: 0;
   }
+
   .hero-image-container {
     width: 28rem;
     height: 28rem;
@@ -1244,7 +1276,8 @@ select {
    JOURNEY / TIMELINE
 ============================================= */
 .journey-section {
-  background-color: #0b1120; /* Deep space-vibe navy background */
+  background-color: #0b1120;
+  /* Deep space-vibe navy background */
   position: relative;
   overflow: hidden;
   color: #f5f5f7;
@@ -1331,7 +1364,9 @@ select {
   border-radius: var(--radius-xl);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
-  transition: var(--transition-smooth);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease;
   position: relative;
   z-index: 10;
   cursor: pointer;
@@ -1419,9 +1454,11 @@ select {
   }
 }
 
-.timeline-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+.timeline-card:hover,
+.timeline-card.selected {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .timeline-card:active {
@@ -1429,9 +1466,73 @@ select {
   box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.25);
 }
 
-.timeline-card.selected {
-  border-color: var(--color-blue-500);
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.20), 0 4px 18px rgba(0, 0, 0, 0.2);
+.timeline-card:hover + .timeline-dot,
+.timeline-card.selected + .timeline-dot {
+  background-color: var(--color-orange-500);
+  border-color: var(--color-orange-400);
+  box-shadow: 0 0 15px var(--color-orange-500), 0 0 5px var(--color-orange-500);
+}
+
+.timeline-desc {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #f5f5f7;
+  opacity: 0;
+  visibility: hidden;
+  filter: blur(8px);
+  transform: translateY(10px);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.4s;
+  pointer-events: none;
+  text-align: left;
+}
+
+/* Vertical connector stem from card to bubble */
+.timeline-desc::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 10px;
+  background: linear-gradient(to bottom, rgba(249, 115, 22, 0.4), var(--color-orange-500));
+}
+
+/* Glowing anchor dot connecting to the bottom edge of the card */
+.timeline-desc::after {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-orange-500);
+  box-shadow: 0 0 8px var(--color-orange-500);
+}
+
+.timeline-card:hover .timeline-desc,
+.timeline-card.selected .timeline-desc {
+  opacity: 1;
+  visibility: visible;
+  filter: blur(0);
+  transform: translateY(0);
 }
 
 .timeline-dot {
@@ -1448,6 +1549,7 @@ select {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (min-width: 768px) {
@@ -1575,7 +1677,7 @@ select {
   height: 6px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.5);
-  transition: all 0.22ms cubic-bezier(.2,.8,.2,1);
+  transition: all 0.22ms cubic-bezier(.2, .8, .2, 1);
   cursor: pointer;
 }
 
@@ -1784,7 +1886,8 @@ select {
    CONNECT / CONTACT SECTION
 ============================================= */
 .connect-section {
-  background-color: #0b1120 !important; /* Deep space-vibe navy background matching journey section */
+  background-color: #0b1120 !important;
+  /* Deep space-vibe navy background matching journey section */
   color: #f5f5f7;
   position: relative;
   overflow: hidden;
@@ -1905,6 +2008,7 @@ select {
     justify-content: center;
     gap: var(--spacing-4);
   }
+
   .connect-cta .btn {
     width: auto;
   }

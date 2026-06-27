@@ -56,13 +56,13 @@
 
 
   <link rel="icon" href="favicon.png">
-  <link rel="stylesheet" href="styles.css?v=1.5">
+  <link rel="stylesheet" href="styles.css?v=2.4">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
     // Apply theme before first paint to prevent flash
-    (function() {
+    (function () {
       var t = localStorage.getItem('theme');
       if (t) document.documentElement.setAttribute('data-theme', t);
     })();
@@ -161,616 +161,664 @@
 
   <main id="content" tabindex="-1">
 
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <!-- Decorative Blobs -->
-    <div class="hero-blob hero-blob-1 animate-blob"></div>
-    <div class="hero-blob hero-blob-2 animate-blob-delay"></div>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <!-- Decorative Blobs -->
+      <div class="hero-blob hero-blob-1 animate-blob"></div>
+      <div class="hero-blob hero-blob-2 animate-blob-delay"></div>
 
-    <!-- Abstract Himalaya Outline -->
-    <svg class="hero-mountains" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice"
-      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path class="mountain-line mountain-everest"
-        d="M720,20 L750,60 L770,50 L800,90 L830,75 L880,120 L920,100 L980,150" fill="none" />
-      <path class="mountain-line mountain-everest-snow" d="M708,38 L720,20 L732,38" fill="none" />
-      <path class="mountain-line mountain-line-1"
-        d="M0,280 L60,240 L120,260 L200,200 L280,230 L360,180 L440,210 L520,160 L600,190 L680,100 L720,20 L760,80 L840,110 L920,150 L1000,120 L1080,160 L1160,130 L1240,170 L1320,140 L1400,180 L1440,160"
-        fill="none" />
-      <path class="mountain-line mountain-line-2"
-        d="M0,300 L100,260 L200,280 L300,230 L400,260 L500,210 L600,250 L700,180 L800,220 L900,190 L1000,230 L1100,200 L1200,240 L1300,210 L1400,250 L1440,230"
-        fill="none" />
-    </svg>
+      <!-- Abstract Himalaya Outline -->
+      <svg class="hero-mountains" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice"
+        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path class="mountain-line mountain-everest"
+          d="M720,20 L750,60 L770,50 L800,90 L830,75 L880,120 L920,100 L980,150" fill="none" />
+        <path class="mountain-line mountain-everest-snow" d="M708,38 L720,20 L732,38" fill="none" />
+        <path class="mountain-line mountain-line-1"
+          d="M0,280 L60,240 L120,260 L200,200 L280,230 L360,180 L440,210 L520,160 L600,190 L680,100 L720,20 L760,80 L840,110 L920,150 L1000,120 L1080,160 L1160,130 L1240,170 L1320,140 L1400,180 L1440,160"
+          fill="none" />
+        <path class="mountain-line mountain-line-2"
+          d="M0,300 L100,260 L200,280 L300,230 L400,260 L500,210 L600,250 L700,180 L800,220 L900,190 L1000,230 L1100,200 L1200,240 L1300,210 L1400,250 L1440,230"
+          fill="none" />
+      </svg>
 
-    <div class="hero-content">
-      <div class="hero-text">
-        <div class="hero-badge">Hello, I'm</div>
-        <h1 class="hero-title">
-          <span class="hero-title-wrapper">
-            Sajag <br> Silwal
-            <span class="hero-name-nepali-wrapper">
-              <span class="hero-name-nepali" lang="ne">सजग</span>
-              <canvas id="heroFlagCanvas"></canvas>
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-badge">Hello, I'm</div>
+          <h1 class="hero-title">
+            <span class="hero-title-wrapper">
+              Sajag <br> Silwal
+              <span class="hero-name-nepali-wrapper">
+                <span class="hero-name-nepali" lang="ne">सजग</span>
+                <canvas id="heroFlagCanvas"></canvas>
+              </span>
             </span>
-          </span>
-        </h1>
-        <h2 class="hero-subtitle">
-          <span class="typed-static">Building Tech. <span class="text-emerald">Analyzing Markets.</span> <br>
-          <span class="text-rose">Mentoring Minds.</span> <span class="text-orange">Creating Impact.</span></span>
-        </h2>
-        <p class="hero-description">
-          Computer Engineer | Co-founder @ Iruka Technologies | Educator | Aspiring Entrepreneur
-        </p>
+          </h1>
+          <h2 class="hero-subtitle">
+            <span class="typed-static">Building Tech. <span class="text-emerald">Analyzing Markets.</span> <br>
+              <span class="text-rose">Mentoring Minds.</span> <span class="text-orange">Creating Impact.</span></span>
+          </h2>
+          <p class="hero-description">
+            Computer Engineer | Co-founder @ Iruka Technologies | Educator | Aspiring Entrepreneur
+          </p>
 
-        <div class="hero-cta">
-          <a href="#connect" class="btn btn-primary">
-            Let's Connect
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          <div class="hero-cta">
+            <a href="#connect" class="btn btn-primary">
+              Let's Connect
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path
+                  d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+                <path d="m21.854 2.147-10.94 10.939" />
+              </svg>
+            </a>
+            <a href="#journey" class="btn btn-secondary">View My Journey</a>
+          </div>
+        </div>
+
+        <div class="hero-image-wrapper">
+          <div class="hero-image-container">
+            <div class="hero-image-frame hero-image-frame-1"></div>
+            <div class="hero-image-frame hero-image-frame-2"></div>
+            <div class="hero-image-placeholder">
+              <img src="profile.jpg" alt="Sajag Silwal" class="hero-profile-image" width="400" height="400"
+                fetchpriority="high">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-scroll-indicator animate-bounce" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="about-section">
+      <div class="about-container">
+        <h2 class="about-title">
+          Inspire to Aspire.
+        </h2>
+
+
+        <div class="about-bio-container">
+          <!-- Always Visible Content -->
+          <div class="about-bio-visible">
+            <p>
+              Over the last few years, I've worn more hats than I can count—software engineer, co-founder & CEO,
+              educator, project supervisor, backend developer, and occasionally, the guy fixing the printer.
+            </p>
+          </div>
+
+          <!-- Collapsible Content -->
+          <div id="aboutBioExpandable" class="about-bio-expandable">
+            <div class="about-bio-expandable-inner">
+              <p>
+                I've mentored over 900 students, co-founded a technology company, architected software that transforms
+                paperwork into intelligent systems, worked with startups and established businesses, and still find
+                myself obsessing over clean APIs, scalable architectures, thoughtful user experiences, and documentation
+                that people actually enjoy reading.
+              </p>
+              <p>
+                Beyond technology, I'm deeply fascinated by the capital markets and the intersection of finance,
+                business, and technology. With more than seven years of exposure to Nepal's stock market, I've developed
+                analytical tools, explored quantitative approaches to investing, and continue to study how technology
+                can create better financial systems. To deepen this perspective, I am currently pursuing a Master's in
+                Finance at Peking University HSBC Business School (PHBS), Shenzhen, where I'm expanding my understanding
+                of global finance, investment, and strategic decision-making.
+              </p>
+              <div class="about-quote">
+                "Technology is simply one way I try to solve meaningful problems."
+              </div>
+              <p>
+                Whether I'm designing scalable backend systems, mentoring future engineers, modernizing the operations
+                of a 30-year-old transport company, or exploring new ideas at the intersection of engineering and
+                finance, I enjoy turning complexity into simple, reliable, and lasting solutions.
+              </p>
+              <p style="margin-bottom: 0;">
+                Outside of work, you'll usually find me reading, travelling, playing the guitar, exploring new business
+                ideas, analyzing markets, or wondering how Apple would have designed the same product.
+              </p>
+            </div>
+          </div>
+
+          <!-- View More Button -->
+          <div style="text-align: center;">
+            <button type="button" id="aboutBioBtn" class="view-more-btn" aria-expanded="false"
+              aria-controls="aboutBioExpandable">
+              <span>View More</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORY SECTION (TABS) -->
+    <section id="story" class="story-section">
+      <div class="story-container">
+        <!-- Tabs Selector Pills -->
+        <div class="tabs-container">
+          <button type="button" class="tab-btn active" data-tab="overview">Overview</button>
+          <button type="button" class="tab-btn" data-tab="mystory">My Story</button>
+          <button type="button" class="tab-btn" data-tab="engineer">Engineer</button>
+          <button type="button" class="tab-btn" data-tab="educator">Educator</button>
+          <button type="button" class="tab-btn" data-tab="entrepreneur">Entrepreneur</button>
+        </div>
+
+        <!-- Tab Content Panels -->
+        <div class="tab-panels">
+          <!-- Overview Panel -->
+          <div id="panel-overview" class="tab-panel active">
+            <div class="overview-grid">
+              <!-- Card 1: Engineer -->
+              <div class="overview-card">
+                <div class="overview-card-icon">💻</div>
+                <h3 class="overview-card-title">Engineer</h3>
+                <p class="overview-card-desc">Building reliable software that scales with people and ideas.</p>
+              </div>
+
+              <!-- Card 2: Educator -->
+              <div class="overview-card">
+                <div class="overview-card-icon">🎓</div>
+                <h3 class="overview-card-title">Educator</h3>
+                <p class="overview-card-desc">Helping aspiring engineers grow through practical learning.</p>
+              </div>
+
+              <!-- Card 3: Entrepreneur -->
+              <div class="overview-card">
+                <div class="overview-card-icon">🚀</div>
+                <h3 class="overview-card-title">Entrepreneur</h3>
+                <p class="overview-card-desc">Building products and businesses that solve meaningful problems.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- My Story Panel -->
+          <div id="panel-mystory" class="tab-panel">
+            <div class="story-panel-text">
+              <div class="story-card-header">
+                <div class="story-card-icon-wrapper">📖</div>
+                <div class="story-card-title-group">
+                  <h3 class="story-card-title">My Story</h3>
+                  <p class="story-card-subtitle">At the intersection of engineering, education, and finance</p>
+                </div>
+              </div>
+
+              <div class="story-card-divider"></div>
+
+              <p>
+                My career has been defined by a constant crossing of boundaries. As a computer engineer, I am driven by
+                the challenge of architecting systems that scale and endure. As an educator, my focus is on sharing that
+                knowledge and bridging the gap between theory and industry realities. As a co-founder and entrepreneur,
+                I build businesses and products that solve structural inefficiencies, such as modernizing traditional
+                logistics systems at Basuki Transport.
+              </p>
+              <p>
+                I believe that real engineering isn't just about writing code; it's about solving real-world challenges
+                and designing processes that work efficiently even without constant supervision. This philosophy guides
+                how I build tech, analyze markets, and mentor students.
+              </p>
+
+              <div class="story-card-tags">
+                <span class="story-tag">💻 Engineering</span>
+                <span class="story-tag">🎓 Mentorship</span>
+                <span class="story-tag">🚀 Entrepreneurship</span>
+                <span class="story-tag">📈 Capital Markets</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Engineer Panel -->
+          <div id="panel-engineer" class="tab-panel">
+            <div class="story-panel-text">
+              <div class="story-card-header">
+                <div class="story-card-icon-wrapper">💻</div>
+                <div class="story-card-title-group">
+                  <h3 class="story-card-title">Software Engineer</h3>
+                  <p class="story-card-subtitle">Architecting resilient and highly-scalable backend systems</p>
+                </div>
+              </div>
+
+              <div class="story-card-divider"></div>
+
+              <p>
+                I specialize in backend engineering and system architecture, focusing on building high-throughput,
+                low-latency APIs and resilient microservices. I enjoy designing clean database schemas, optimizing data
+                structures, and deploying scalable distributed systems using modern containerization and orchestration
+                patterns. My experience ranges from crafting complex integration APIs to architecting systems that
+                streamline physical logistics and operations.
+              </p>
+
+              <div class="story-card-tags">
+                <span class="story-tag">System Architecture</span>
+                <span class="story-tag">Backend APIs</span>
+                <span class="story-tag">Database Optimization</span>
+                <span class="story-tag">Distributed Systems</span>
+                <span class="story-tag">Microservices</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Educator Panel -->
+          <div id="panel-educator" class="tab-panel">
+            <div class="story-panel-text">
+              <div class="story-card-header">
+                <div class="story-card-icon-wrapper">🎓</div>
+                <div class="story-card-title-group">
+                  <h3 class="story-card-title">Educator & Mentor</h3>
+                  <p class="story-card-subtitle">Bridging academic theory with software industry realities</p>
+                </div>
+              </div>
+
+              <div class="story-card-divider"></div>
+
+              <p>
+                Education is a core pillar of my journey. Having mentored over 900 students at institutions like Herald
+                College, I help students transition into professional software engineers. I guide final-year students in
+                their thesis and software design, ensuring they learn standard development methodologies and software
+                engineering best practices that prepare them for the demands of the modern tech industry.
+              </p>
+
+              <div class="story-card-tags">
+                <span class="story-tag">900+ Students Mentored</span>
+                <span class="story-tag">Thesis Supervision</span>
+                <span class="story-tag">Herald College</span>
+                <span class="story-tag">Practical Learning</span>
+                <span class="story-tag">Software Design</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entrepreneur Panel -->
+          <div id="panel-entrepreneur" class="tab-panel">
+            <div class="story-panel-text">
+              <div class="story-card-header">
+                <div class="story-card-icon-wrapper">🚀</div>
+                <div class="story-card-title-group">
+                  <h3 class="story-card-title">Entrepreneur</h3>
+                  <p class="story-card-subtitle">Transforming traditional business operations with technology</p>
+                </div>
+              </div>
+
+              <div class="story-card-divider"></div>
+
+              <p>
+                I love turning ideas into products and companies. From co-founding software ventures to steering digital
+                transformation initiatives, I bring a product-first, market-driven approach to every project. I combine
+                software expertise with deep market analysis, helping organizations launch tech products that solve real
+                customer problems, improve workflow transparency, and open up new avenues for growth.
+              </p>
+
+              <div class="story-card-tags">
+                <span class="story-tag">Product Strategy</span>
+                <span class="story-tag">Digital Transformation</span>
+                <span class="story-tag">Basuki Transport</span>
+                <span class="story-tag">Market Analysis</span>
+                <span class="story-tag">Co-founding</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- JOURNEY SECTION -->
+    <section id="journey" class="section journey-section">
+      <canvas id="journeyCanvas"></canvas>
+      <div class="timeline-container">
+        <div class="section-header">
+          <h2 class="section-title">The Journey</h2>
+          <div class="section-title-bar"></div>
+          <p class="section-subtitle">A timeline defined by education, community service, and technology.</p>
+        </div>
+
+        <div style="position: relative;">
+          <div class="timeline-line"></div>
+
+          <!-- Sept 2026 - Present -->
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <span class="timeline-year">Sept 2026 - Present</span>
+              <h3 class="timeline-title">Masters in Finance</h3>
+              <p class="timeline-place">Peking PHBS, Shenzhen</p>
+              <p class="timeline-desc">Exploring global investment strategies, corporate finance, and quantitative market analysis.</p>
+            </div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-item align-right">
+            <div class="timeline-card">
+              <span class="timeline-year">Nov 2025 - Present</span>
+              <h3 class="timeline-title">Director & Software Engineer</h3>
+              <p class="timeline-place">Basuki Transport</p>
+              <p class="timeline-desc">Building modern software systems and automating workflows to help modernize legacy logistics operations.</p>
+            </div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <span class="timeline-year">July 2025 - June 2026</span>
+              <h3 class="timeline-title">IT Committee Chairperson</h3>
+              <p class="timeline-place">Multiple Leo 325 Nepal</p>
+              <p class="timeline-desc">Supported Leo clubs across Nepal by developing web portals and managing digital communication channels.</p>
+            </div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-item align-right">
+            <div class="timeline-card">
+              <span class="timeline-year">Aug 2025 - Present</span>
+              <h3 class="timeline-title">Final Year Project Supervisor</h3>
+              <p class="timeline-place">Herald College</p>
+              <p class="timeline-desc">Guiding final-year students through system design, database architecture, and software development practices.</p>
+            </div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <span class="timeline-year">Oct 2023 - Feb 2026</span>
+              <h3 class="timeline-title">Tutor (Teaching Assistant)</h3>
+              <p class="timeline-place">Herald College</p>
+              <p class="timeline-desc">Mentored over 900 undergraduate students, supporting their learning in core database design and system architecture.</p>
+            </div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-item align-right">
+            <div class="timeline-card">
+              <span class="timeline-year">Feb 2023 - Jan 2026</span>
+              <h3 class="timeline-title">Co-founder</h3>
+              <p class="timeline-place">Iruka Technologies</p>
+              <p class="timeline-desc">Co-founded a tech startup, helping build customizable enterprise resource planning (ERP) systems and operational software.</p>
+            </div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <span class="timeline-year">Oct 2018 - June 2023</span>
+              <h3 class="timeline-title">Bachelor in Computer Eng.</h3>
+              <p class="timeline-place">Kathmandu University</p>
+              <p class="timeline-desc">Built a solid foundation in software development, algorithm design, and database management.</p>
+            </div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-item align-right">
+            <div class="timeline-card">
+              <span class="timeline-year">July 2020 - June 2021</span>
+              <h3 class="timeline-title">Region Coordinator</h3>
+              <p class="timeline-place">Leo district council 325 B1</p>
+              <p class="timeline-desc">Facilitated community service campaigns and leadership development programs across local clubs.</p>
+            </div>
+            <div class="timeline-dot"></div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <span class="timeline-year">July 2019 - June 2020</span>
+              <h3 class="timeline-title">President</h3>
+              <p class="timeline-place">Leo Club of Kathmandu Swoyambhu Town</p>
+              <p class="timeline-desc">Coordinated with active volunteers to organize and execute over 15 community social campaigns.</p>
+            </div>
+            <div class="timeline-dot"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNPLUGGED SECTION -->
+    <section id="unplugged" class="section section-container">
+      <div class="section-header">
+        <h2 class="section-title">Unplugged</h2>
+        <div class="section-title-bar"></div>
+        <p class="section-subtitle">Finding the rhythm in melodies, mountains, and markets.</p>
+      </div>
+
+      <div class="hobbies-grid">
+        <!-- Music Card -->
+        <div class="hobby-card-wrapper">
+          <div class="hobby-card" data-carousel>
+            <div class="hobby-card-bg orange"></div>
+            <div class="carousel-images">
+              <img src="music_2.png" alt="Playing Guitar" class="hobby-card-image active">
+              <img src="guitar.jpg" alt="Guitar" class="hobby-card-image">
+              <img src="music_3.png" alt="Sheet Music" class="hobby-card-image">
+            </div>
+            <div class="hobby-card-overlay">
+              <div class="hobby-card-header">
+                <div class="hobby-card-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="M9 18V5l12-2v13" />
+                    <circle cx="6" cy="18" r="3" />
+                    <circle cx="18" cy="16" r="3" />
+                  </svg>
+                </div>
+                <h3 class="hobby-card-title">Music</h3>
+              </div>
+              <p class="hobby-card-caption">Unwinding with 6 strings. Finding rhythm in chaos.</p>
+            </div>
+            <div class="carousel-dots" role="group" aria-label="Music image carousel">
+              <span class="carousel-dot active" role="button" tabindex="0" aria-label="Image 1 of 3"></span>
+              <span class="carousel-dot" role="button" tabindex="0" aria-label="Image 2 of 3"></span>
+              <span class="carousel-dot" role="button" tabindex="0" aria-label="Image 3 of 3"></span>
+            </div>
+          </div>
+          <p class="hobby-label">Music</p>
+        </div>
+
+        <!-- Travel Card -->
+        <div class="hobby-card-wrapper">
+          <div class="hobby-card" data-carousel>
+            <div class="hobby-card-bg sky"></div>
+            <div class="carousel-images">
+              <img src="trekking.jpg" alt="Trekking" class="hobby-card-image active">
+              <img src="travel_2.png" alt="Himalayan Sunrise" class="hobby-card-image">
+              <img src="travel_3.png" alt="Mountain Hiker" class="hobby-card-image">
+            </div>
+            <div class="hobby-card-overlay">
+              <div class="hobby-card-header">
+                <div class="hobby-card-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+                  </svg>
+                </div>
+                <h3 class="hobby-card-title">Travel</h3>
+              </div>
+              <p class="hobby-card-caption">Exploring new elevations. Trekking through the Himalayas.</p>
+            </div>
+            <div class="carousel-dots" role="group" aria-label="Travel image carousel">
+              <span class="carousel-dot active" role="button" tabindex="0" aria-label="Image 1 of 3"></span>
+              <span class="carousel-dot" role="button" tabindex="0" aria-label="Image 2 of 3"></span>
+              <span class="carousel-dot" role="button" tabindex="0" aria-label="Image 3 of 3"></span>
+            </div>
+          </div>
+          <p class="hobby-label">Travel</p>
+        </div>
+
+        <!-- Trading Card -->
+        <div class="hobby-card-wrapper">
+          <div class="hobby-card trading-card" data-carousel>
+            <div class="carousel-images">
+              <img src="trading_1.png" alt="Trading Setup" class="hobby-card-image active">
+              <img src="trading_2.png" alt="Trading Desk" class="hobby-card-image">
+            </div>
+            <div class="trading-card-overlay">
+              <div class="hobby-card-header">
+                <div class="trading-card-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                    <polyline points="16 7 22 7 22 13" />
+                  </svg>
+                </div>
+                <h3 class="hobby-card-title">Trading</h3>
+              </div>
+              <p class="trading-card-caption">Analyzing the pulse of the market.</p>
+            </div>
+            <div class="carousel-dots" role="group" aria-label="Trading image carousel">
+              <span class="carousel-dot active" role="button" tabindex="0" aria-label="Image 1 of 2"></span>
+              <span class="carousel-dot" role="button" tabindex="0" aria-label="Image 2 of 2"></span>
+            </div>
+          </div>
+          <p class="hobby-label">Trading</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LANGUAGES SECTION -->
+    <section id="languages" class="section section-container">
+      <div class="section-header">
+        <h2 class="section-title">Languages</h2>
+        <div class="section-title-bar"></div>
+      </div>
+
+      <div class="languages-container">
+        <!-- Nepali -->
+        <div class="language-item">
+          <div class="language-info">
+            <span class="language-name">Nepali <span class="language-native" lang="ne">(नेपाली)</span></span>
+            <span class="language-level">Native</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 85%;"></div>
+          </div>
+        </div>
+
+        <!-- Chinese Mandarin -->
+        <div class="language-item">
+          <div class="language-info">
+            <span class="language-name">Chinese Mandarin <span class="language-native" lang="zh">(中文)</span></span>
+            <span class="language-level">Beginner</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 10%;"></div>
+          </div>
+        </div>
+
+        <!-- English -->
+        <div class="language-item">
+          <div class="language-info">
+            <span class="language-name">English</span>
+            <span class="language-level">Fluent</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 70%;"></div>
+          </div>
+        </div>
+
+        <!-- Hindi -->
+        <div class="language-item">
+          <div class="language-info">
+            <span class="language-name">Hindi <span class="language-native" lang="hi">(हिन्दी)</span></span>
+            <span class="language-level">Conversational</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 50%;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONNECT SECTION -->
+    <section id="connect" class="section connect-section">
+      <div class="connect-blob connect-blob-1"></div>
+      <div class="connect-blob connect-blob-2"></div>
+
+      <div class="connect-container">
+        <div class="connect-header">
+          <h2 class="connect-title">Let's Connect</h2>
+          <p class="connect-subtitle">Whether you want to discuss a new product idea, talk market trends, or just jam.
+          </p>
+
+          <div class="connect-cta">
+            <a href="cv.pdf" target="_blank" id="viewCvBtn" class="btn btn-primary">
+              <span>View CV</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </a>
+            <a href="mailto:sajag.silwal@gmail.com" class="btn btn-secondary">
+              <span>Email Me</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="social-links">
+          <a href="https://www.instagram.com/sajag_silwal?igsh=cDMzN2Vpbjlwa21v&utm_source=qr" target="_blank"
+            rel="noopener noreferrer" class="social-link instagram" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+            </svg>
+          </a>
+          <a href="https://x.com/SajagSilwal" target="_blank" rel="noopener noreferrer" class="social-link twitter"
+            aria-label="X (Twitter)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+              <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+            </svg>
+          </a>
+          <a href="https://www.facebook.com/share/17xFBkBAtq/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer"
+            class="social-link facebook" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+            </svg>
+          </a>
+          <a href="https://github.com/sajagsilwal123/" target="_blank" rel="noopener noreferrer"
+            class="social-link github" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path
-                d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
-              <path d="m21.854 2.147-10.94 10.939" />
+                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+              <path d="M9 18c-4.51 2-5-2-7-2" />
             </svg>
           </a>
-          <a href="#journey" class="btn btn-secondary">View My Journey</a>
-        </div>
-      </div>
-
-      <div class="hero-image-wrapper">
-        <div class="hero-image-container">
-          <div class="hero-image-frame hero-image-frame-1"></div>
-          <div class="hero-image-frame hero-image-frame-2"></div>
-          <div class="hero-image-placeholder">
-            <img src="profile.jpg" alt="Sajag Silwal" class="hero-profile-image" width="400" height="400" fetchpriority="high">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-scroll-indicator animate-bounce" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6" />
-      </svg>
-    </div>
-  </section>
-
-  <!-- ABOUT SECTION -->
-  <section id="about" class="about-section">
-    <div class="about-container">
-      <h2 class="about-title">
-        Inspire to Aspire.
-      </h2>
-
-
-      <div class="about-bio-container">
-        <!-- Always Visible Content -->
-        <div class="about-bio-visible">
-          <p>
-            Over the last few years, I've worn more hats than I can count—software engineer, co-founder & CEO, educator, project supervisor, backend developer, and occasionally, the guy fixing the printer.
-          </p>
-        </div>
-
-        <!-- Collapsible Content -->
-        <div id="aboutBioExpandable" class="about-bio-expandable">
-          <div class="about-bio-expandable-inner">
-            <p>
-              I've mentored over 900 students, co-founded a technology company, architected software that transforms paperwork into intelligent systems, worked with startups and established businesses, and still find myself obsessing over clean APIs, scalable architectures, thoughtful user experiences, and documentation that people actually enjoy reading.
-            </p>
-            <p>
-              Beyond technology, I'm deeply fascinated by the capital markets and the intersection of finance, business, and technology. With more than seven years of exposure to Nepal's stock market, I've developed analytical tools, explored quantitative approaches to investing, and continue to study how technology can create better financial systems. To deepen this perspective, I am currently pursuing a Master's in Finance at Peking University HSBC Business School (PHBS), Shenzhen, where I'm expanding my understanding of global finance, investment, and strategic decision-making.
-            </p>
-            <div class="about-quote">
-              "Technology is simply one way I try to solve meaningful problems."
-            </div>
-            <p>
-              Whether I'm designing scalable backend systems, mentoring future engineers, modernizing the operations of a 30-year-old transport company, or exploring new ideas at the intersection of engineering and finance, I enjoy turning complexity into simple, reliable, and lasting solutions.
-            </p>
-            <p style="margin-bottom: 0;">
-              Outside of work, you'll usually find me reading, travelling, playing the guitar, exploring new business ideas, analyzing markets, or wondering how Apple would have designed the same product.
-            </p>
-          </div>
-        </div>
-
-        <!-- View More Button -->
-        <div style="text-align: center;">
-          <button type="button" id="aboutBioBtn" class="view-more-btn" aria-expanded="false" aria-controls="aboutBioExpandable">
-            <span>View More</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m6 9 6 6 6-6"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STORY SECTION (TABS) -->
-  <section id="story" class="story-section">
-    <div class="story-container">
-      <!-- Tabs Selector Pills -->
-      <div class="tabs-container">
-        <button type="button" class="tab-btn active" data-tab="overview">Overview</button>
-        <button type="button" class="tab-btn" data-tab="mystory">My Story</button>
-        <button type="button" class="tab-btn" data-tab="engineer">Engineer</button>
-        <button type="button" class="tab-btn" data-tab="educator">Educator</button>
-        <button type="button" class="tab-btn" data-tab="entrepreneur">Entrepreneur</button>
-      </div>
-
-      <!-- Tab Content Panels -->
-      <div class="tab-panels">
-        <!-- Overview Panel -->
-        <div id="panel-overview" class="tab-panel active">
-          <div class="overview-grid">
-            <!-- Card 1: Engineer -->
-            <div class="overview-card">
-              <div class="overview-card-icon">💻</div>
-              <h3 class="overview-card-title">Engineer</h3>
-              <p class="overview-card-desc">Building reliable software that scales with people and ideas.</p>
-            </div>
-
-            <!-- Card 2: Educator -->
-            <div class="overview-card">
-              <div class="overview-card-icon">🎓</div>
-              <h3 class="overview-card-title">Educator</h3>
-              <p class="overview-card-desc">Helping aspiring engineers grow through practical learning.</p>
-            </div>
-
-            <!-- Card 3: Entrepreneur -->
-            <div class="overview-card">
-              <div class="overview-card-icon">🚀</div>
-              <h3 class="overview-card-title">Entrepreneur</h3>
-              <p class="overview-card-desc">Building products and businesses that solve meaningful problems.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- My Story Panel -->
-        <div id="panel-mystory" class="tab-panel">
-          <div class="story-panel-text">
-            <div class="story-card-header">
-              <div class="story-card-icon-wrapper">📖</div>
-              <div class="story-card-title-group">
-                <h3 class="story-card-title">My Story</h3>
-                <p class="story-card-subtitle">At the intersection of engineering, education, and finance</p>
-              </div>
-            </div>
-            
-            <div class="story-card-divider"></div>
-            
-            <p>
-              My career has been defined by a constant crossing of boundaries. As a computer engineer, I am driven by the challenge of architecting systems that scale and endure. As an educator, my focus is on sharing that knowledge and bridging the gap between theory and industry realities. As a co-founder and entrepreneur, I build businesses and products that solve structural inefficiencies, such as modernizing traditional logistics systems at Basuki Transport.
-            </p>
-            <p>
-              I believe that real engineering isn't just about writing code; it's about solving real-world challenges and designing processes that work efficiently even without constant supervision. This philosophy guides how I build tech, analyze markets, and mentor students.
-            </p>
-            
-            <div class="story-card-tags">
-              <span class="story-tag">💻 Engineering</span>
-              <span class="story-tag">🎓 Mentorship</span>
-              <span class="story-tag">🚀 Entrepreneurship</span>
-              <span class="story-tag">📈 Capital Markets</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Engineer Panel -->
-        <div id="panel-engineer" class="tab-panel">
-          <div class="story-panel-text">
-            <div class="story-card-header">
-              <div class="story-card-icon-wrapper">💻</div>
-              <div class="story-card-title-group">
-                <h3 class="story-card-title">Software Engineer</h3>
-                <p class="story-card-subtitle">Architecting resilient and highly-scalable backend systems</p>
-              </div>
-            </div>
-            
-            <div class="story-card-divider"></div>
-            
-            <p>
-              I specialize in backend engineering and system architecture, focusing on building high-throughput, low-latency APIs and resilient microservices. I enjoy designing clean database schemas, optimizing data structures, and deploying scalable distributed systems using modern containerization and orchestration patterns. My experience ranges from crafting complex integration APIs to architecting systems that streamline physical logistics and operations.
-            </p>
-            
-            <div class="story-card-tags">
-              <span class="story-tag">System Architecture</span>
-              <span class="story-tag">Backend APIs</span>
-              <span class="story-tag">Database Optimization</span>
-              <span class="story-tag">Distributed Systems</span>
-              <span class="story-tag">Microservices</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Educator Panel -->
-        <div id="panel-educator" class="tab-panel">
-          <div class="story-panel-text">
-            <div class="story-card-header">
-              <div class="story-card-icon-wrapper">🎓</div>
-              <div class="story-card-title-group">
-                <h3 class="story-card-title">Educator & Mentor</h3>
-                <p class="story-card-subtitle">Bridging academic theory with software industry realities</p>
-              </div>
-            </div>
-            
-            <div class="story-card-divider"></div>
-            
-            <p>
-              Education is a core pillar of my journey. Having mentored over 900 students at institutions like Herald College, I help students transition into professional software engineers. I guide final-year students in their thesis and software design, ensuring they learn standard development methodologies and software engineering best practices that prepare them for the demands of the modern tech industry.
-            </p>
-            
-            <div class="story-card-tags">
-              <span class="story-tag">900+ Students Mentored</span>
-              <span class="story-tag">Thesis Supervision</span>
-              <span class="story-tag">Herald College</span>
-              <span class="story-tag">Practical Learning</span>
-              <span class="story-tag">Software Design</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Entrepreneur Panel -->
-        <div id="panel-entrepreneur" class="tab-panel">
-          <div class="story-panel-text">
-            <div class="story-card-header">
-              <div class="story-card-icon-wrapper">🚀</div>
-              <div class="story-card-title-group">
-                <h3 class="story-card-title">Entrepreneur</h3>
-                <p class="story-card-subtitle">Transforming traditional business operations with technology</p>
-              </div>
-            </div>
-            
-            <div class="story-card-divider"></div>
-            
-            <p>
-              I love turning ideas into products and companies. From co-founding software ventures to steering digital transformation initiatives, I bring a product-first, market-driven approach to every project. I combine software expertise with deep market analysis, helping organizations launch tech products that solve real customer problems, improve workflow transparency, and open up new avenues for growth.
-            </p>
-            
-            <div class="story-card-tags">
-              <span class="story-tag">Product Strategy</span>
-              <span class="story-tag">Digital Transformation</span>
-              <span class="story-tag">Basuki Transport</span>
-              <span class="story-tag">Market Analysis</span>
-              <span class="story-tag">Co-founding</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-
-  <!-- JOURNEY SECTION -->
-  <section id="journey" class="section journey-section">
-    <canvas id="journeyCanvas"></canvas>
-    <div class="timeline-container">
-      <div class="section-header">
-        <h2 class="section-title">The Journey</h2>
-        <div class="section-title-bar"></div>
-        <p class="section-subtitle">A timeline defined by education, community service, and technology.</p>
-      </div>
-
-      <div style="position: relative;">
-        <div class="timeline-line"></div>
-
-        <!-- September 2026 - Present -->
-        <div class="timeline-item">
-          <div class="timeline-card">
-            <span class="timeline-year">September 2026 - Present</span>
-            <h3 class="timeline-title">Masters in Finance</h3>
-            <p class="timeline-place">Peking PHBS, Shenzhen</p>
-          </div>
-          <div class="timeline-dot"></div>
-        </div>
-
-        <div class="timeline-item align-right">
-          <div class="timeline-card">
-            <span class="timeline-year">November 2025 - Present</span>
-            <h3 class="timeline-title">Software Engineer</h3>
-            <p class="timeline-place">Basuki Transport</p>
-          </div>
-          <div class="timeline-dot"></div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-card">
-            <span class="timeline-year">July 2025 - Present</span>
-            <h3 class="timeline-title">IT Committee Chairperson</h3>
-            <p class="timeline-place">Multiple Leo 325 Nepal</p>
-          </div>
-          <div class="timeline-dot"></div>
-        </div>
-
-        <div class="timeline-item align-right">
-          <div class="timeline-card">
-            <span class="timeline-year">August 2025 - Present</span>
-            <h3 class="timeline-title">Final Year Project Supervisor</h3>
-            <p class="timeline-place">Herald College</p>
-          </div>
-          <div class="timeline-dot"></div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-card">
-            <span class="timeline-year">October 2023 - February 2026</span>
-            <h3 class="timeline-title">Tutor (Assistant Lecturer)</h3>
-            <p class="timeline-place">Herald College</p>
-          </div>
-          <div class="timeline-dot"></div>
-        </div>
-
-        <div class="timeline-item align-right">
-          <div class="timeline-card">
-            <span class="timeline-year">February 2023 - January 2026</span>
-            <h3 class="timeline-title">Co-founder</h3>
-            <p class="timeline-place">Iruka Technologies</p>
-          </div>
-          <div class="timeline-dot"></div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-card">
-            <span class="timeline-year">October 2018 - June 2023</span>
-            <h3 class="timeline-title">Bachelor in Computer Engineering</h3>
-            <p class="timeline-place">Kathmandu University</p>
-          </div>
-          <div class="timeline-dot"></div>
-        </div>
-
-        <div class="timeline-item align-right">
-          <div class="timeline-card">
-            <span class="timeline-year">July 2020 - June 2021</span>
-            <h3 class="timeline-title">Region Coordinator</h3>
-            <p class="timeline-place">Leo district council 325 B1</p>
-          </div>
-          <div class="timeline-dot"></div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-card">
-            <span class="timeline-year">July 2019 - June 2020</span>
-            <h3 class="timeline-title">President</h3>
-            <p class="timeline-place">Leo Club of Kathmandu Swoyambhu Town</p>
-          </div>
-          <div class="timeline-dot"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- UNPLUGGED SECTION -->
-  <section id="unplugged" class="section section-container">
-    <div class="section-header">
-      <h2 class="section-title">Unplugged</h2>
-      <div class="section-title-bar"></div>
-      <p class="section-subtitle">Finding the rhythm in melodies, mountains, and markets.</p>
-    </div>
-
-    <div class="hobbies-grid">
-      <!-- Music Card -->
-      <div class="hobby-card-wrapper">
-        <div class="hobby-card" data-carousel>
-          <div class="hobby-card-bg orange"></div>
-          <div class="carousel-images">
-            <img src="music_2.png" alt="Playing Guitar" class="hobby-card-image active">
-            <img src="guitar.jpg" alt="Guitar" class="hobby-card-image">
-            <img src="music_3.png" alt="Sheet Music" class="hobby-card-image">
-          </div>
-          <div class="hobby-card-overlay">
-            <div class="hobby-card-header">
-              <div class="hobby-card-icon-wrapper">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M9 18V5l12-2v13" />
-                  <circle cx="6" cy="18" r="3" />
-                  <circle cx="18" cy="16" r="3" />
-                </svg>
-              </div>
-              <h3 class="hobby-card-title">Music</h3>
-            </div>
-            <p class="hobby-card-caption">Unwinding with 6 strings. Finding rhythm in chaos.</p>
-          </div>
-          <div class="carousel-dots" role="group" aria-label="Music image carousel">
-            <span class="carousel-dot active" role="button" tabindex="0" aria-label="Image 1 of 3"></span>
-            <span class="carousel-dot" role="button" tabindex="0" aria-label="Image 2 of 3"></span>
-            <span class="carousel-dot" role="button" tabindex="0" aria-label="Image 3 of 3"></span>
-          </div>
-        </div>
-        <p class="hobby-label">Music</p>
-      </div>
-
-      <!-- Travel Card -->
-      <div class="hobby-card-wrapper">
-        <div class="hobby-card" data-carousel>
-          <div class="hobby-card-bg sky"></div>
-          <div class="carousel-images">
-            <img src="trekking.jpg" alt="Trekking" class="hobby-card-image active">
-            <img src="travel_2.png" alt="Himalayan Sunrise" class="hobby-card-image">
-            <img src="travel_3.png" alt="Mountain Hiker" class="hobby-card-image">
-          </div>
-          <div class="hobby-card-overlay">
-            <div class="hobby-card-header">
-              <div class="hobby-card-icon-wrapper">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-                </svg>
-              </div>
-              <h3 class="hobby-card-title">Travel</h3>
-            </div>
-            <p class="hobby-card-caption">Exploring new elevations. Trekking through the Himalayas.</p>
-          </div>
-          <div class="carousel-dots" role="group" aria-label="Travel image carousel">
-            <span class="carousel-dot active" role="button" tabindex="0" aria-label="Image 1 of 3"></span>
-            <span class="carousel-dot" role="button" tabindex="0" aria-label="Image 2 of 3"></span>
-            <span class="carousel-dot" role="button" tabindex="0" aria-label="Image 3 of 3"></span>
-          </div>
-        </div>
-        <p class="hobby-label">Travel</p>
-      </div>
-
-      <!-- Trading Card -->
-      <div class="hobby-card-wrapper">
-        <div class="hobby-card trading-card" data-carousel>
-          <div class="carousel-images">
-            <img src="trading_1.png" alt="Trading Setup" class="hobby-card-image active">
-            <img src="trading_2.png" alt="Trading Desk" class="hobby-card-image">
-          </div>
-          <div class="trading-card-overlay">
-            <div class="hobby-card-header">
-              <div class="trading-card-icon-wrapper">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-                  <polyline points="16 7 22 7 22 13" />
-                </svg>
-              </div>
-              <h3 class="hobby-card-title">Trading</h3>
-            </div>
-            <p class="trading-card-caption">Analyzing the pulse of the market.</p>
-          </div>
-          <div class="carousel-dots" role="group" aria-label="Trading image carousel">
-            <span class="carousel-dot active" role="button" tabindex="0" aria-label="Image 1 of 2"></span>
-            <span class="carousel-dot" role="button" tabindex="0" aria-label="Image 2 of 2"></span>
-          </div>
-        </div>
-        <p class="hobby-label">Trading</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- LANGUAGES SECTION -->
-  <section id="languages" class="section section-container">
-    <div class="section-header">
-      <h2 class="section-title">Languages</h2>
-      <div class="section-title-bar"></div>
-    </div>
-
-    <div class="languages-container">
-      <!-- Nepali -->
-      <div class="language-item">
-        <div class="language-info">
-          <span class="language-name">Nepali <span class="language-native" lang="ne">(नेपाली)</span></span>
-          <span class="language-level">Native</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" style="width: 85%;"></div>
-        </div>
-      </div>
-
-      <!-- Chinese Mandarin -->
-      <div class="language-item">
-        <div class="language-info">
-          <span class="language-name">Chinese Mandarin <span class="language-native" lang="zh">(中文)</span></span>
-          <span class="language-level">Beginner</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" style="width: 10%;"></div>
-        </div>
-      </div>
-
-      <!-- English -->
-      <div class="language-item">
-        <div class="language-info">
-          <span class="language-name">English</span>
-          <span class="language-level">Fluent</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" style="width: 70%;"></div>
-        </div>
-      </div>
-
-      <!-- Hindi -->
-      <div class="language-item">
-        <div class="language-info">
-          <span class="language-name">Hindi <span class="language-native" lang="hi">(हिन्दी)</span></span>
-          <span class="language-level">Conversational</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" style="width: 50%;"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONNECT SECTION -->
-  <section id="connect" class="section connect-section">
-    <div class="connect-blob connect-blob-1"></div>
-    <div class="connect-blob connect-blob-2"></div>
-
-    <div class="connect-container">
-      <div class="connect-header">
-        <h2 class="connect-title">Let's Connect</h2>
-        <p class="connect-subtitle">Whether you want to discuss a new product idea, talk market trends, or just jam.</p>
-
-        <div class="connect-cta">
-          <a href="cv.pdf" target="_blank" id="viewCvBtn" class="btn btn-primary">
-            <span>View CV</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-          </a>
-          <a href="mailto:sajag.silwal@gmail.com" class="btn btn-secondary">
-            <span>Email Me</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect width="20" height="16" x="2" y="4" rx="2"/>
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          <a href="https://www.linkedin.com/in/sajagsilwal" target="_blank" rel="noopener noreferrer"
+            class="social-link linkedin" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect width="4" height="12" x="2" y="9" />
+              <circle cx="4" cy="4" r="2" />
             </svg>
           </a>
         </div>
-      </div>
 
-      <div class="social-links">
-        <a href="https://www.instagram.com/sajag_silwal?igsh=cDMzN2Vpbjlwa21v&utm_source=qr" target="_blank"
-          rel="noopener noreferrer" class="social-link instagram" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-          </svg>
-        </a>
-        <a href="https://x.com/SajagSilwal" target="_blank" rel="noopener noreferrer" class="social-link twitter"
-          aria-label="X (Twitter)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
-            <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
-          </svg>
-        </a>
-        <a href="https://www.facebook.com/share/17xFBkBAtq/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer"
-          class="social-link facebook" aria-label="Facebook">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-          </svg>
-        </a>
-        <a href="https://github.com/sajagsilwal123/" target="_blank" rel="noopener noreferrer"
-          class="social-link github" aria-label="GitHub">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path
-              d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-            <path d="M9 18c-4.51 2-5-2-7-2" />
-          </svg>
-        </a>
-        <a href="https://www.linkedin.com/in/sajagsilwal" target="_blank" rel="noopener noreferrer"
-          class="social-link linkedin" aria-label="LinkedIn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-            <rect width="4" height="12" x="2" y="9" />
-            <circle cx="4" cy="4" r="2" />
-          </svg>
-        </a>
+        <footer class="footer">
+          © 2026 Sajag Silwal. All rights reserved.
+        </footer>
       </div>
-
-      <footer class="footer">
-        © 2026 Sajag Silwal. All rights reserved.
-      </footer>
-    </div>
-  </section>
+    </section>
 
   </main>
 
@@ -787,7 +835,8 @@
           <span id="pdfModalTitle">Sajag Silwal — CV</span>
         </div>
         <div class="pdf-modal-actions">
-          <a href="cv.pdf" download="Sajag_Silwal_CV.pdf" class="pdf-modal-btn pdf-download-btn" id="pdfDownloadBtn" aria-label="Download CV">
+          <a href="cv.pdf" download="Sajag_Silwal_CV.pdf" class="pdf-modal-btn pdf-download-btn" id="pdfDownloadBtn"
+            aria-label="Download CV">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
