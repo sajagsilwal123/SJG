@@ -498,7 +498,19 @@ const initPdfViewer = () => {
 
     if (!viewCvBtn || !pdfModal) return;
 
-    const openModal = () => {
+    const openModal = (e) => {
+        // Check if on a mobile viewport or touch-enabled device to open PDF in a new tab directly
+        const isMobile = window.innerWidth <= 768 || 
+                         (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent));
+
+        if (isMobile) {
+            // Let the natural link behavior occur on mobile
+            return;
+        }
+
+        // On desktop, prevent opening the link and show the modal instead
+        if (e) e.preventDefault();
+
         // Lazy-load the PDF only when opening
         if (!pdfFrame.src || pdfFrame.src === window.location.href) {
             pdfFrame.src = 'cv.pdf';
