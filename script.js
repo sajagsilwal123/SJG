@@ -513,11 +513,12 @@ const initPdfViewer = () => {
     if (!viewCvBtn || !pdfModal) return;
 
     const openModal = (e) => {
-        // Check if on a mobile viewport or touch-enabled device to open PDF in a new tab directly
-        const isMobile = window.innerWidth <= 768 || 
-                         (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent));
+        // Check if on a mobile viewport, iPad, or tablet device to redirect to cv.html
+        const isMobileOrTablet = window.innerWidth <= 1024 || 
+                                 (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) ||
+                                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-        if (isMobile) {
+        if (isMobileOrTablet) {
             // Redirect to the CV wrapper page that has a back button
             if (e) e.preventDefault();
             window.location.href = 'cv.html';

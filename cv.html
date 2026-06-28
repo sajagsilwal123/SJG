@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sajag Silwal — CV</title>
   <link rel="icon" href="favicon.png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -107,13 +108,27 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
-    .cv-body iframe {
+    .pdf-viewer-container {
       flex: 1;
-      width: 100%;
-      border: none;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
       background: #1a1a1a;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .pdf-page-canvas {
+      width: 100%;
+      height: auto !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      background: white;
+      border-radius: 4px;
     }
 
     /* Fallback for browsers that can't render PDFs in iframe */
@@ -180,7 +195,9 @@
   </div>
 
   <div class="cv-body">
-    <iframe id="cvIframe" src="cv.pdf" title="CV PDF Viewer"></iframe>
+    <div id="pdfViewer" class="pdf-viewer-container">
+      <div style="padding: 40px; text-align: center; opacity: 0.6; font-size: 0.95rem;">Loading CV...</div>
+    </div>
     <div class="cv-fallback" id="cvFallback">
       <svg class="cv-fallback-icon" xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24"
         fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -201,29 +218,56 @@
   </div>
 
   <script>
-    // If the iframe fails to load (some mobile browsers can't render PDFs inline),
-    // show the fallback with a direct link
-    const iframe = document.getElementById('cvIframe');
+    // Specify the PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    const container = document.getElementById('pdfViewer');
     const fallback = document.getElementById('cvFallback');
 
-    iframe.addEventListener('error', () => {
-      iframe.style.display = 'none';
+    // Load document
+    const loadingTask = pdfjsLib.getDocument('cv.pdf');
+    loadingTask.promise.then(pdf => {
+      // Clear loading state indicator
+      container.innerHTML = '';
+      
+      // Render each page
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        pdf.getPage(pageNum).then(page => {
+          const canvas = document.createElement('canvas');
+          canvas.className = 'pdf-page-canvas';
+          container.appendChild(canvas);
+          
+          const context = canvas.getContext('2d');
+          
+          // Determine the viewport scale based on screen width
+          const unscaledViewport = page.getViewport({ scale: 1.0 });
+          const containerWidth = container.clientWidth - 32; // padding offset
+          const scale = containerWidth / unscaledViewport.width;
+          
+          // Render at high resolution based on screen width and pixel ratio
+          const viewport = page.getViewport({ scale: Math.max(scale, 1.5) * window.devicePixelRatio });
+          
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          
+          // Scale canvas display size back to fit container width
+          canvas.style.width = '100%';
+          canvas.style.maxWidth = `${unscaledViewport.width}px`;
+          
+          const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
+          
+          page.render(renderContext);
+        });
+      }
+    }).catch(err => {
+      console.error('Error rendering PDF with PDF.js:', err);
+      // Fallback to direct link UI
+      container.style.display = 'none';
       fallback.style.display = 'flex';
     });
-
-    // Some mobile browsers silently fail — detect if PDF didn't load after timeout
-    setTimeout(() => {
-      try {
-        // Try accessing iframe content; if cross-origin or empty, show fallback
-        const doc = iframe.contentDocument || iframe.contentWindow?.document;
-        if (doc && doc.body && doc.body.innerHTML === '') {
-          iframe.style.display = 'none';
-          fallback.style.display = 'flex';
-        }
-      } catch (e) {
-        // Cross-origin error means the PDF loaded fine in the browser's viewer
-      }
-    }, 3000);
   </script>
 </body>
 
