@@ -640,6 +640,7 @@ select {
     order: 1;
     max-width: none;
     margin: 0;
+    min-width: 0;
   }
 }
 
@@ -677,8 +678,9 @@ select {
   white-space: nowrap;
 }
 
-.hero-title br {
-  display: none;
+.hero-name-first,
+.hero-name-last {
+  display: inline;
 }
 
 @media (min-width: 768px) {
@@ -688,7 +690,8 @@ select {
     white-space: normal;
   }
 
-  .hero-title br {
+  .hero-name-first,
+  .hero-name-last {
     display: block;
   }
 }
@@ -920,8 +923,8 @@ select {
   }
 
   .hero-image-container {
-    width: 28rem;
-    height: 28rem;
+    width: clamp(18rem, 35vw, 28rem);
+    height: clamp(18rem, 35vw, 28rem);
   }
 }
 
