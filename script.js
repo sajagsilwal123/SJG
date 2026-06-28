@@ -56,7 +56,7 @@ initTheme();
 // Navbar scroll effect + Active nav highlight
 const navbar = document.getElementById('navbar');
 const navLinks = document.querySelectorAll('.navbar-link');
-const sections = document.querySelectorAll('section[id]');
+const sections = document.querySelectorAll('#about, #story, #journey, #connect');
 let lastScrollTop = 0;
 
 window.addEventListener('scroll', () => {
@@ -70,13 +70,21 @@ window.addEventListener('scroll', () => {
 
     // Scrollspy: highlight active nav link
     let currentSection = '';
-    sections.forEach((section) => {
-        const sectionTop = section.offsetTop - 120;
-        const sectionHeight = section.offsetHeight;
-        if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
-            currentSection = section.getAttribute('id');
-        }
-    });
+    
+    // Fallback: highlight the last section ('connect') if user has scrolled to the bottom of the page
+    const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 10;
+    
+    if (isAtBottom) {
+        currentSection = 'connect';
+    } else {
+        sections.forEach((section) => {
+            const sectionTop = section.offsetTop - 120;
+            const sectionHeight = section.offsetHeight;
+            if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+    }
 
     navLinks.forEach((link) => {
         link.classList.remove('active');
