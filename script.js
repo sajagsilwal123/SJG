@@ -734,85 +734,179 @@ initAboutTabs();
 // =============================================
 // Edit this array to add, remove, or reorder projects.
 // Cards are rendered dynamically from this data.
-
 const PROJECTS = [
     {
         title: 'BasukiMS',
-        headline: 'Leading the Digital Transformation of a 30-Year Transport Business',
-        description: 'Led the conception, strategy, and end-to-end execution of BasukiMS, an enterprise-grade fleet management and transport operations platform built to modernize Nepal\'s logistics industry. Defined the product vision, designed the core business workflows, and translated complex operational challenges into scalable digital solutions tailored for transport companies.\n\nArchitected the overall platform, including its multi-tenant infrastructure, security model, permission framework, and modular system architecture. Spearheaded the design of advanced capabilities such as AI-assisted document processing, intelligent compliance monitoring, predictive financial insights, and automated operational workflows while ensuring every feature aligned with real-world transportation business requirements.\n\nContributed extensively as a Backend Engineer, developing core APIs, business logic, database architecture, authentication systems, and infrastructure while maintaining a strong focus on scalability, security, and maintainability.\n\nBeyond engineering, directed product management, project planning, stakeholder communication, legal and regulatory compliance, operational processes, human resource management, client onboarding, and executive decision-making. Coordinated cross-functional teams throughout the product lifecycle, balancing technical excellence with business objectives to successfully transform the platform from an initial concept into a comprehensive enterprise solution.',
+        headline: 'Leading the Digital Transformation of a 30-Year Transport Legacy.',
+        overview: 'Led the conception, strategy, and end-to-end execution of BasukiMS, an enterprise-grade fleet management and transport operations platform built to modernize Nepal\'s logistics industry. Defined the product vision, designed the core business workflows, and translated complex operational challenges into scalable digital solutions tailored for transport companies.',
+        sections: [
+            {
+                label: 'ARCHITECTURE',
+                title: 'Modular System Architecture',
+                content: 'Architected the overall platform, including its multi-tenant infrastructure, security model, permission framework, and modular system architecture. Designed the systems to handle high-throughput telemetry, real-time dispatch operations, and complex nested user privilege mapping.'
+            },
+            {
+                label: 'ENGINEERING DECISIONS',
+                title: 'Core Backend Development',
+                content: 'Contributed extensively as a Backend Engineer, developing core APIs, business logic, database architecture, authentication systems, and infrastructure while maintaining a strong focus on scalability, security, and maintainability. Led the integration of third-party SMS, payment gateways, and geolocation telemetry processing.'
+            },
+            {
+                label: 'INTELLIGENT SYSTEMS',
+                title: 'Operational Automation',
+                content: 'Spearheaded the design of advanced capabilities such as AI-assisted document processing, intelligent compliance monitoring, predictive financial insights, and automated operational workflows while ensuring every feature aligned with real-world transportation business requirements.'
+            },
+            {
+                label: 'LEADERSHIP & EXECUTION',
+                title: 'Vision to Delivery',
+                content: 'Beyond engineering, directed product management, project planning, stakeholder communication, legal and regulatory compliance, operational processes, human resource management, client onboarding, and executive decision-making. Coordinated cross-functional teams throughout the product lifecycle, balancing technical excellence with business objectives to successfully transform the platform from an initial concept into a comprehensive enterprise solution.'
+            }
+        ],
         focus: ['Workflow Automation', 'Enterprise Resource Planning', 'Operational Intelligence', 'Platform Architecture'],
+        platform: ['Web Application (React)', 'Express API Backend', 'PostgreSQL Database', 'Geolocation Tracking API'],
+        coreSystems: ['Multi-Tenant Fleet Engine', 'Automated Operational Workflows', 'Document Verification Pipeline', 'Dynamic Financial Reporting'],
+        aiCollaboration: ['Gemini API integration', 'AI-Assisted Document Processing', 'Human Architectural Validation'],
         gradient: 'linear-gradient(135deg, #f5576c22 0%, #f093fb22 100%)',
         accentColor: '#f5576c',
+        status: 'Production',
+        architectureDiagram: ['React Web App', 'Express Backend', 'PostgreSQL Database', 'SMS & Payment APIs', 'Telemetry Processing'],
     },
     {
         title: 'Dhewaa',
         headline: 'Engineering financial infrastructure through intelligent architecture.',
-        description: `As the Lead System Architect and AI Engineering Collaborator, I directed the architectural design and technical specification of Dhewaa, an enterprise financial management platform developed as a pure software engineering experiment to explore the practical limits of AI-assisted product development. The objective was not only to build production-grade software, but also to understand where AI can accelerate engineering and where human architectural reasoning remains indispensable. The platform includes both a cross-platform mobile application built with React Native (Expo) and a modern web application, supported by a scalable Express and PostgreSQL backend.
-
-The system simplifies accounting, lending, document management, and business operations through a comprehensive architecture featuring double-entry accounting, loan management, multi-party settlement optimization, secure document storage, and multi-tenant infrastructure. Every subsystem was designed around enterprise engineering principles with a strong emphasis on modular services, transactional consistency, efficient indexing strategies, security, and horizontal scalability.
-
-A defining aspect of the project was the structured collaboration between multiple AI engineering agents. I orchestrated the responsibilities of specialized AI models while maintaining complete architectural ownership, validating every critical design decision and implementation strategy. Throughout development, the project documented real-world AI engineering challenges—including authentication edge cases, schema migration inconsistencies, SDK compatibility issues, and architectural validation—providing valuable insight into both the strengths and limitations of current AI-assisted software engineering workflows.
-
-The resulting blueprint serves not only as the implementation guide for Dhewaa, but also as a comprehensive case study in AI-assisted enterprise software engineering, demonstrating how intelligent collaboration between humans and AI can dramatically accelerate development while preserving architectural quality, technical rigor, scalability, and production readiness.`,
-        focus: [
-            'AI-Assisted Engineering',
-            'Financial Infrastructure',
-            'Cross-Platform Systems',
-            'Enterprise Architecture'
+        overview: 'As the Lead System Architect and AI Engineering Collaborator, I directed the architectural design and technical specification of Dhewaa, an enterprise financial management platform developed as a pure software engineering experiment to explore the practical limits of AI-assisted product development. The objective was not only to build production-grade software, but also to understand where AI can accelerate engineering and where human architectural reasoning remains indispensable. The platform includes both a cross-platform mobile application built with React Native (Expo) and a modern web application, supported by a scalable Express and PostgreSQL backend.',
+        sections: [
+            {
+                label: 'FINANCIAL ENGINE',
+                title: 'Double-Entry Accounting & Systems',
+                content: 'The system simplifies accounting, lending, document management, and business operations through a comprehensive architecture featuring double-entry accounting, loan management, multi-party settlement optimization, secure document storage, and multi-tenant infrastructure. Every subsystem was designed around enterprise engineering principles with a strong emphasis on modular services, transactional consistency, efficient indexing strategies, security, and horizontal scalability.'
+            },
+            {
+                label: 'AI COLLABORATION',
+                title: 'Human Architectural Validation',
+                content: 'A defining aspect of the project was the structured collaboration between multiple AI engineering agents. I orchestrated the responsibilities of specialized AI models while maintaining complete architectural ownership, validating every critical design decision and implementation strategy. Throughout development, the project documented real-world AI engineering challenges—including authentication edge cases, schema migration inconsistencies, SDK compatibility issues, and architectural validation—providing valuable insight into both the strengths and limitations of current AI-assisted software engineering workflows.'
+            },
+            {
+                label: 'LESSONS LEARNED',
+                title: 'Blueprint for Enterprise Ready Systems',
+                content: 'The resulting blueprint serves not only as the implementation guide for Dhewaa, but also as a comprehensive case study in AI-assisted enterprise software engineering, demonstrating how intelligent collaboration between humans and AI can dramatically accelerate development while preserving architectural quality, technical rigor, scalability, and production readiness.'
+            }
         ],
+        focus: ['AI-Assisted Engineering', 'Financial Infrastructure', 'Cross-Platform Systems', 'Enterprise Architecture'],
+        platform: ['Mobile App (React Native/Expo)', 'Web Application (React)', 'Express API Gateway', 'PostgreSQL Database'],
+        coreSystems: ['Double Entry Accounting', 'Loan Ledger Engine', 'Settlement Optimization', 'Encrypted Document Vault', 'Multi-Tenancy Routing'],
+        aiCollaboration: ['Antigravity Agent Orchestration', 'Claude Code Generation', 'Gemini Reasoning Engine', 'Human Validation Framework'],
         gradient: 'linear-gradient(135deg, #4facfe22 0%, #00f2fe22 100%)',
         accentColor: '#4facfe',
+        status: 'Case Study / Specification',
+        architectureDiagram: ['React Native / React', 'Express API Gateway', 'PostgreSQL Database', 'Encrypted Document Vault', 'Authentication (JWT)'],
     },
     {
         title: 'Aroma Ecosystem',
-        headline: "Where E-commerce Meets Intelligent Operations",
-        description: `As Co-founder and CEO of Iruka Technologies, I led the conception, strategy, and execution of the Aroma Ecosystem, an enterprise commerce platform designed to modernize how brands, merchants, warehouses, and logistics partners operate together. Rather than building another marketplace, the objective was to create a unified operational ecosystem that transforms fragmented manual processes into scalable, data driven commerce.
-
-I designed the proof of concept (POC) for Nexus, Aroma's warehouse and order automation platform, serving as the operational backbone of the ecosystem. The platform manages the complete commerce lifecycle, from vendor onboarding, procurement, inventory management, and warehouse operations to quality control, order fulfillment, reverse logistics, and biweekly vendor settlements. To strengthen trust across the marketplace, I introduced the Quality Control Unit (QCU), standardized SKU management, and established structured operational workflows that ensure product authenticity, consistency, and efficiency.
-
-Built for scale, the ecosystem supports centralized inventory management, real time Inventory Health Status monitoring, automated replenishment workflows, multi vendor warehouse operations, and flexible 1P and 2P fulfillment models. By integrating inventory, warehousing, finance, fulfillment, and logistics into a single platform, Aroma enables merchants to transition from fragmented social commerce to professional e commerce with significantly improved operational visibility and efficiency.
-
-Alongside product development, I led finance, regulatory compliance, business development, marketing strategy, and executive decision making to ensure the platform evolved alongside the business it was built to support. I also collaborated with third party logistics partners, including Pathao Parcel and PickNDrop Nepal, to establish dependable nationwide fulfillment and last mile delivery operations that extended the ecosystem beyond software into real world commerce.
-
-After nearly three years of continuous development and refinement, Aroma matured into a comprehensive commerce ecosystem ready for market launch. Although I stepped away from the project to pursue my master's degree, it remains one of my most significant experiences in product leadership, enterprise systems, operational excellence, and building technology that solves complex business challenges at scale.`,
-        focus: [
-            'Commerce Ecosystem',
-            'Warehouse Automation',
-            'Supply Chain Operations',
-            'Multi Vendor Commerce',
-            'Business Strategy',
-            'Operational Excellence'
+        headline: 'Where E-commerce Meets Intelligent Operations',
+        overview: 'As Co-founder and CEO of Iruka Technologies, I led the conception, strategy, and execution of the Aroma Ecosystem, an enterprise commerce platform designed to modernize how brands, merchants, warehouses, and logistics partners operate together. Rather than building another marketplace, the objective was to create a unified operational ecosystem that transforms fragmented manual processes into scalable, data driven commerce.',
+        sections: [
+            {
+                label: 'WAREHOUSE AUTOMATION',
+                title: 'Nexus: The Operational Core',
+                content: 'I designed the proof of concept (POC) for Nexus, Aroma\'s warehouse and order automation platform, serving as the operational backbone of the ecosystem. The platform manages the complete commerce lifecycle, from vendor onboarding, procurement, inventory management, and warehouse operations to quality control, order fulfillment, reverse logistics, and biweekly vendor settlements. To strengthen trust across the marketplace, I introduced the Quality Control Unit (QCU), standardized SKU management, and established structured operational workflows that ensure product authenticity, consistency, and efficiency.'
+            },
+            {
+                label: 'SCALABLE LOGISTICS',
+                title: 'Nationwide Fulfillment Integrations',
+                content: 'Built for scale, the ecosystem supports centralized inventory management, real time Inventory Health Status monitoring, automated replenishment workflows, multi vendor warehouse operations, and flexible 1P and 2P fulfillment models. By integrating inventory, warehousing, finance, fulfillment, and logistics into a single platform, Aroma enables merchants to transition from fragmented social commerce to professional e commerce with significantly improved operational visibility and efficiency.\n\nI also collaborated with third party logistics partners, including Pathao Parcel and PickNDrop Nepal, to establish dependable nationwide fulfillment and last mile delivery operations that extended the ecosystem beyond software into real world commerce.'
+            },
+            {
+                label: 'EXECUTIVE LEADERSHIP',
+                title: 'Product Growth & Vision',
+                content: 'Alongside product development, I led finance, regulatory compliance, business development, marketing strategy, and executive decision making to ensure the platform evolved alongside the business it was built to support. After nearly three years of continuous development and refinement, Aroma matured into a comprehensive commerce ecosystem ready for market launch. Although I stepped away from the project to pursue my master\'s degree, it remains one of my most significant experiences in product leadership, enterprise systems, operational excellence, and building technology that solves complex business challenges at scale.'
+            }
         ],
+        focus: ['Commerce Ecosystem', 'Warehouse Automation', 'Supply Chain Operations', 'Multi Vendor Commerce', 'Business Strategy', 'Operational Excellence'],
+        platform: ['Multi-Merchant Web Portal', 'Node.js Microservices', 'Redis Caching Server', 'PostgreSQL Cluster'],
+        coreSystems: ['Inventory Health Monitor', 'Automated Replenishment Engine', 'Vendor Settlement System', 'QCU Quality Verification'],
+        aiCollaboration: ['Human Architectural Direction'],
         gradient: 'linear-gradient(135deg, #667eea22 0%, #764ba222 100%)',
         accentColor: '#667eea',
+        status: 'Completed / Ready for Launch',
+        architectureDiagram: ['Multi-Merchant Web Portal', 'Node.js Microservices', 'Redis Caching', 'PostgreSQL Cluster'],
     },
     {
         title: 'Leo MD 325 CMS',
-        headline: 'Simplifying organizational operations through centralized digital workflows.',
-        description: 'Developed a management platform that unified administrative processes, payment tracking, approvals, and organizational coordination into one reliable operational workspace, replacing disconnected manual processes with streamlined collaboration.',
-        focus: ['Workflow Optimization', 'Organizational Management', 'Access Control', 'Operational Automation'],
+        headline: 'Centralized Administrative Workflows and Payment Platforms',
+        overview: 'Developed a management platform that unified administrative processes, payment tracking, approvals, and organizational coordination into one reliable operational workspace, replacing disconnected manual processes with streamlined collaboration.',
+        sections: [
+            {
+                label: 'WORKFLOW AUTOMATION',
+                title: 'Centralized Operations Hub',
+                content: 'Streamlined administrative workflows for community leaders by introducing automated approval cycles, secure document management, and centralized team workspaces. This reduced overhead and improved task tracking across regional clubs.'
+            },
+            {
+                label: 'PAYMENT TRACKING',
+                title: 'Secure Financial Tracking',
+                content: 'Implemented secure transaction logging, automated billing status updates, and digital payment tracking to ensure clear visibility into club financial records while preserving strict authorization levels.'
+            }
+        ],
+        focus: ['Workflow Optimization', 'Access Control', 'Organizational Management', 'Operational Automation'],
+        platform: ['React Web Portal', 'Express Backend Server', 'PostgreSQL Database'],
+        coreSystems: ['Payment Approvals Engine', 'Secure RBAC Access Control', 'Member Workspace Directory'],
+        aiCollaboration: ['Human Architectural Validation'],
         gradient: 'linear-gradient(135deg, #10b98122 0%, #a8edea22 100%)',
         accentColor: '#10b981',
+        status: 'Completed',
+        architectureDiagram: ['React Web Portal', 'Express Backend Server', 'PostgreSQL Database'],
     },
     {
         title: 'NepseBot',
         headline: 'Converting fragmented market information into reliable investment intelligence.',
-        description: 'Built an automated market intelligence system that continuously transforms scattered public financial information into structured datasets, enabling faster analysis while eliminating repetitive manual collection.',
+        overview: 'Built an automated market intelligence system that continuously transforms scattered public financial information into structured datasets, enabling faster analysis while eliminating repetitive manual collection.',
+        sections: [
+            {
+                label: 'DATA ENGINEERING',
+                title: 'Live Data Pipeline & Gathering',
+                content: 'Designed robust scrapers that parse live floorsheets, daily transaction logs, historical price indexes, and dividend records from public web resources, processing unstructured data streams into query-ready data storage.'
+            },
+            {
+                label: 'INFORMATION PROCESSING',
+                title: 'Analytical Data Storage',
+                content: 'Aggregated historical market statistics and structured them into chronological databases. This enabled quantitative analyst tools to query trends, track stock behaviors, and generate market insights with minimal latency.'
+            }
+        ],
         focus: ['Data Engineering', 'Market Intelligence', 'Automation Systems', 'Information Processing'],
+        platform: ['CLI Application Console', 'Python Scraping Scripts', 'Cron Job Scheduler'],
+        coreSystems: ['Automated Web Scrapers', 'Floorsheet Data Parser', 'Chronological Pipeline'],
+        aiCollaboration: ['Human-Led Optimization'],
         gradient: 'linear-gradient(135deg, #f9731622 0%, #ffecd222 100%)',
         accentColor: '#f97316',
+        status: 'Completed / Automated',
+        architectureDiagram: ['CLI Application Console', 'Python Scraping Scripts', 'Cron Job Scheduler', 'Market Database'],
     },
     {
         title: 'Scholarr LMS',
         headline: 'Bridging academic management with everyday productivity.',
-        description: 'Created a learning platform that connects educational workflows, assignments, progress tracking, and daily task organization into one collaborative environment, helping institutions operate more efficiently while improving the student learning experience.',
+        overview: 'Created a learning platform that connects educational workflows, assignments, progress tracking, and daily task organization into one collaborative environment, helping institutions operate more efficiently while improving the student learning experience.',
+        sections: [
+            {
+                label: 'ACADEMIC WORKFLOWS',
+                title: 'Syllabus & Task Orchestration',
+                content: 'Unified student calendar items, course timelines, and assignments into a cohesive task tracker that helps students manage workloads while giving educators real-time progress oversight.'
+            },
+            {
+                label: 'SECURE PLATFORM DESIGN',
+                title: 'Session Security & Routing',
+                content: 'Implemented secure user registration, session management, and encrypted token auth protocols to guarantee privacy, data isolation, and secure storage of academic grades and student records.'
+            }
+        ],
         focus: ['Learning Platforms', 'Academic Workflows', 'Secure Platform Design', 'Task Orchestration'],
+        platform: ['React Web Application', 'Node.js API Service', 'MongoDB Storage Cluster'],
+        coreSystems: ['JSON Web Token Auth', 'Syllabus Course Scheduler', 'Task Progress Analytics'],
+        aiCollaboration: ['Human-Led Design'],
         gradient: 'linear-gradient(135deg, #6366f122 0%, #c3cfe222 100%)',
         accentColor: '#6366f1',
+        status: 'Completed',
+        architectureDiagram: ['React Web Application', 'Node.js API Service', 'MongoDB Storage Cluster', 'JWT Auth'],
     },
 ];
 
-// =============================================
 // =============================================
 // SELECTED WORK — RENDER CARDS
 // =============================================
@@ -822,7 +916,6 @@ const initSelectedWork = () => {
 
     PROJECTS.forEach((project, index) => {
         const num = String(index + 1).padStart(2, '0');
-        const isLongDesc = project.description.length > 250;
 
         const card = document.createElement('article');
         card.className = 'work-card';
@@ -835,12 +928,10 @@ const initSelectedWork = () => {
                     <h3 class="work-card-title">${project.title}</h3>
                 </div>
                 <p class="work-card-headline">${project.headline}</p>
-                <p class="work-card-description${isLongDesc ? ' clamped' : ''}">${project.description}</p>
-                ${isLongDesc ? `
-                    <button type="button" class="work-card-view-more" aria-label="View more details about ${project.title}">
-                        <span>View More</span> <span class="view-more-arrow">↓</span>
-                    </button>
-                ` : ''}
+                <p class="work-card-description clamped">${project.overview}</p>
+                <button type="button" class="work-card-view-more" aria-label="View details for ${project.title}">
+                    <span>View details</span> <span class="view-more-arrow">→</span>
+                </button>
                 <div class="work-card-focus">
                     ${project.focus.map(tag => `<span class="work-focus-pill">${tag}</span>`).join('')}
                 </div>
@@ -848,16 +939,14 @@ const initSelectedWork = () => {
         `;
 
         // Attach event listener to trigger popup details modal
-        if (isLongDesc) {
-            const btn = card.querySelector('.work-card-view-more');
-            if (btn) {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (window.openWorkModal) {
-                        window.openWorkModal(project, num);
-                    }
-                });
-            }
+        const btn = card.querySelector('.work-card-view-more');
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (window.openWorkModal) {
+                    window.openWorkModal(project, num);
+                }
+            });
         }
 
         stack.appendChild(card);
@@ -869,48 +958,370 @@ const initSelectedWork = () => {
 // =============================================
 const initWorkModal = () => {
     const modal = document.getElementById('workModal');
-    const closeBtn = document.getElementById('workModalCloseBtn');
-    if (!modal || !closeBtn) return;
+    if (!modal) return;
 
-    // Global hook for cards to trigger
+    const navigateToProject = (targetProj, targetNum) => {
+        const content = modal.querySelector('.project-modal');
+        if (content) {
+            content.style.opacity = '0';
+            content.style.transform = window.innerWidth < 768 ? 'translateX(20px)' : 'translateY(10px)';
+            content.style.transition = 'opacity 200ms ease, transform 200ms ease';
+        }
+
+        setTimeout(() => {
+            window.openWorkModal(targetProj, targetNum);
+            const newContent = modal.querySelector('.project-modal');
+            if (newContent) {
+                newContent.scrollTop = 0;
+                newContent.style.opacity = '0';
+                newContent.style.transform = window.innerWidth < 768 ? 'translateX(-20px)' : 'translateY(-10px)';
+                requestAnimationFrame(() => {
+                    newContent.style.transition = 'opacity 250ms cubic-bezier(0.16, 1, 0.3, 1), transform 250ms cubic-bezier(0.16, 1, 0.3, 1)';
+                    newContent.style.opacity = '1';
+                    newContent.style.transform = 'translateY(0) translateX(0)';
+                });
+            }
+        }, 200);
+    };
+
+    const renderMobileModal = (project, num) => {
+        const currentIndex = PROJECTS.findIndex(p => p.title === project.title);
+        const prevProject = PROJECTS[(currentIndex - 1 + PROJECTS.length) % PROJECTS.length];
+        const nextProject = PROJECTS[(currentIndex + 1) % PROJECTS.length];
+        const prevNum = String(((currentIndex - 1 + PROJECTS.length) % PROJECTS.length) + 1).padStart(2, '0');
+        const nextNum = String(((currentIndex + 1) % PROJECTS.length) + 1).padStart(2, '0');
+
+        modal.innerHTML = `
+            <div class="project-modal mobile-version">
+                <div class="project-modal-mobile-header">
+                    <button class="mobile-header-back-btn" id="mobileBackBtn" aria-label="Go back">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                        <span>Back</span>
+                    </button>
+                    <span class="project-modal-mobile-header-title" id="mobileHeaderTitle">${project.title}</span>
+                    <button class="mobile-header-share-btn" id="mobileShareBtn" aria-label="Share case study">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span>Share</span>
+                    </button>
+                </div>
+                <div class="project-modal-mobile-content">
+                    <div class="mobile-hero-section">
+                        <div class="mobile-hero-num">${num}</div>
+                        <h1 class="mobile-hero-title">${project.title}</h1>
+                        <p class="mobile-hero-headline">${project.headline}</p>
+                        <p class="mobile-hero-summary">${project.overview.replace(/\n/g, '<br>')}</p>
+                        
+                        <div class="mobile-hero-focus-chips">
+                            ${project.focus.map(chip => `<span class="mobile-focus-chip">${chip}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-divider"></div>
+
+                    ${project.platform ? `
+                        <div class="mobile-detail-section">
+                            <span class="mobile-section-label">PLATFORM</span>
+                            <h2 class="mobile-section-heading">Target Environment</h2>
+                            <div class="mobile-platform-cards">
+                                ${project.platform.map(plat => {
+            let emoji = '💻';
+            const lowerPlat = plat.toLowerCase();
+            if (lowerPlat.includes('mobile') || lowerPlat.includes('react native') || lowerPlat.includes('ios') || lowerPlat.includes('android')) {
+                emoji = '📱';
+            } else if (lowerPlat.includes('api') || lowerPlat.includes('backend') || lowerPlat.includes('microservice') || lowerPlat.includes('server') || lowerPlat.includes('scraping') || lowerPlat.includes('script') || lowerPlat.includes('console')) {
+                emoji = '⚙️';
+            } else if (lowerPlat.includes('db') || lowerPlat.includes('database') || lowerPlat.includes('postgres') || lowerPlat.includes('sql') || lowerPlat.includes('mongo') || lowerPlat.includes('redis') || lowerPlat.includes('cluster') || lowerPlat.includes('caching') || lowerPlat.includes('storage')) {
+                emoji = '🗄️';
+            }
+            return `
+                                        <div class="mobile-platform-card">
+                                            <span class="plat-emoji">${emoji}</span>
+                                            <span class="plat-text">${plat}</span>
+                                        </div>
+                                    `;
+        }).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${project.sections.map(sec => `
+                        <div class="mobile-detail-section">
+                            <span class="mobile-section-label">${sec.label}</span>
+                            <h2 class="mobile-section-heading">${sec.title}</h2>
+                            <p class="mobile-section-body">${sec.content.replace(/\n/g, '<br>')}</p>
+                        </div>
+                    `).join('')}
+
+                    ${project.architectureDiagram ? `
+                        <div class="mobile-detail-section">
+                            <span class="mobile-section-label">ARCHITECTURE</span>
+                            <h2 class="mobile-section-heading">System Topology</h2>
+                            <div class="mobile-architecture-diagram">
+                                ${project.architectureDiagram.map((node, index) => `
+                                    <div class="arch-node-container">
+                                        <div class="arch-node">${node}</div>
+                                        ${index < project.architectureDiagram.length - 1 ? `
+                                            <div class="arch-arrow">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${project.coreSystems ? `
+                        <div class="mobile-detail-section">
+                            <span class="mobile-section-label">CORE SUBSYSTEMS</span>
+                            <h2 class="mobile-section-heading">Key Capabilities</h2>
+                            <div class="mobile-feature-grid">
+                                ${project.coreSystems.map(sys => `
+                                    <div class="mobile-feature-card">
+                                        <div class="mobile-feature-icon" style="color: var(--project-accent)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                                        </div>
+                                        <span class="mobile-feature-text">${sys}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${project.aiCollaboration ? `
+                        <div class="mobile-detail-section">
+                            <span class="mobile-section-label">AI COLLABORATION</span>
+                            <h2 class="mobile-section-heading">Intelligent Tooling</h2>
+                            <div class="mobile-feature-grid">
+                                ${project.aiCollaboration.map(collab => `
+                                    <div class="mobile-feature-card">
+                                        <div class="mobile-feature-icon" style="color: var(--project-accent)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"/></svg>
+                                        </div>
+                                        <span class="mobile-feature-text">${collab}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="mobile-footer-section">
+                        <div class="mobile-project-status">
+                            <span class="status-label">Project Status</span>
+                            <span class="status-badge" style="background: var(--project-gradient); border-color: var(--project-accent);">${project.status}</span>
+                        </div>
+                        <div class="mobile-footer-nav">
+                            <button class="footer-nav-btn prev-project-btn" id="mobilePrevBtn" aria-label="Previous project">
+                                <span class="nav-arrow">←</span>
+                                <div class="nav-project-info">
+                                    <span class="nav-label">PREVIOUS</span>
+                                    <span class="nav-title">${prevProject.title}</span>
+                                </div>
+                            </button>
+                            <button class="footer-nav-btn next-project-btn" id="mobileNextBtn" aria-label="Next project">
+                                <div class="nav-project-info align-right">
+                                    <span class="nav-label">NEXT</span>
+                                    <span class="nav-title">${nextProject.title}</span>
+                                </div>
+                                <span class="nav-arrow">→</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Bind mobile scroll actions
+        const scrollContainer = modal.querySelector('.project-modal.mobile-version');
+        const header = modal.querySelector('.project-modal-mobile-header');
+        const headerTitle = modal.querySelector('#mobileHeaderTitle');
+
+        if (scrollContainer && header && headerTitle) {
+            scrollContainer.addEventListener('scroll', () => {
+                const scrollTop = scrollContainer.scrollTop;
+                if (scrollTop > 80) {
+                    header.classList.add('scrolled');
+                    const opacity = Math.min((scrollTop - 80) / 80, 1);
+                    headerTitle.style.opacity = opacity;
+                    headerTitle.style.transform = `translateY(${Math.max(10 - opacity * 10, 0)}px)`;
+                } else {
+                    header.classList.remove('scrolled');
+                    headerTitle.style.opacity = '0';
+                    headerTitle.style.transform = 'translateY(10px)';
+                }
+            });
+        }
+
+        // Back action
+        const backBtn = modal.querySelector('#mobileBackBtn');
+        if (backBtn) backBtn.addEventListener('click', closeModal);
+
+        // Share action
+        const shareBtn = modal.querySelector('#mobileShareBtn');
+        if (shareBtn) {
+            shareBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const shareData = {
+                    title: `${project.title} - Sajag Silwal Portfolio`,
+                    text: `${project.title}: ${project.headline}`,
+                    url: window.location.href
+                };
+                try {
+                    if (navigator.share) {
+                        await navigator.share(shareData);
+                    } else {
+                        await navigator.clipboard.writeText(window.location.href);
+                        const span = shareBtn.querySelector('span');
+                        if (span) {
+                            const originalText = span.textContent;
+                            span.textContent = 'Copied!';
+                            setTimeout(() => {
+                                span.textContent = originalText;
+                            }, 2000);
+                        }
+                    }
+                } catch (err) {
+                    console.error('Error sharing:', err);
+                }
+            });
+        }
+
+        // Navigation actions
+        const prevBtn = modal.querySelector('#mobilePrevBtn');
+        if (prevBtn) prevBtn.addEventListener('click', () => navigateToProject(prevProject, prevNum));
+
+        const nextBtn = modal.querySelector('#mobileNextBtn');
+        if (nextBtn) nextBtn.addEventListener('click', () => navigateToProject(nextProject, nextNum));
+    };
+
+    const renderDesktopModal = (project, num) => {
+        modal.innerHTML = `
+            <div class="project-modal">
+                <div class="project-modal-header">
+                    <div class="project-modal-header-left">
+                        <span class="project-modal-num" id="workModalNum">${num}</span>
+                        <h3 class="project-modal-title" id="workModalTitle">${project.title}</h3>
+                    </div>
+                    <button type="button" class="project-modal-close" id="workModalCloseBtn" aria-label="Close details">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="project-modal-body">
+                    <p class="project-modal-headline" id="workModalHeadline">${project.headline}</p>
+                    <div class="project-modal-content-grid">
+                        <div class="project-modal-left-col" id="workModalLeftCol">
+                            <div class="project-modal-overview-section">
+                                <p class="project-modal-overview-text">${project.overview}</p>
+                            </div>
+                            ${project.sections.map(section => `
+                                <div class="project-modal-detail-section">
+                                    <span class="project-modal-section-label">${section.label}</span>
+                                    <h4 class="project-modal-section-title">${section.title}</h4>
+                                    <p class="project-modal-section-content">${section.content.replace(/\n/g, '<br>')}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="project-modal-right-col" id="workModalRightCol">
+                            ${project.focus ? `
+                                <div class="project-modal-info-card">
+                                    <div class="project-modal-info-card-title">Engineering Focus</div>
+                                    <div class="project-modal-info-card-list">
+                                        ${project.focus.map(item => `
+                                            <div class="info-card-item">
+                                                <span class="bullet" style="color: var(--project-accent);">◆</span>
+                                                <span class="text">${item}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            ${project.platform ? `
+                                <div class="project-modal-info-card">
+                                    <div class="project-modal-info-card-title">Platform & Core Infrastructure</div>
+                                    <div class="project-modal-info-card-list">
+                                        ${project.platform.map(item => `
+                                            <div class="info-card-item">
+                                                <span class="bullet" style="color: var(--project-accent);">✓</span>
+                                                <span class="text">${item}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            ${project.coreSystems ? `
+                                <div class="project-modal-info-card">
+                                    <div class="project-modal-info-card-title">Core Subsystems</div>
+                                    <div class="project-modal-info-card-list">
+                                        ${project.coreSystems.map(item => `
+                                            <div class="info-card-item">
+                                                <span class="bullet" style="color: var(--project-accent);">•</span>
+                                                <span class="text">${item}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            ${project.aiCollaboration ? `
+                                <div class="project-modal-info-card">
+                                    <div class="project-modal-info-card-title">AI Collaboration Tools</div>
+                                    <div class="project-modal-info-card-list">
+                                        ${project.aiCollaboration.map(item => `
+                                            <div class="info-card-item">
+                                                <span class="bullet" style="color: var(--project-accent);">⚡</span>
+                                                <span class="text">${item}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const closeBtn = modal.querySelector('#workModalCloseBtn');
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    };
+
     window.openWorkModal = (project, num) => {
-        document.getElementById('workModalNum').textContent = num;
-        document.getElementById('workModalTitle').textContent = project.title;
-        document.getElementById('workModalHeadline').textContent = project.headline;
-        const descContainer = document.getElementById('workModalDesc');
-        descContainer.innerHTML = project.description
-            .split('\n\n')
-            .map(para => `<p style="margin-bottom: var(--spacing-4); line-height: 1.7;">${para.replace(/\n/g, '<br>')}</p>`)
-            .join('');
-
-        // Apply brand variables directly to custom modal style property
         modal.style.setProperty('--project-accent', project.accentColor);
         modal.style.setProperty('--project-gradient', project.gradient);
 
-        const focusContainer = document.getElementById('workModalFocus');
-        focusContainer.innerHTML = project.focus.map(tag => `<span class="work-focus-pill">${tag}</span>`).join('');
+        if (window.innerWidth < 768) {
+            renderMobileModal(project, num);
+        } else {
+            renderDesktopModal(project, num);
+        }
 
         modal.showModal();
-        // Add active class on next frame for transition
+
         setTimeout(() => {
             modal.classList.add('active');
+            if (window.innerWidth < 768) {
+                document.body.classList.add('body-modal-open');
+            }
         }, 10);
-        document.body.style.overflow = 'hidden'; // Lock scroll
+        document.body.style.overflow = 'hidden';
     };
 
     const closeModal = () => {
         modal.classList.remove('active');
+        if (window.innerWidth < 768) {
+            document.body.classList.remove('body-modal-open');
+        }
         setTimeout(() => {
             modal.close();
-            document.body.style.overflow = ''; // Unlock scroll
+            document.body.style.overflow = '';
         }, 300);
     };
 
-    closeBtn.addEventListener('click', closeModal);
-
-    // Close on backdrop click
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        if (e.target === modal && window.innerWidth >= 768) {
             closeModal();
         }
     });

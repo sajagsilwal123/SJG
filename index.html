@@ -56,7 +56,7 @@
 
 
   <link rel="icon" href="favicon.png">
-  <link rel="stylesheet" href="styles.css?v=4.7">
+  <link rel="stylesheet" href="styles.css?v=4.8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -915,18 +915,21 @@
       </div>
       <div class="project-modal-body">
         <p class="project-modal-headline" id="workModalHeadline">Headline text...</p>
-        <div class="project-modal-scroll">
-          <p class="project-modal-desc" id="workModalDesc">Full description text...</p>
-        </div>
-        <div class="project-modal-focus-title">Engineering Focus</div>
-        <div class="project-modal-focus" id="workModalFocus">
-          <!-- Focus pills rendered dynamically -->
+        <div class="project-modal-content-grid">
+          <!-- Left Column (65%) -->
+          <div class="project-modal-left-col" id="workModalLeftCol">
+            <!-- Dynamic overview and content sections -->
+          </div>
+          <!-- Right Column (35%) -->
+          <div class="project-modal-right-col" id="workModalRightCol">
+            <!-- Dynamic structured information cards -->
+          </div>
         </div>
       </div>
     </div>
   </dialog>
 
-  <script src="script.js?v=2.0"></script>
+  <script src="script.js?v=2.1"></script>
 </body>
 
 </html>
