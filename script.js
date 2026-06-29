@@ -964,7 +964,7 @@ const initWorkModal = () => {
         const content = modal.querySelector('.project-modal');
         if (content) {
             content.style.opacity = '0';
-            content.style.transform = window.innerWidth < 768 ? 'translateX(20px)' : 'translateY(10px)';
+            content.style.transform = window.innerWidth <= 1199 ? 'translateX(20px)' : 'translateY(10px)';
             content.style.transition = 'opacity 200ms ease, transform 200ms ease';
         }
 
@@ -974,7 +974,7 @@ const initWorkModal = () => {
             if (newContent) {
                 newContent.scrollTop = 0;
                 newContent.style.opacity = '0';
-                newContent.style.transform = window.innerWidth < 768 ? 'translateX(-20px)' : 'translateY(-10px)';
+                newContent.style.transform = window.innerWidth <= 1199 ? 'translateX(-20px)' : 'translateY(-10px)';
                 requestAnimationFrame(() => {
                     newContent.style.transition = 'opacity 250ms cubic-bezier(0.16, 1, 0.3, 1), transform 250ms cubic-bezier(0.16, 1, 0.3, 1)';
                     newContent.style.opacity = '1';
@@ -1194,6 +1194,213 @@ const initWorkModal = () => {
         if (nextBtn) nextBtn.addEventListener('click', () => navigateToProject(nextProject, nextNum));
     };
 
+    const renderTabletModal = (project, num) => {
+        const currentIndex = PROJECTS.findIndex(p => p.title === project.title);
+        const prevProject = PROJECTS[(currentIndex - 1 + PROJECTS.length) % PROJECTS.length];
+        const nextProject = PROJECTS[(currentIndex + 1) % PROJECTS.length];
+        const prevNum = String(((currentIndex - 1 + PROJECTS.length) % PROJECTS.length) + 1).padStart(2, '0');
+        const nextNum = String(((currentIndex + 1) % PROJECTS.length) + 1).padStart(2, '0');
+
+        modal.innerHTML = `
+            <div class="project-modal tablet-version">
+                <div class="project-modal-tablet-header">
+                    <div class="tablet-header-left">
+                        <span class="tablet-header-num">${num}</span>
+                        <span class="project-modal-tablet-header-title" id="tabletHeaderTitle">${project.title}</span>
+                    </div>
+                    <button type="button" class="project-modal-close tablet-close-btn" id="tabletCloseBtn" aria-label="Close details">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="project-modal-tablet-scroll">
+                    <div class="tablet-hero-section">
+                        <div class="tablet-hero-num">${num}</div>
+                        <h1 class="tablet-hero-title">${project.title}</h1>
+                        <p class="tablet-hero-headline">${project.headline}</p>
+                        <p class="tablet-hero-summary">${project.overview.replace(/\n/g, '<br>')}</p>
+                        
+                        <div class="tablet-hero-focus-chips">
+                            ${project.focus.map(chip => `<span class="tablet-focus-chip">${chip}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="tablet-grid-layout">
+                        <!-- Left Column (60% on landscape, stacked on portrait) -->
+                        <div class="tablet-left-column">
+                            ${project.sections.map(sec => `
+                                <div class="tablet-detail-section">
+                                    <span class="tablet-section-label">${sec.label}</span>
+                                    <h2 class="tablet-section-heading">${sec.title}</h2>
+                                    <p class="tablet-section-body">${sec.content.replace(/\n/g, '<br>')}</p>
+                                </div>
+                            `).join('')}
+                            
+                            ${project.architectureDiagram ? `
+                                <div class="tablet-detail-section">
+                                    <span class="tablet-section-label">ARCHITECTURE</span>
+                                    <h2 class="tablet-section-heading">System Topology</h2>
+                                    <div class="tablet-architecture-diagram">
+                                        ${project.architectureDiagram.map((node, index) => `
+                                            <div class="tablet-arch-node-container">
+                                                <div class="tablet-arch-node">${node}</div>
+                                                ${index < project.architectureDiagram.length - 1 ? `
+                                                    <div class="tablet-arch-arrow">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <!-- Right Column (40% on landscape, stacked on portrait) -->
+                        <div class="tablet-right-column">
+                            ${project.platform ? `
+                                <div class="tablet-info-card">
+                                    <div class="tablet-info-card-title">Platform</div>
+                                    <div class="tablet-info-card-list">
+                                        ${project.platform.map(plat => {
+                                            let emoji = '💻';
+                                            const lowerPlat = plat.toLowerCase();
+                                            if (lowerPlat.includes('mobile') || lowerPlat.includes('react native') || lowerPlat.includes('ios') || lowerPlat.includes('android')) {
+                                                emoji = '📱';
+                                            } else if (lowerPlat.includes('api') || lowerPlat.includes('backend') || lowerPlat.includes('microservice') || lowerPlat.includes('server') || lowerPlat.includes('scraping') || lowerPlat.includes('script') || lowerPlat.includes('console')) {
+                                                emoji = '⚙️';
+                                            } else if (lowerPlat.includes('db') || lowerPlat.includes('database') || lowerPlat.includes('postgres') || lowerPlat.includes('sql') || lowerPlat.includes('mongo') || lowerPlat.includes('redis') || lowerPlat.includes('cluster') || lowerPlat.includes('caching') || lowerPlat.includes('storage')) {
+                                                emoji = '🗄️';
+                                            }
+                                            return `
+                                                <div class="tablet-info-item">
+                                                    <span class="tablet-info-icon">${emoji}</span>
+                                                    <span class="tablet-info-text">${plat}</span>
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            ${project.coreSystems ? `
+                                <div class="tablet-info-card">
+                                    <div class="tablet-info-card-title">Core Systems</div>
+                                    <div class="tablet-info-card-list">
+                                        ${project.coreSystems.map(sys => `
+                                            <div class="tablet-info-item">
+                                                <span class="tablet-info-icon" style="color: var(--project-accent);">✓</span>
+                                                <span class="tablet-info-text">${sys}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            ${project.aiCollaboration ? `
+                                <div class="tablet-info-card">
+                                    <div class="tablet-info-card-title">AI Collaboration</div>
+                                    <div class="tablet-info-card-list">
+                                        ${project.aiCollaboration.map(collab => `
+                                            <div class="tablet-info-item">
+                                                <span class="tablet-info-icon" style="color: var(--project-accent);">⚡</span>
+                                                <span class="tablet-info-text">${collab}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <div class="tablet-info-card">
+                                <div class="tablet-info-card-title">Project Status</div>
+                                <div class="tablet-status-badge" style="background: var(--project-gradient); border-color: var(--project-accent);">
+                                    ${project.status}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tablet-footer-section">
+                        <div class="tablet-footer-nav">
+                            <button class="tablet-footer-nav-btn prev-btn" id="tabletPrevBtn" aria-label="Previous project">
+                                <span class="tablet-nav-arrow">←</span>
+                                <div class="tablet-nav-project-info">
+                                    <span class="tablet-nav-label">PREVIOUS</span>
+                                    <span class="tablet-nav-title">${prevProject.title}</span>
+                                </div>
+                            </button>
+                            <button class="tablet-footer-nav-btn next-btn" id="tabletNextBtn" aria-label="Next project">
+                                <div class="tablet-nav-project-info align-right">
+                                    <span class="tablet-nav-label">NEXT</span>
+                                    <span class="tablet-nav-title">${nextProject.title}</span>
+                                </div>
+                                <span class="tablet-nav-arrow">→</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Bind scroll header animations
+        const scrollContainer = modal.querySelector('.project-modal-tablet-scroll');
+        const header = modal.querySelector('.project-modal-tablet-header');
+        const headerTitle = modal.querySelector('#tabletHeaderTitle');
+
+        if (scrollContainer && header && headerTitle) {
+            scrollContainer.addEventListener('scroll', () => {
+                const scrollTop = scrollContainer.scrollTop;
+                if (scrollTop > 80) {
+                    header.classList.add('scrolled');
+                    const opacity = Math.min((scrollTop - 80) / 80, 1);
+                    headerTitle.style.opacity = opacity;
+                    headerTitle.style.transform = `translateY(${Math.max(8 - opacity * 8, 0)}px)`;
+                } else {
+                    header.classList.remove('scrolled');
+                    headerTitle.style.opacity = '0';
+                    headerTitle.style.transform = 'translateY(8px)';
+                }
+            });
+        }
+
+        // Close action
+        const closeBtn = modal.querySelector('#tabletCloseBtn');
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+        // Footer buttons navigation
+        const prevBtn = modal.querySelector('#tabletPrevBtn');
+        if (prevBtn) prevBtn.addEventListener('click', () => navigateToProject(prevProject, prevNum));
+
+        const nextBtn = modal.querySelector('#tabletNextBtn');
+        if (nextBtn) nextBtn.addEventListener('click', () => navigateToProject(nextProject, nextNum));
+
+        // Swipe gestures navigation
+        const container = modal.querySelector('.project-modal.tablet-version');
+        if (container) {
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            container.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            container.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const swipeDistance = touchStartX - touchEndX;
+
+                if (swipeDistance > 100) {
+                    navigateToProject(nextProject, nextNum);
+                } else if (swipeDistance < -100) {
+                    navigateToProject(prevProject, prevNum);
+                }
+            }, { passive: true });
+        }
+    };
+
     const renderDesktopModal = (project, num) => {
         modal.innerHTML = `
             <div class="project-modal">
@@ -1292,8 +1499,11 @@ const initWorkModal = () => {
         modal.style.setProperty('--project-accent', project.accentColor);
         modal.style.setProperty('--project-gradient', project.gradient);
 
-        if (window.innerWidth < 768) {
+        const width = window.innerWidth;
+        if (width < 768) {
             renderMobileModal(project, num);
+        } else if (width >= 768 && width <= 1199) {
+            renderTabletModal(project, num);
         } else {
             renderDesktopModal(project, num);
         }
@@ -1304,6 +1514,8 @@ const initWorkModal = () => {
             modal.classList.add('active');
             if (window.innerWidth < 768) {
                 document.body.classList.add('body-modal-open');
+            } else if (window.innerWidth >= 768 && window.innerWidth <= 1199) {
+                document.body.classList.add('body-modal-open-tablet');
             }
         }, 10);
         document.body.style.overflow = 'hidden';
@@ -1311,13 +1523,16 @@ const initWorkModal = () => {
 
     const closeModal = () => {
         modal.classList.remove('active');
-        if (window.innerWidth < 768) {
+        const width = window.innerWidth;
+        if (width < 768) {
             document.body.classList.remove('body-modal-open');
+        } else if (width >= 768 && width <= 1199) {
+            document.body.classList.remove('body-modal-open-tablet');
         }
         setTimeout(() => {
             modal.close();
             document.body.style.overflow = '';
-        }, 300);
+        }, 350);
     };
 
     modal.addEventListener('click', (e) => {
