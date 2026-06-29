@@ -56,7 +56,7 @@ initTheme();
 // Navbar scroll effect + Active nav highlight
 const navbar = document.getElementById('navbar');
 const navLinks = document.querySelectorAll('.navbar-link');
-const sections = document.querySelectorAll('#about, #story, #journey, #connect');
+const sections = document.querySelectorAll('#about, #story, #journey, #work, #connect');
 let lastScrollTop = 0;
 
 window.addEventListener('scroll', () => {
@@ -70,10 +70,10 @@ window.addEventListener('scroll', () => {
 
     // Scrollspy: highlight active nav link
     let currentSection = '';
-    
+
     // Fallback: highlight the last section ('connect') if user has scrolled to the bottom of the page
     const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 10;
-    
+
     if (isAtBottom) {
         currentSection = 'connect';
     } else {
@@ -125,7 +125,7 @@ document.querySelectorAll('.experience-card, .hobby-card, .timeline-card').forEa
     card.addEventListener('click', (e) => {
         e.stopPropagation();
         const isSelected = card.classList.contains('selected');
-        
+
         // Deselect all cards
         document.querySelectorAll('.experience-card, .hobby-card, .timeline-card')
             .forEach(c => c.classList.remove('selected'));
@@ -522,9 +522,9 @@ const initPdfViewer = () => {
 
     const openModal = (e) => {
         // Check if on a mobile viewport, iPad, or tablet device to redirect to cv.html
-        const isMobileOrTablet = window.innerWidth <= 1024 || 
-                                 (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) ||
-                                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        const isMobileOrTablet = window.innerWidth <= 1024 ||
+            (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
         if (isMobileOrTablet) {
             // Redirect to the CV wrapper page that has a back button
@@ -691,7 +691,7 @@ const initAboutBioToggle = () => {
         const isExpanded = aboutBioExpandable.classList.toggle('expanded');
         aboutBioBtn.classList.toggle('expanded', isExpanded);
         aboutBioBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
-        
+
         const textSpan = aboutBioBtn.querySelector('span');
         if (textSpan) {
             textSpan.textContent = isExpanded ? 'View Less' : 'View More';
@@ -729,3 +729,198 @@ initAboutBioToggle();
 initAboutTabs();
 
 
+// =============================================
+// SELECTED WORK — PROJECT DATA
+// =============================================
+// Edit this array to add, remove, or reorder projects.
+// Cards are rendered dynamically from this data.
+
+const PROJECTS = [
+    {
+        title: 'BasukiMS',
+        headline: 'Leading the Digital Transformation of a 30-Year Transport Business',
+        description: 'Led the conception, strategy, and end-to-end execution of BasukiMS, an enterprise-grade fleet management and transport operations platform built to modernize Nepal\'s logistics industry. Defined the product vision, designed the core business workflows, and translated complex operational challenges into scalable digital solutions tailored for transport companies.\n\nArchitected the overall platform, including its multi-tenant infrastructure, security model, permission framework, and modular system architecture. Spearheaded the design of advanced capabilities such as AI-assisted document processing, intelligent compliance monitoring, predictive financial insights, and automated operational workflows while ensuring every feature aligned with real-world transportation business requirements.\n\nContributed extensively as a Backend Engineer, developing core APIs, business logic, database architecture, authentication systems, and infrastructure while maintaining a strong focus on scalability, security, and maintainability.\n\nBeyond engineering, directed product management, project planning, stakeholder communication, legal and regulatory compliance, operational processes, human resource management, client onboarding, and executive decision-making. Coordinated cross-functional teams throughout the product lifecycle, balancing technical excellence with business objectives to successfully transform the platform from an initial concept into a comprehensive enterprise solution.',
+        focus: ['Workflow Automation', 'Enterprise Resource Planning', 'Operational Intelligence', 'Platform Architecture'],
+        gradient: 'linear-gradient(135deg, #f5576c22 0%, #f093fb22 100%)',
+        accentColor: '#f5576c',
+    },
+    {
+        title: 'Dhewaa',
+        headline: 'Engineering financial infrastructure through intelligent architecture.',
+        description: `As the Lead System Architect and AI Engineering Collaborator, I directed the architectural design and technical specification of Dhewaa, an enterprise financial management platform developed as a pure software engineering experiment to explore the practical limits of AI-assisted product development. The objective was not only to build production-grade software, but also to understand where AI can accelerate engineering and where human architectural reasoning remains indispensable. The platform includes both a cross-platform mobile application built with React Native (Expo) and a modern web application, supported by a scalable Express and PostgreSQL backend.
+
+The system simplifies accounting, lending, document management, and business operations through a comprehensive architecture featuring double-entry accounting, loan management, multi-party settlement optimization, secure document storage, and multi-tenant infrastructure. Every subsystem was designed around enterprise engineering principles with a strong emphasis on modular services, transactional consistency, efficient indexing strategies, security, and horizontal scalability.
+
+A defining aspect of the project was the structured collaboration between multiple AI engineering agents. I orchestrated the responsibilities of specialized AI models while maintaining complete architectural ownership, validating every critical design decision and implementation strategy. Throughout development, the project documented real-world AI engineering challenges—including authentication edge cases, schema migration inconsistencies, SDK compatibility issues, and architectural validation—providing valuable insight into both the strengths and limitations of current AI-assisted software engineering workflows.
+
+The resulting blueprint serves not only as the implementation guide for Dhewaa, but also as a comprehensive case study in AI-assisted enterprise software engineering, demonstrating how intelligent collaboration between humans and AI can dramatically accelerate development while preserving architectural quality, technical rigor, scalability, and production readiness.`,
+        focus: [
+            'AI-Assisted Engineering',
+            'Financial Infrastructure',
+            'Cross-Platform Systems',
+            'Enterprise Architecture'
+        ],
+        gradient: 'linear-gradient(135deg, #4facfe22 0%, #00f2fe22 100%)',
+        accentColor: '#4facfe',
+    },
+    {
+        title: 'Aroma Ecosystem',
+        headline: "Where E-commerce Meets Intelligent Operations",
+        description: `As Co-founder and CEO of Iruka Technologies, I led the conception, strategy, and execution of the Aroma Ecosystem, an enterprise commerce platform designed to modernize how brands, merchants, warehouses, and logistics partners operate together. Rather than building another marketplace, the objective was to create a unified operational ecosystem that transforms fragmented manual processes into scalable, data driven commerce.
+
+I designed the proof of concept (POC) for Nexus, Aroma's warehouse and order automation platform, serving as the operational backbone of the ecosystem. The platform manages the complete commerce lifecycle, from vendor onboarding, procurement, inventory management, and warehouse operations to quality control, order fulfillment, reverse logistics, and biweekly vendor settlements. To strengthen trust across the marketplace, I introduced the Quality Control Unit (QCU), standardized SKU management, and established structured operational workflows that ensure product authenticity, consistency, and efficiency.
+
+Built for scale, the ecosystem supports centralized inventory management, real time Inventory Health Status monitoring, automated replenishment workflows, multi vendor warehouse operations, and flexible 1P and 2P fulfillment models. By integrating inventory, warehousing, finance, fulfillment, and logistics into a single platform, Aroma enables merchants to transition from fragmented social commerce to professional e commerce with significantly improved operational visibility and efficiency.
+
+Alongside product development, I led finance, regulatory compliance, business development, marketing strategy, and executive decision making to ensure the platform evolved alongside the business it was built to support. I also collaborated with third party logistics partners, including Pathao Parcel and PickNDrop Nepal, to establish dependable nationwide fulfillment and last mile delivery operations that extended the ecosystem beyond software into real world commerce.
+
+After nearly three years of continuous development and refinement, Aroma matured into a comprehensive commerce ecosystem ready for market launch. Although I stepped away from the project to pursue my master's degree, it remains one of my most significant experiences in product leadership, enterprise systems, operational excellence, and building technology that solves complex business challenges at scale.`,
+        focus: [
+            'Commerce Ecosystem',
+            'Warehouse Automation',
+            'Supply Chain Operations',
+            'Multi Vendor Commerce',
+            'Business Strategy',
+            'Operational Excellence'
+        ],
+        gradient: 'linear-gradient(135deg, #667eea22 0%, #764ba222 100%)',
+        accentColor: '#667eea',
+    },
+    {
+        title: 'Leo MD 325 CMS',
+        headline: 'Simplifying organizational operations through centralized digital workflows.',
+        description: 'Developed a management platform that unified administrative processes, payment tracking, approvals, and organizational coordination into one reliable operational workspace, replacing disconnected manual processes with streamlined collaboration.',
+        focus: ['Workflow Optimization', 'Organizational Management', 'Access Control', 'Operational Automation'],
+        gradient: 'linear-gradient(135deg, #10b98122 0%, #a8edea22 100%)',
+        accentColor: '#10b981',
+    },
+    {
+        title: 'NepseBot',
+        headline: 'Converting fragmented market information into reliable investment intelligence.',
+        description: 'Built an automated market intelligence system that continuously transforms scattered public financial information into structured datasets, enabling faster analysis while eliminating repetitive manual collection.',
+        focus: ['Data Engineering', 'Market Intelligence', 'Automation Systems', 'Information Processing'],
+        gradient: 'linear-gradient(135deg, #f9731622 0%, #ffecd222 100%)',
+        accentColor: '#f97316',
+    },
+    {
+        title: 'Scholarr LMS',
+        headline: 'Bridging academic management with everyday productivity.',
+        description: 'Created a learning platform that connects educational workflows, assignments, progress tracking, and daily task organization into one collaborative environment, helping institutions operate more efficiently while improving the student learning experience.',
+        focus: ['Learning Platforms', 'Academic Workflows', 'Secure Platform Design', 'Task Orchestration'],
+        gradient: 'linear-gradient(135deg, #6366f122 0%, #c3cfe222 100%)',
+        accentColor: '#6366f1',
+    },
+];
+
+// =============================================
+// =============================================
+// SELECTED WORK — RENDER CARDS
+// =============================================
+const initSelectedWork = () => {
+    const stack = document.getElementById('workStack');
+    if (!stack) return;
+
+    PROJECTS.forEach((project, index) => {
+        const num = String(index + 1).padStart(2, '0');
+        const isLongDesc = project.description.length > 250;
+
+        const card = document.createElement('article');
+        card.className = 'work-card';
+        card.setAttribute('data-work-index', index);
+
+        card.innerHTML = `
+            <div class="work-card-content">
+                <div class="work-card-header-row">
+                    <span class="work-card-number">${num}</span>
+                    <h3 class="work-card-title">${project.title}</h3>
+                </div>
+                <p class="work-card-headline">${project.headline}</p>
+                <p class="work-card-description${isLongDesc ? ' clamped' : ''}">${project.description}</p>
+                ${isLongDesc ? `
+                    <button type="button" class="work-card-view-more" aria-label="View more details about ${project.title}">
+                        <span>View More</span> <span class="view-more-arrow">↓</span>
+                    </button>
+                ` : ''}
+                <div class="work-card-focus">
+                    ${project.focus.map(tag => `<span class="work-focus-pill">${tag}</span>`).join('')}
+                </div>
+            </div>
+        `;
+
+        // Attach event listener to trigger popup details modal
+        if (isLongDesc) {
+            const btn = card.querySelector('.work-card-view-more');
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (window.openWorkModal) {
+                        window.openWorkModal(project, num);
+                    }
+                });
+            }
+        }
+
+        stack.appendChild(card);
+    });
+};
+
+// =============================================
+// SELECTED WORK — DETAIL MODAL MANAGEMENT
+// =============================================
+const initWorkModal = () => {
+    const modal = document.getElementById('workModal');
+    const closeBtn = document.getElementById('workModalCloseBtn');
+    if (!modal || !closeBtn) return;
+
+    // Global hook for cards to trigger
+    window.openWorkModal = (project, num) => {
+        document.getElementById('workModalNum').textContent = num;
+        document.getElementById('workModalTitle').textContent = project.title;
+        document.getElementById('workModalHeadline').textContent = project.headline;
+        const descContainer = document.getElementById('workModalDesc');
+        descContainer.innerHTML = project.description
+            .split('\n\n')
+            .map(para => `<p style="margin-bottom: var(--spacing-4); line-height: 1.7;">${para.replace(/\n/g, '<br>')}</p>`)
+            .join('');
+
+        // Apply brand variables directly to custom modal style property
+        modal.style.setProperty('--project-accent', project.accentColor);
+        modal.style.setProperty('--project-gradient', project.gradient);
+
+        const focusContainer = document.getElementById('workModalFocus');
+        focusContainer.innerHTML = project.focus.map(tag => `<span class="work-focus-pill">${tag}</span>`).join('');
+
+        modal.showModal();
+        // Add active class on next frame for transition
+        setTimeout(() => {
+            modal.classList.add('active');
+        }, 10);
+        document.body.style.overflow = 'hidden'; // Lock scroll
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.close();
+            document.body.style.overflow = ''; // Unlock scroll
+        }, 300);
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Handle escape key cancel animation
+    modal.addEventListener('cancel', (e) => {
+        e.preventDefault();
+        closeModal();
+    });
+};
+
+initSelectedWork();
+initWorkModal();

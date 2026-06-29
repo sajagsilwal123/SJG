@@ -56,7 +56,7 @@
 
 
   <link rel="icon" href="favicon.png">
-  <link rel="stylesheet" href="styles.css?v=4.0">
+  <link rel="stylesheet" href="styles.css?v=4.7">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -85,6 +85,7 @@
         <a href="#about" class="navbar-link">About</a>
         <a href="#story" class="navbar-link">Story</a>
         <a href="#journey" class="navbar-link">Journey</a>
+        <a href="#work" class="navbar-link">Work</a>
         <a href="#connect" class="navbar-link">Connect</a>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
           <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -153,6 +154,7 @@
           <li><a href="#about" class="mobile-menu-link">About</a></li>
           <li><a href="#story" class="mobile-menu-link">Story</a></li>
           <li><a href="#journey" class="mobile-menu-link">Journey</a></li>
+          <li><a href="#work" class="mobile-menu-link">Work</a></li>
           <li><a href="#connect" class="mobile-menu-link">Connect</a></li>
         </ul>
       </div>
@@ -587,6 +589,18 @@
       </div>
     </section>
 
+    <!-- SELECTED WORK SECTION -->
+    <section id="work" class="section work-section">
+      <div class="section-header">
+        <h2 class="section-title">Built with Purpose</h2>
+        <div class="section-title-bar"></div>
+        <p class="section-subtitle">Products engineered for scale, precision, and real-world impact.</p>
+      </div>
+      <div class="work-stack" id="workStack">
+        <!-- Cards rendered dynamically by script.js from PROJECTS data -->
+      </div>
+    </section>
+
     <!-- UNPLUGGED SECTION -->
     <section id="unplugged" class="section section-container">
       <div class="section-header">
@@ -883,7 +897,36 @@
     </div>
   </dialog>
 
-  <script src="script.js?v=1.3"></script>
+  <!-- SELECTED WORK DESCRIPTION MODAL -->
+  <dialog class="project-modal-overlay" id="workModal" aria-modal="true" aria-labelledby="workModalTitle">
+    <div class="project-modal">
+      <div class="project-modal-header">
+        <div class="project-modal-header-left">
+          <span class="project-modal-num" id="workModalNum">01</span>
+          <h3 class="project-modal-title" id="workModalTitle">Project Title</h3>
+        </div>
+        <button type="button" class="project-modal-close" id="workModalCloseBtn" aria-label="Close details">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="project-modal-body">
+        <p class="project-modal-headline" id="workModalHeadline">Headline text...</p>
+        <div class="project-modal-scroll">
+          <p class="project-modal-desc" id="workModalDesc">Full description text...</p>
+        </div>
+        <div class="project-modal-focus-title">Engineering Focus</div>
+        <div class="project-modal-focus" id="workModalFocus">
+          <!-- Focus pills rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="script.js?v=2.0"></script>
 </body>
 
 </html>
