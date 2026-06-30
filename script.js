@@ -588,6 +588,7 @@ const initTypedText = () => {
     // Skip animation for reduced-motion users
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return; // Keep the static HTML as-is
+    if (window.matchMedia('(max-width: 767px)').matches) return;
 
     // The full subtitle as segments with optional color
     const segments = [
@@ -1551,6 +1552,12 @@ const initWorkModal = () => {
     };
 
     const renderDesktopModal = (project, num) => {
+        const currentIndex = PROJECTS.findIndex(p => p.title === project.title);
+        const prevProject = PROJECTS[(currentIndex - 1 + PROJECTS.length) % PROJECTS.length];
+        const nextProject = PROJECTS[(currentIndex + 1) % PROJECTS.length];
+        const prevNum = String(((currentIndex - 1 + PROJECTS.length) % PROJECTS.length) + 1).padStart(2, '0');
+        const nextNum = String(((currentIndex + 1) % PROJECTS.length) + 1).padStart(2, '0');
+
         modal.innerHTML = `
             <div class="project-modal">
                 <div class="project-modal-header">
@@ -1582,6 +1589,32 @@ const initWorkModal = () => {
                             `).join('')}
                         </div>
                         <div class="project-modal-right-col" id="workModalRightCol">
+                            <div class="project-modal-info-card project-modal-status-card">
+                                <div class="project-modal-info-card-title">Project Status</div>
+                                <div class="project-modal-status-badge" style="background: var(--project-gradient); border-color: var(--project-accent);">
+                                    ${project.status}
+                                </div>
+                            </div>
+                            ${project.architectureDiagram ? `
+                                <div class="project-modal-info-card project-modal-topology-card">
+                                    <div class="project-modal-info-card-title">System Topology</div>
+                                    <div class="project-modal-architecture-diagram">
+                                        ${project.architectureDiagram.map((node, index) => `
+                                            <div class="project-arch-node-container">
+                                                <div class="project-arch-node">${node}</div>
+                                                ${index < project.architectureDiagram.length - 1 ? `
+                                                    <div class="project-arch-arrow" aria-hidden="true">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
+                                                        </svg>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
                             ${project.focus ? `
                                 <div class="project-modal-info-card">
                                     <div class="project-modal-info-card-title">Engineering Focus</div>
@@ -1636,12 +1669,34 @@ const initWorkModal = () => {
                             ` : ''}
                         </div>
                     </div>
+                    <div class="project-modal-footer-nav">
+                        <button class="project-modal-footer-nav-btn prev-btn" id="desktopPrevBtn" aria-label="Previous project">
+                            <span class="project-nav-arrow">←</span>
+                            <div class="project-nav-project-info">
+                                <span class="project-nav-label">PREVIOUS</span>
+                                <span class="project-nav-title">${prevProject.title}</span>
+                            </div>
+                        </button>
+                        <button class="project-modal-footer-nav-btn next-btn" id="desktopNextBtn" aria-label="Next project">
+                            <div class="project-nav-project-info align-right">
+                                <span class="project-nav-label">NEXT</span>
+                                <span class="project-nav-title">${nextProject.title}</span>
+                            </div>
+                            <span class="project-nav-arrow">→</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
 
         const closeBtn = modal.querySelector('#workModalCloseBtn');
         if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+        const prevBtn = modal.querySelector('#desktopPrevBtn');
+        if (prevBtn) prevBtn.addEventListener('click', () => navigateToProject(prevProject, prevNum));
+
+        const nextBtn = modal.querySelector('#desktopNextBtn');
+        if (nextBtn) nextBtn.addEventListener('click', () => navigateToProject(nextProject, nextNum));
     };
 
     window.openWorkModal = (project, num) => {
