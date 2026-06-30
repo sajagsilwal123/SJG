@@ -1109,6 +1109,25 @@ const initWorkModal = () => {
     const modal = document.getElementById('workModal');
     if (!modal) return;
 
+    const setModalViewportHeight = () => {
+        const viewportHeight = Math.round(
+            window.visualViewport?.height || window.innerHeight || document.documentElement.clientHeight
+        );
+        modal.style.setProperty('--modal-viewport-height', `${viewportHeight}px`);
+    };
+
+    const syncOpenModalViewport = () => {
+        if (modal.open || modal.classList.contains('active')) {
+            setModalViewportHeight();
+        }
+    };
+
+    window.addEventListener('resize', syncOpenModalViewport);
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', syncOpenModalViewport);
+        window.visualViewport.addEventListener('scroll', syncOpenModalViewport);
+    }
+
     const navigateToProject = (targetProj, targetNum) => {
         const content = modal.querySelector('.project-modal');
         if (content) {
@@ -1285,7 +1304,7 @@ const initWorkModal = () => {
         `;
 
         // Bind mobile scroll actions
-        const scrollContainer = modal.querySelector('.project-modal.mobile-version');
+        const scrollContainer = modal.querySelector('.project-modal-mobile-content');
         const header = modal.querySelector('.project-modal-mobile-header');
         const headerTitle = modal.querySelector('#mobileHeaderTitle');
 
@@ -1706,6 +1725,7 @@ const initWorkModal = () => {
     };
 
     window.openWorkModal = (project, num) => {
+        setModalViewportHeight();
         modal.style.setProperty('--project-accent', project.accentColor);
         modal.style.setProperty('--project-gradient', project.gradient);
 
@@ -1720,13 +1740,16 @@ const initWorkModal = () => {
 
         // Prevent showModal() from auto-scrolling to the first focusable element
         // by focusing the dialog itself first, then showing
-        modal.showModal();
+        if (!modal.open) {
+            modal.showModal();
+        }
 
         // Immediately reset scroll on all internal scroll containers
         // to prevent browser autofocus from scrolling content down
         const mobileContent = modal.querySelector('.project-modal-mobile-content');
         const tabletScroll = modal.querySelector('.project-modal-tablet-scroll');
         const mobileContainer = modal.querySelector('.project-modal.mobile-version');
+        modal.scrollTop = 0;
         if (mobileContent) mobileContent.scrollTop = 0;
         if (tabletScroll) tabletScroll.scrollTop = 0;
         if (mobileContainer) mobileContainer.scrollTop = 0;
@@ -1739,6 +1762,7 @@ const initWorkModal = () => {
 
         setTimeout(() => {
             modal.classList.add('active');
+            document.body.classList.remove('body-modal-open', 'body-modal-open-tablet');
             if (window.innerWidth < 768) {
                 document.body.classList.add('body-modal-open');
             } else if (window.innerWidth >= 768 && window.innerWidth <= 1199) {
@@ -1746,6 +1770,7 @@ const initWorkModal = () => {
             }
 
             // Double-ensure scroll reset after animation starts
+            modal.scrollTop = 0;
             if (mobileContent) mobileContent.scrollTop = 0;
             if (tabletScroll) tabletScroll.scrollTop = 0;
         }, 10);
@@ -1754,12 +1779,7 @@ const initWorkModal = () => {
 
     const closeModal = () => {
         modal.classList.remove('active');
-        const width = window.innerWidth;
-        if (width < 768) {
-            document.body.classList.remove('body-modal-open');
-        } else if (width >= 768 && width <= 1199) {
-            document.body.classList.remove('body-modal-open-tablet');
-        }
+        document.body.classList.remove('body-modal-open', 'body-modal-open-tablet');
         setTimeout(() => {
             modal.close();
             document.body.style.overflow = '';
