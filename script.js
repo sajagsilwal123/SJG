@@ -941,7 +941,7 @@ const PROJECTS = [
         architectureDiagram: ['Multi-Merchant Web Portal', 'Node.js Microservices', 'Redis Caching', 'PostgreSQL Cluster'],
     },
     {
-        title: 'Leo MD 325 CMS',
+        title: 'Leo Multiple District 325 CMS',
         headline: 'Building the digital operating system for Nepal’s largest Leo organization.',
         overview: `As the **Product Owner**, I led the product strategy, feature planning, and system design for **Leo Multiple District 325 Nepal's** centralized digital platform. The objective was to replace fragmented administrative processes with a unified ecosystem that enables national leadership, district executives, local clubs, and members to operate through a single source of truth. By aligning organizational workflows with modern digital experiences, the platform establishes a scalable foundation for governance, collaboration, communication, and long-term institutional growth.`,
 
@@ -1415,22 +1415,22 @@ const initWorkModal = () => {
                                     <div class="tablet-info-card-title">Platform</div>
                                     <div class="tablet-info-card-list">
                                         ${project.platform.map(plat => {
-                                            let emoji = '💻';
-                                            const lowerPlat = plat.toLowerCase();
-                                            if (lowerPlat.includes('mobile') || lowerPlat.includes('react native') || lowerPlat.includes('ios') || lowerPlat.includes('android')) {
-                                                emoji = '📱';
-                                            } else if (lowerPlat.includes('api') || lowerPlat.includes('backend') || lowerPlat.includes('microservice') || lowerPlat.includes('server') || lowerPlat.includes('scraping') || lowerPlat.includes('script') || lowerPlat.includes('console')) {
-                                                emoji = '⚙️';
-                                            } else if (lowerPlat.includes('db') || lowerPlat.includes('database') || lowerPlat.includes('postgres') || lowerPlat.includes('sql') || lowerPlat.includes('mongo') || lowerPlat.includes('redis') || lowerPlat.includes('cluster') || lowerPlat.includes('caching') || lowerPlat.includes('storage')) {
-                                                emoji = '🗄️';
-                                            }
-                                            return `
+            let emoji = '💻';
+            const lowerPlat = plat.toLowerCase();
+            if (lowerPlat.includes('mobile') || lowerPlat.includes('react native') || lowerPlat.includes('ios') || lowerPlat.includes('android')) {
+                emoji = '📱';
+            } else if (lowerPlat.includes('api') || lowerPlat.includes('backend') || lowerPlat.includes('microservice') || lowerPlat.includes('server') || lowerPlat.includes('scraping') || lowerPlat.includes('script') || lowerPlat.includes('console')) {
+                emoji = '⚙️';
+            } else if (lowerPlat.includes('db') || lowerPlat.includes('database') || lowerPlat.includes('postgres') || lowerPlat.includes('sql') || lowerPlat.includes('mongo') || lowerPlat.includes('redis') || lowerPlat.includes('cluster') || lowerPlat.includes('caching') || lowerPlat.includes('storage')) {
+                emoji = '🗄️';
+            }
+            return `
                                                 <div class="tablet-info-item">
                                                     <span class="tablet-info-icon">${emoji}</span>
                                                     <span class="tablet-info-text">${plat}</span>
                                                 </div>
                                             `;
-                                        }).join('')}
+        }).join('')}
                                     </div>
                                 </div>
                             ` : ''}
@@ -1698,3 +1698,35 @@ const initWorkModal = () => {
 
 initSelectedWork();
 initWorkModal();
+
+// =============================================
+// LANGUAGES SECTION — Scroll Reveal Observer
+// =============================================
+(() => {
+    const langCards = document.querySelectorAll('.lang-premium-card');
+    if (!langCards.length) return;
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // After the staggered animation completes, remove the stagger delay
+                    // so hover transitions are snappy
+                    const delay = parseFloat(
+                        getComputedStyle(entry.target).getPropertyValue('--delay') || '0'
+                    );
+                    setTimeout(() => {
+                        entry.target.classList.add('visible-fully');
+                    }, delay + 650); // animation duration (600ms) + small buffer
+
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.15 }
+    );
+
+    langCards.forEach((card) => observer.observe(card));
+})();
