@@ -730,6 +730,116 @@ initAboutTabs();
 
 
 // =============================================
+// RICH TEXT PARSER — formatRichText()
+// =============================================
+// Converts lightweight inline markup tokens into semantic HTML.
+// Supported syntax:
+//   **bold**          → <strong>
+//   ==highlight==     → <span class="rt-highlight">
+//   `inline code`     → <code class="rt-code">
+//   *italic*          → <em>
+//   - bullet list     → <ul><li>
+//   1. numbered list  → <ol><li>
+//   > Type: text      → callout block (Insight, Note, Warning)
+//   Double newline    → new paragraph
+//   Single newline    → <br> (within paragraph)
+//
+// Security: All raw text is HTML-escaped before token parsing.
+// No external dependencies. Pure JavaScript. Static-deploy safe.
+// =============================================
+
+const formatRichText = (text) => {
+    if (!text || typeof text !== 'string') return '';
+
+    // Step 1: Escape HTML entities to prevent injection
+    const escapeHTML = (str) => str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+    // Step 2: Inline token parser (applied to already-escaped text)
+    const parseInline = (str) => {
+        // Order matters: bold (**) before italic (*) to avoid conflicts
+        return str
+            // Bold: **text**
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            // Highlight: ==text==
+            .replace(/==(.+?)==/g, '<span class="rt-highlight">$1</span>')
+            // Inline code: `text`
+            .replace(/`([^`]+)`/g, '<code class="rt-code">$1</code>')
+            // Italic: *text* (must not match already-consumed ** pairs)
+            .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+    };
+
+    // Step 3: Escape the full text
+    const escaped = escapeHTML(text);
+
+    // Step 4: Split into blocks by double newline
+    const blocks = escaped.split(/\n\n+/);
+
+    // Step 5: Process each block
+    const rendered = blocks.map(block => {
+        const trimmed = block.trim();
+        if (!trimmed) return '';
+
+        // --- Callout block: starts with &gt; (escaped ">") ---
+        // Supports: > Insight: ..., > Note: ..., > Warning: ...
+        if (trimmed.startsWith('&gt;')) {
+            const calloutContent = trimmed.replace(/^&gt;\s*/, '');
+            const calloutMatch = calloutContent.match(/^(Insight|Note|Warning|Tip|Important):\s*([\s\S]*)/i);
+            if (calloutMatch) {
+                const type = calloutMatch[1].toLowerCase();
+                const body = parseInline(calloutMatch[2].replace(/\n/g, '<br>'));
+                return `<div class="rt-callout rt-callout-${type}"><div class="rt-callout-label">${calloutMatch[1]}</div><div class="rt-callout-body">${body}</div></div>`;
+            }
+            // Plain blockquote without a type label
+            const body = parseInline(calloutContent.replace(/\n/g, '<br>'));
+            return `<div class="rt-callout"><div class="rt-callout-body">${body}</div></div>`;
+        }
+
+        // --- Bullet list: lines starting with "- " ---
+        const bulletLines = trimmed.split('\n');
+        if (bulletLines.every(line => /^-\s+/.test(line.trim()))) {
+            const items = bulletLines.map(line =>
+                `<li>${parseInline(line.trim().replace(/^-\s+/, ''))}</li>`
+            ).join('');
+            return `<ul class="rt-ul">${items}</ul>`;
+        }
+
+        // --- Numbered list: lines starting with "1. ", "2. ", etc. ---
+        if (bulletLines.every(line => /^\d+\.\s+/.test(line.trim()))) {
+            const items = bulletLines.map(line =>
+                `<li>${parseInline(line.trim().replace(/^\d+\.\s+/, ''))}</li>`
+            ).join('');
+            return `<ol class="rt-ol">${items}</ol>`;
+        }
+
+        // --- Regular paragraph ---
+        const content = parseInline(trimmed.replace(/\n/g, '<br>'));
+        return `<p class="rt-paragraph">${content}</p>`;
+    }).filter(Boolean);
+
+    return rendered.join('');
+};
+
+// Plain-text stripper for clamped card previews (strips all markup tokens)
+const stripRichTokens = (text) => {
+    if (!text || typeof text !== 'string') return '';
+    return text
+        .replace(/\*\*(.+?)\*\*/g, '$1')
+        .replace(/==(.+?)==/g, '$1')
+        .replace(/`([^`]+)`/g, '$1')
+        .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '$1')
+        .replace(/^>\s*(Insight|Note|Warning|Tip|Important):\s*/gim, '')
+        .replace(/^[-]\s+/gm, '')
+        .replace(/^\d+\.\s+/gm, '')
+        .replace(/\n\n+/g, ' ')
+        .replace(/\n/g, ' ');
+};
+
+// =============================================
 // SELECTED WORK — PROJECT DATA
 // =============================================
 // Edit this array to add, remove, or reorder projects.
@@ -738,12 +848,12 @@ const PROJECTS = [
     {
         title: 'BasukiMS',
         headline: 'Leading the Digital Transformation of a 30-Year Transport Legacy.',
-        overview: 'Led the conception, strategy, and end-to-end execution of BasukiMS, an enterprise-grade fleet management and transport operations platform built to modernize Nepal\'s logistics industry. Defined the product vision, designed the core business workflows, and translated complex operational challenges into scalable digital solutions tailored for transport companies.',
+        overview: 'Led the conception, strategy, and end-to-end execution of **BasukiMS**, an ==enterprise-grade fleet management and transport operations platform== built to modernize Nepal\'s logistics industry. Defined the product vision, designed the core business workflows, and translated complex operational challenges into scalable digital solutions tailored for transport companies.\n\n> Insight: Modernizing a legacy, offline-first industry required bridging manual operational trust with real-world automated guardrails.',
         sections: [
             {
                 label: 'ARCHITECTURE',
                 title: 'Modular System Architecture',
-                content: 'Architected the overall platform, including its multi-tenant infrastructure, security model, permission framework, and modular system architecture. Designed the systems to handle high-throughput telemetry, real-time dispatch operations, and complex nested user privilege mapping.'
+                content: 'Architected the overall platform, including its **multi-tenant infrastructure**, **security model**, **permission framework**, and **modular system architecture**. Designed the systems to handle high-throughput telemetry, real-time dispatch operations, and complex nested user privilege mapping.'
             },
             {
                 label: 'ENGINEERING DECISIONS',
@@ -753,7 +863,7 @@ const PROJECTS = [
             {
                 label: 'INTELLIGENT SYSTEMS',
                 title: 'Operational Automation',
-                content: 'Spearheaded the design of advanced capabilities such as AI-assisted document processing, intelligent compliance monitoring, predictive financial insights, and automated operational workflows while ensuring every feature aligned with real-world transportation business requirements.'
+                content: 'Spearheaded the design of advanced capabilities such as:\n\n- **AI-assisted document processing** for automated license and permit verification\n- **Intelligent compliance monitoring** to prevent regulatory violations\n- **Predictive financial insights** for fleet fuel and maintenance costs\n- **Automated dispatch workflows** based on vehicle proximity'
             },
             {
                 label: 'LEADERSHIP & EXECUTION',
@@ -773,17 +883,17 @@ const PROJECTS = [
     {
         title: 'Dhewaa',
         headline: 'Engineering financial infrastructure through intelligent architecture.',
-        overview: 'As the Lead System Architect and AI Engineering Collaborator, I directed the architectural design and technical specification of Dhewaa, an enterprise financial management platform developed as a pure software engineering experiment to explore the practical limits of AI-assisted product development. The objective was not only to build production-grade software, but also to understand where AI can accelerate engineering and where human architectural reasoning remains indispensable. The platform includes both a cross-platform mobile application built with React Native (Expo) and a modern web application, supported by a scalable Express and PostgreSQL backend.',
+        overview: 'As the **Lead System Architect** and **AI Engineering Collaborator**, I directed the architectural design and technical specification of **Dhewaa**, an ==enterprise financial management platform== developed as a *pure software engineering experiment* to explore the practical limits of AI-assisted product development. The objective was not only to build production-grade software, but also to understand where AI can accelerate engineering and where human architectural reasoning remains indispensable. The platform includes both a cross-platform mobile application built with React Native (Expo) and a modern web application, supported by a scalable Express and PostgreSQL backend.\n\n> Note: This architecture blueprint serves as a case study demonstrating how multiple AI models can be orchestrated under strict human validation.',
         sections: [
             {
                 label: 'FINANCIAL ENGINE',
                 title: 'Double-Entry Accounting & Systems',
-                content: 'The system simplifies accounting, lending, document management, and business operations through a comprehensive architecture featuring double-entry accounting, loan management, multi-party settlement optimization, secure document storage, and multi-tenant infrastructure. Every subsystem was designed around enterprise engineering principles with a strong emphasis on modular services, transactional consistency, efficient indexing strategies, security, and horizontal scalability.'
+                content: 'The system simplifies accounting, lending, document management, and business operations through a comprehensive architecture featuring:\n\n- **Double-entry accounting engine** ensuring strict mathematical balance\n- **Loan management & amortization scheduler**\n- **Multi-party settlement optimizer** to minimize transactions\n- **Secure document vault** with end-to-end encryption\n- **Multi-tenant database routing**\n\nEvery subsystem was designed around enterprise engineering principles with a strong emphasis on modular services, transactional consistency, efficient indexing strategies, security, and horizontal scalability.'
             },
             {
                 label: 'AI COLLABORATION',
                 title: 'Human Architectural Validation',
-                content: 'A defining aspect of the project was the structured collaboration between multiple AI engineering agents. I orchestrated the responsibilities of specialized AI models while maintaining complete architectural ownership, validating every critical design decision and implementation strategy. Throughout development, the project documented real-world AI engineering challenges—including authentication edge cases, schema migration inconsistencies, SDK compatibility issues, and architectural validation—providing valuable insight into both the strengths and limitations of current AI-assisted software engineering workflows.'
+                content: 'A defining aspect of the project was the structured collaboration between multiple AI engineering agents. I orchestrated the responsibilities of specialized AI models while maintaining complete architectural ownership, validating every critical design decision and implementation strategy.\n\nThroughout development, the project documented real-world AI engineering challenges—including authentication edge cases, schema migration inconsistencies, SDK compatibility issues, and architectural validation—providing valuable insight into both the strengths and limitations of current AI-assisted software engineering workflows.'
             },
             {
                 label: 'LESSONS LEARNED',
@@ -803,17 +913,17 @@ const PROJECTS = [
     {
         title: 'Aroma Ecosystem',
         headline: 'Where E-commerce Meets Intelligent Operations',
-        overview: 'As Co-founder and CEO of Iruka Technologies, I led the conception, strategy, and execution of the Aroma Ecosystem, an enterprise commerce platform designed to modernize how brands, merchants, warehouses, and logistics partners operate together. Rather than building another marketplace, the objective was to create a unified operational ecosystem that transforms fragmented manual processes into scalable, data driven commerce.',
+        overview: 'As Co-founder and CEO of Iruka Technologies, I led the conception, strategy, and execution of the **Aroma Ecosystem**, an ==enterprise commerce platform== designed to modernize how brands, merchants, warehouses, and logistics partners operate together. Rather than building another marketplace, the objective was to create a unified operational ecosystem that transforms fragmented manual processes into scalable, data-driven commerce.',
         sections: [
             {
                 label: 'WAREHOUSE AUTOMATION',
                 title: 'Nexus: The Operational Core',
-                content: 'I designed the proof of concept (POC) for Nexus, Aroma\'s warehouse and order automation platform, serving as the operational backbone of the ecosystem. The platform manages the complete commerce lifecycle, from vendor onboarding, procurement, inventory management, and warehouse operations to quality control, order fulfillment, reverse logistics, and biweekly vendor settlements. To strengthen trust across the marketplace, I introduced the Quality Control Unit (QCU), standardized SKU management, and established structured operational workflows that ensure product authenticity, consistency, and efficiency.'
+                content: 'I designed the proof of concept (POC) for **Nexus**, Aroma\'s warehouse and order automation platform, serving as the operational backbone of the ecosystem. The platform manages the complete commerce lifecycle:\n\n- Vendor onboarding & procurement\n- Real-time inventory management\n- Warehouse operations & order fulfillment\n- Quality control unit verification\n- Biweekly automatic vendor settlements\n\nTo strengthen trust across the marketplace, I introduced the **Quality Control Unit (QCU)**, standardized SKU management, and established structured operational workflows that ensure product authenticity, consistency, and efficiency.'
             },
             {
                 label: 'SCALABLE LOGISTICS',
                 title: 'Nationwide Fulfillment Integrations',
-                content: 'Built for scale, the ecosystem supports centralized inventory management, real time Inventory Health Status monitoring, automated replenishment workflows, multi vendor warehouse operations, and flexible 1P and 2P fulfillment models. By integrating inventory, warehousing, finance, fulfillment, and logistics into a single platform, Aroma enables merchants to transition from fragmented social commerce to professional e commerce with significantly improved operational visibility and efficiency.\n\nI also collaborated with third party logistics partners, including Pathao Parcel and PickNDrop Nepal, to establish dependable nationwide fulfillment and last mile delivery operations that extended the ecosystem beyond software into real world commerce.'
+                content: 'Built for scale, the ecosystem supports centralized inventory management, real time **Inventory Health Status** monitoring, automated replenishment workflows, multi vendor warehouse operations, and flexible 1P and 2P fulfillment models. By integrating inventory, warehousing, finance, fulfillment, and logistics into a single platform, Aroma enables merchants to transition from fragmented social commerce to professional e commerce with significantly improved operational visibility and efficiency.\n\nI also collaborated with third party logistics partners, including `Pathao Parcel` and `PickNDrop Nepal`, to establish dependable nationwide fulfillment and last mile delivery operations that extended the ecosystem beyond software into real world commerce.'
             },
             {
                 label: 'EXECUTIVE LEADERSHIP',
@@ -832,28 +942,66 @@ const PROJECTS = [
     },
     {
         title: 'Leo MD 325 CMS',
-        headline: 'Centralized Administrative Workflows and Payment Platforms',
-        overview: 'Developed a management platform that unified administrative processes, payment tracking, approvals, and organizational coordination into one reliable operational workspace, replacing disconnected manual processes with streamlined collaboration.',
+        headline: 'Building the digital operating system for Nepal’s largest Leo organization.',
+        overview: `As the **Product Owner**, I led the product strategy, feature planning, and system design for **Leo Multiple District 325 Nepal's** centralized digital platform. The objective was to replace fragmented administrative processes with a unified ecosystem that enables national leadership, district executives, local clubs, and members to operate through a single source of truth. By aligning organizational workflows with modern digital experiences, the platform establishes a scalable foundation for governance, collaboration, communication, and long-term institutional growth.`,
+
         sections: [
             {
-                label: 'WORKFLOW AUTOMATION',
-                title: 'Centralized Operations Hub',
-                content: 'Streamlined administrative workflows for community leaders by introducing automated approval cycles, secure document management, and centralized team workspaces. This reduced overhead and improved task tracking across regional clubs.'
+                label: 'PRODUCT STRATEGY',
+                title: 'Designing a Unified Organizational Ecosystem',
+                content: `Defined the product vision, business requirements, user journeys, and information architecture for a platform capable of serving the complex hierarchy of **15 districts**, hundreds of clubs, and thousands of members. Planned a centralized ecosystem that standardizes organizational workflows while preserving district-level autonomy, enabling leadership to manage nationwide operations through a consistent and scalable digital experience.`
             },
             {
-                label: 'PAYMENT TRACKING',
-                title: 'Secure Financial Tracking',
-                content: 'Implemented secure transaction logging, automated billing status updates, and digital payment tracking to ensure clear visibility into club financial records while preserving strict authorization levels.'
+                label: 'OPERATIONAL WORKFLOWS',
+                title: 'Digitizing Administration & Community Engagement',
+                content: `Designed the operational modules supporting **membership management**, **district administration**, **event management**, **organizational communication**, **content publishing**, and **public engagement**. The platform also incorporates impact reporting, leadership directories, community storytelling, and recruitment workflows to strengthen transparency, improve collaboration, and provide a unified digital identity for the organization.`
+            },
+            {
+                label: 'PRODUCT LEADERSHIP',
+                title: 'From Vision to Scalable Platform',
+                content: `Collaborated closely with designers, engineers, and organizational stakeholders to translate operational challenges into structured product requirements and implementation roadmaps. Prioritized usability, scalability, and maintainability throughout the planning process, ensuring the platform could continue evolving as the organization's long-term digital infrastructure while supporting future modules, analytics, and nationwide operational growth.`
             }
         ],
-        focus: ['Workflow Optimization', 'Access Control', 'Organizational Management', 'Operational Automation'],
-        platform: ['React Web Portal', 'Express Backend Server', 'PostgreSQL Database'],
-        coreSystems: ['Payment Approvals Engine', 'Secure RBAC Access Control', 'Member Workspace Directory'],
-        aiCollaboration: ['Human Architectural Validation'],
+
+        focus: [
+            'Product Strategy',
+            'Information Architecture',
+            'Workflow Design',
+            'Organizational Digitalization'
+        ],
+
+        platform: [
+            'Centralized Web Platform',
+            'Administrative CMS',
+            'Membership Management',
+            'Content Management'
+        ],
+
+        coreSystems: [
+            'District Management',
+            'Membership Directory',
+            'Event Management',
+            'Impact Reporting',
+            'Content Publishing'
+        ],
+
+        aiCollaboration: [
+            'Human Product Leadership'
+        ],
+
         gradient: 'linear-gradient(135deg, #10b98122 0%, #a8edea22 100%)',
+
         accentColor: '#10b981',
-        status: 'Completed',
-        architectureDiagram: ['React Web Portal', 'Express Backend Server', 'PostgreSQL Database'],
+
+        status: 'Production',
+
+        architectureDiagram: [
+            'Public Web Portal',
+            'Administrative CMS',
+            'District Management',
+            'Membership System',
+            'Content Publishing'
+        ],
     },
     {
         title: 'NepseBot',
@@ -863,7 +1011,7 @@ const PROJECTS = [
             {
                 label: 'DATA ENGINEERING',
                 title: 'Live Data Pipeline & Gathering',
-                content: 'Designed robust scrapers that parse live floorsheets, daily transaction logs, historical price indexes, and dividend records from public web resources, processing unstructured data streams into query-ready data storage.'
+                content: 'Designed robust scrapers that parse live floorsheets, daily transaction logs, historical price indexes, and dividend records from public web resources, processing unstructured data streams into query-ready `database` storage.'
             },
             {
                 label: 'INFORMATION PROCESSING',
@@ -893,7 +1041,7 @@ const PROJECTS = [
             {
                 label: 'SECURE PLATFORM DESIGN',
                 title: 'Session Security & Routing',
-                content: 'Implemented secure user registration, session management, and encrypted token auth protocols to guarantee privacy, data isolation, and secure storage of academic grades and student records.'
+                content: 'Implemented secure user registration, session management, and encrypted token auth protocols using `JWT` to guarantee privacy, data isolation, and secure storage of academic grades and student records.'
             }
         ],
         focus: ['Learning Platforms', 'Academic Workflows', 'Secure Platform Design', 'Task Orchestration'],
@@ -928,7 +1076,7 @@ const initSelectedWork = () => {
                     <h3 class="work-card-title">${project.title}</h3>
                 </div>
                 <p class="work-card-headline">${project.headline}</p>
-                <p class="work-card-description clamped">${project.overview}</p>
+                <p class="work-card-description clamped">${stripRichTokens(project.overview)}</p>
                 <button type="button" class="work-card-view-more" aria-label="View details for ${project.title}">
                     <span>View details</span> <span class="view-more-arrow">→</span>
                 </button>
@@ -964,7 +1112,7 @@ const initWorkModal = () => {
         const content = modal.querySelector('.project-modal');
         if (content) {
             content.style.opacity = '0';
-            content.style.transform = window.innerWidth <= 1199 ? 'translateX(20px)' : 'translateY(10px)';
+            content.style.transform = 'translateY(10px)';
             content.style.transition = 'opacity 200ms ease, transform 200ms ease';
         }
 
@@ -974,7 +1122,7 @@ const initWorkModal = () => {
             if (newContent) {
                 newContent.scrollTop = 0;
                 newContent.style.opacity = '0';
-                newContent.style.transform = window.innerWidth <= 1199 ? 'translateX(-20px)' : 'translateY(-10px)';
+                newContent.style.transform = 'translateY(-10px)';
                 requestAnimationFrame(() => {
                     newContent.style.transition = 'opacity 250ms cubic-bezier(0.16, 1, 0.3, 1), transform 250ms cubic-bezier(0.16, 1, 0.3, 1)';
                     newContent.style.opacity = '1';
@@ -1009,7 +1157,7 @@ const initWorkModal = () => {
                         <div class="mobile-hero-num">${num}</div>
                         <h1 class="mobile-hero-title">${project.title}</h1>
                         <p class="mobile-hero-headline">${project.headline}</p>
-                        <p class="mobile-hero-summary">${project.overview.replace(/\n/g, '<br>')}</p>
+                        <div class="mobile-hero-summary">${formatRichText(project.overview)}</div>
                         
                         <div class="mobile-hero-focus-chips">
                             ${project.focus.map(chip => `<span class="mobile-focus-chip">${chip}</span>`).join('')}
@@ -1048,7 +1196,7 @@ const initWorkModal = () => {
                         <div class="mobile-detail-section">
                             <span class="mobile-section-label">${sec.label}</span>
                             <h2 class="mobile-section-heading">${sec.title}</h2>
-                            <p class="mobile-section-body">${sec.content.replace(/\n/g, '<br>')}</p>
+                            <div class="mobile-section-body">${formatRichText(sec.content)}</div>
                         </div>
                     `).join('')}
 
@@ -1222,7 +1370,7 @@ const initWorkModal = () => {
                         <div class="tablet-hero-num">${num}</div>
                         <h1 class="tablet-hero-title">${project.title}</h1>
                         <p class="tablet-hero-headline">${project.headline}</p>
-                        <p class="tablet-hero-summary">${project.overview.replace(/\n/g, '<br>')}</p>
+                        <div class="tablet-hero-summary">${formatRichText(project.overview)}</div>
                         
                         <div class="tablet-hero-focus-chips">
                             ${project.focus.map(chip => `<span class="tablet-focus-chip">${chip}</span>`).join('')}
@@ -1236,7 +1384,7 @@ const initWorkModal = () => {
                                 <div class="tablet-detail-section">
                                     <span class="tablet-section-label">${sec.label}</span>
                                     <h2 class="tablet-section-heading">${sec.title}</h2>
-                                    <p class="tablet-section-body">${sec.content.replace(/\n/g, '<br>')}</p>
+                                    <div class="tablet-section-body">${formatRichText(sec.content)}</div>
                                 </div>
                             `).join('')}
                             
@@ -1422,13 +1570,13 @@ const initWorkModal = () => {
                     <div class="project-modal-content-grid">
                         <div class="project-modal-left-col" id="workModalLeftCol">
                             <div class="project-modal-overview-section">
-                                <p class="project-modal-overview-text">${project.overview}</p>
+                                <div class="project-modal-overview-text">${formatRichText(project.overview)}</div>
                             </div>
                             ${project.sections.map(section => `
                                 <div class="project-modal-detail-section">
                                     <span class="project-modal-section-label">${section.label}</span>
                                     <h4 class="project-modal-section-title">${section.title}</h4>
-                                    <p class="project-modal-section-content">${section.content.replace(/\n/g, '<br>')}</p>
+                                    <div class="project-modal-section-content">${formatRichText(section.content)}</div>
                                 </div>
                             `).join('')}
                         </div>
