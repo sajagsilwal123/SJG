@@ -248,6 +248,392 @@ function initCarousels() {
     });
 }
 
+const initUnpluggedGallery = () => {
+    const modal = document.getElementById('unpluggedGallery');
+    if (!modal) return;
+
+    const stage = document.getElementById('galleryStage');
+    const imageFrame = document.getElementById('galleryImageFrame');
+    const imageEl = document.getElementById('galleryImage');
+    const titleEl = document.getElementById('galleryTitle');
+    const categoryEl = document.getElementById('galleryCategory');
+    const associationEl = document.getElementById('galleryAssociation');
+    const captionEl = document.getElementById('galleryCaption');
+    const counterEl = document.getElementById('galleryCounter');
+    const closeBtn = document.getElementById('galleryCloseBtn');
+    const prevBtn = document.getElementById('galleryPrevBtn');
+    const nextBtn = document.getElementById('galleryNextBtn');
+
+    if (!stage || !imageFrame || !imageEl || !titleEl || !categoryEl || !associationEl || !captionEl || !counterEl || !closeBtn || !prevBtn || !nextBtn) return;
+
+    let galleryImages = [];
+    let galleryTitle = 'Gallery';
+    let currentIndex = 0;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchLastX = 0;
+    let touchLastY = 0;
+    let initialPinchDistance = 0;
+    let initialPinchScale = 1;
+    let lastTapTime = 0;
+    let tapTimer = null;
+    let lastFocusedElement = null;
+    let previousBodyOverflow = '';
+    let isPointerDragging = false;
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+    let pointerOriginX = 0;
+    let pointerOriginY = 0;
+    let scale = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let suppressNextOutsideClick = false;
+
+    const prefersTouchUI = () => window.matchMedia('(hover: none)').matches;
+
+    const formatCounter = () => {
+        const current = String(currentIndex + 1).padStart(2, '0');
+        const total = String(galleryImages.length).padStart(2, '0');
+        return `${current} / ${total}`;
+    };
+
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+    const getTouchDistance = (touches) => {
+        const dx = touches[0].clientX - touches[1].clientX;
+        const dy = touches[0].clientY - touches[1].clientY;
+        return Math.hypot(dx, dy);
+    };
+
+    const updateImageTransform = () => {
+        if (scale <= 1.01 && Math.abs(translateX) < 0.5 && Math.abs(translateY) < 0.5) {
+            imageEl.style.transform = '';
+        } else {
+            imageEl.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`;
+        }
+        imageFrame.classList.toggle('is-zoomed', scale > 1.01);
+        modal.classList.toggle('is-zoomed', scale > 1.01);
+    };
+
+    const resetZoom = () => {
+        scale = 1;
+        translateX = 0;
+        translateY = 0;
+        updateImageTransform();
+    };
+
+    const setControlsVisible = (isVisible) => {
+        modal.classList.toggle('controls-hidden', !isVisible);
+    };
+
+    const toggleControls = () => {
+        if (!prefersTouchUI() || scale > 1.01) return;
+        setControlsVisible(modal.classList.contains('controls-hidden'));
+    };
+
+    const suppressOutsideClickOnce = () => {
+        suppressNextOutsideClick = true;
+        window.setTimeout(() => {
+            suppressNextOutsideClick = false;
+        }, 450);
+    };
+
+    const returnToUnpluggedSection = () => {
+        const unpluggedSection = document.getElementById('unplugged');
+        if (!unpluggedSection) return;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        unpluggedSection.scrollIntoView({
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+            block: 'start'
+        });
+    };
+
+    const preloadAdjacentImages = () => {
+        if (!galleryImages.length) return;
+        [currentIndex - 1, currentIndex + 1].forEach(index => {
+            const item = galleryImages[(index + galleryImages.length) % galleryImages.length];
+            if (!item?.src) return;
+            const preload = new Image();
+            preload.src = item.src;
+        });
+    };
+
+    const renderGallery = (direction = 0) => {
+        const item = galleryImages[currentIndex];
+        if (!item) return;
+
+        resetZoom();
+        imageFrame.classList.remove('is-loaded');
+        imageFrame.style.setProperty('--gallery-shift', `${direction * 18}px`);
+
+        imageEl.onload = () => {
+            requestAnimationFrame(() => imageFrame.classList.add('is-loaded'));
+        };
+        imageEl.src = item.src;
+        imageEl.alt = item.alt;
+        if (imageEl.complete) {
+            requestAnimationFrame(() => imageFrame.classList.add('is-loaded'));
+        }
+
+        titleEl.textContent = item.alt;
+        categoryEl.textContent = galleryTitle;
+        associationEl.textContent = `Unplugged / ${galleryTitle}`;
+        captionEl.textContent = `From the ${galleryTitle} collection.`;
+        counterEl.textContent = formatCounter();
+        const hasMultipleImages = galleryImages.length > 1;
+        prevBtn.hidden = !hasMultipleImages;
+        nextBtn.hidden = !hasMultipleImages;
+        prevBtn.setAttribute('aria-label', `Previous image in ${galleryTitle}`);
+        nextBtn.setAttribute('aria-label', `Next image in ${galleryTitle}`);
+        preloadAdjacentImages();
+    };
+
+    const showImage = (nextIndex) => {
+        if (!galleryImages.length) return;
+        const direction = nextIndex > currentIndex ? 1 : -1;
+        currentIndex = (nextIndex + galleryImages.length) % galleryImages.length;
+        setControlsVisible(true);
+        renderGallery(direction);
+    };
+
+    const closeGallery = ({ returnToUnplugged = false } = {}) => {
+        if (!modal.open) return;
+        clearTimeout(tapTimer);
+        modal.classList.remove('active');
+        setControlsVisible(true);
+        resetZoom();
+        setTimeout(() => {
+            if (modal.open) {
+                modal.close();
+            }
+            document.body.style.overflow = previousBodyOverflow;
+            imageEl.removeAttribute('src');
+            imageFrame.classList.remove('is-loaded');
+            if (returnToUnplugged) {
+                lastFocusedElement?.focus?.({ preventScroll: true });
+                returnToUnpluggedSection();
+            } else {
+                lastFocusedElement?.focus?.();
+            }
+        }, 220);
+    };
+
+    const openGallery = (carousel, startIndex, triggerElement) => {
+        const images = [...carousel.querySelectorAll('.hobby-card-image')];
+        if (!images.length) return;
+
+        galleryImages = images.map(img => ({
+            src: img.getAttribute('src'),
+            alt: img.getAttribute('alt') || 'Gallery image'
+        }));
+        galleryTitle = carousel.querySelector('.hobby-card-title')?.textContent?.trim() || 'Unplugged';
+        currentIndex = startIndex;
+        lastFocusedElement = triggerElement || document.activeElement;
+        previousBodyOverflow = document.body.style.overflow;
+        setControlsVisible(true);
+        renderGallery();
+
+        if (!modal.open) {
+            modal.showModal();
+        }
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => {
+            modal.classList.add('active');
+            closeBtn.focus();
+        });
+    };
+
+    document.querySelectorAll('#unplugged [data-carousel]').forEach(carousel => {
+        const imageArea = carousel.querySelector('.carousel-images');
+        const images = [...carousel.querySelectorAll('.hobby-card-image')];
+        if (!imageArea || !images.length) return;
+
+        imageArea.setAttribute('role', 'button');
+        imageArea.setAttribute('tabindex', '0');
+        imageArea.setAttribute('aria-label', `Open ${carousel.querySelector('.hobby-card-title')?.textContent?.trim() || 'Unplugged'} gallery`);
+
+        const openFromActiveImage = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const activeIndex = Math.max(images.findIndex(img => img.classList.contains('active')), 0);
+            openGallery(carousel, activeIndex, imageArea);
+        };
+
+        imageArea.addEventListener('click', openFromActiveImage);
+        imageArea.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                openFromActiveImage(e);
+            }
+        });
+    });
+
+    prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showImage(currentIndex - 1);
+    });
+
+    nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showImage(currentIndex + 1);
+    });
+
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeGallery({ returnToUnplugged: true });
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (suppressNextOutsideClick) {
+            suppressNextOutsideClick = false;
+            return;
+        }
+        if (e.target.closest('.gallery-nav-btn')) return;
+        if (e.target.closest('.gallery-image, .gallery-meta-panel')) return;
+        closeGallery({ returnToUnplugged: true });
+    });
+
+    stage.addEventListener('dblclick', (e) => {
+        if (prefersTouchUI()) return;
+        if (e.target.closest('button')) return;
+        e.preventDefault();
+        if (scale > 1.01) {
+            resetZoom();
+            setControlsVisible(true);
+        } else {
+            scale = 2;
+            translateX = 0;
+            translateY = 0;
+            setControlsVisible(false);
+            updateImageTransform();
+        }
+    });
+
+    modal.addEventListener('cancel', (e) => {
+        e.preventDefault();
+        closeGallery();
+    });
+
+    modal.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            showImage(currentIndex - 1);
+        }
+        if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            showImage(currentIndex + 1);
+        }
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            closeGallery();
+        }
+    });
+
+    stage.addEventListener('touchstart', (e) => {
+        clearTimeout(tapTimer);
+        touchStartX = e.changedTouches[0].clientX;
+        touchStartY = e.changedTouches[0].clientY;
+        touchLastX = touchStartX;
+        touchLastY = touchStartY;
+
+        if (e.touches.length === 2) {
+            initialPinchDistance = getTouchDistance(e.touches);
+            initialPinchScale = scale;
+        }
+    }, { passive: true });
+
+    stage.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            suppressOutsideClickOnce();
+            const nextScale = initialPinchScale * (getTouchDistance(e.touches) / initialPinchDistance);
+            scale = clamp(nextScale, 1, 3.4);
+            setControlsVisible(scale <= 1.01);
+            updateImageTransform();
+            return;
+        }
+
+        if (scale <= 1.01 || e.touches.length !== 1) return;
+        e.preventDefault();
+        suppressOutsideClickOnce();
+        const nextX = e.touches[0].clientX;
+        const nextY = e.touches[0].clientY;
+        translateX += nextX - touchLastX;
+        translateY += nextY - touchLastY;
+        touchLastX = nextX;
+        touchLastY = nextY;
+        updateImageTransform();
+    }, { passive: false });
+
+    stage.addEventListener('touchend', (e) => {
+        if (scale > 1 && scale < 1.08) {
+            resetZoom();
+            setControlsVisible(true);
+            return;
+        }
+
+        if (scale > 1.01) return;
+
+        const swipeDistance = touchStartX - e.changedTouches[0].clientX;
+        const verticalDistance = Math.abs(touchStartY - e.changedTouches[0].clientY);
+        if (Math.abs(swipeDistance) > 56 && verticalDistance < 70) {
+            suppressOutsideClickOnce();
+            showImage(currentIndex + (swipeDistance > 0 ? 1 : -1));
+            return;
+        }
+
+        if (Math.abs(swipeDistance) > 12 || verticalDistance > 12) {
+            suppressOutsideClickOnce();
+            return;
+        }
+
+        const now = Date.now();
+        if (now - lastTapTime < 280) {
+            clearTimeout(tapTimer);
+            lastTapTime = 0;
+            scale = 2;
+            translateX = 0;
+            translateY = 0;
+            setControlsVisible(false);
+            updateImageTransform();
+            return;
+        }
+
+        lastTapTime = now;
+        tapTimer = setTimeout(toggleControls, 220);
+    }, { passive: true });
+
+    imageFrame.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'touch' || scale <= 1.01) return;
+        e.preventDefault();
+        isPointerDragging = true;
+        pointerStartX = e.clientX;
+        pointerStartY = e.clientY;
+        pointerOriginX = translateX;
+        pointerOriginY = translateY;
+        imageFrame.setPointerCapture(e.pointerId);
+        imageFrame.classList.add('is-dragging');
+    });
+
+    imageFrame.addEventListener('pointermove', (e) => {
+        if (!isPointerDragging) return;
+        translateX = pointerOriginX + e.clientX - pointerStartX;
+        translateY = pointerOriginY + e.clientY - pointerStartY;
+        updateImageTransform();
+    });
+
+    const endPointerDrag = (e) => {
+        if (!isPointerDragging) return;
+        isPointerDragging = false;
+        imageFrame.classList.remove('is-dragging');
+        if (imageFrame.hasPointerCapture(e.pointerId)) {
+            imageFrame.releasePointerCapture(e.pointerId);
+        }
+    };
+
+    imageFrame.addEventListener('pointerup', endPointerDrag);
+    imageFrame.addEventListener('pointercancel', endPointerDrag);
+};
+
 // Constellation Canvas Animation for Journey Section
 const initConstellation = () => {
     const canvas = document.getElementById('journeyCanvas');
@@ -341,6 +727,7 @@ const initConstellation = () => {
 
 // Initialize carousels and constellation when DOM is ready
 initCarousels();
+initUnpluggedGallery();
 initConstellation();
 
 // Waving Flag Animation for Hero Section
@@ -879,12 +1266,16 @@ const PROJECTS = [
         gradient: 'linear-gradient(135deg, #f5576c22 0%, #f093fb22 100%)',
         accentColor: '#f5576c',
         status: 'Production',
+        projectLinks: [
+            { label: 'Company Website', display: 'www.basukitransport.com', href: 'https://www.basukitransport.com' },
+            { label: 'Management System', display: 'ms.basukitransport.com', href: 'https://ms.basukitransport.com' },
+        ],
         architectureDiagram: ['React Web App', 'Express Backend', 'PostgreSQL Database', 'SMS & Payment APIs', 'Telemetry Processing'],
     },
     {
         title: 'Dhewaa',
-        headline: 'Engineering financial infrastructure through intelligent architecture.',
-        overview: 'As the **Lead System Architect** and **AI Engineering Collaborator**, I directed the architectural design and technical specification of **Dhewaa**, an ==enterprise financial management platform== developed as a *pure software engineering experiment* to explore the practical limits of AI-assisted product development. The objective was not only to build production-grade software, but also to understand where AI can accelerate engineering and where human architectural reasoning remains indispensable. The platform includes both a cross-platform mobile application built with React Native (Expo) and a modern web application, supported by a scalable Express and PostgreSQL backend.\n\n> Note: This architecture blueprint serves as a case study demonstrating how multiple AI models can be orchestrated under strict human validation.',
+        headline: 'An experimental project to test the limits of AI in software development.',
+        overview: 'As the ** System Architect** and **AI Engineering Collaborator**, I directed the architectural design and technical specification of **Dhewaa**, an ==enterprise financial management platform== developed as a *pure software engineering experiment* to explore the practical limits of AI-assisted product development. The objective was not only to build production-grade software, but also to understand where AI can accelerate engineering and where human architectural reasoning remains indispensable. The platform includes both a cross-platform mobile application built with React Native (Expo) and a modern web application, supported by a scalable Express and PostgreSQL backend.\n\n> Note: This architecture blueprint serves as a case study demonstrating how multiple AI models can be orchestrated under strict human validation.',
         sections: [
             {
                 label: 'FINANCIAL ENGINE',
@@ -909,7 +1300,7 @@ const PROJECTS = [
         gradient: 'linear-gradient(135deg, #4facfe22 0%, #00f2fe22 100%)',
         accentColor: '#4facfe',
         status: 'Case Study / Specification',
-        architectureDiagram: ['React Native / React', 'Express API Gateway', 'PostgreSQL Database', 'Encrypted Document Vault', 'Authentication (JWT)'],
+        architectureDiagram: ['React Native / React', 'Express API Gateway', 'PostgreSQL Database', 'Encrypted Document Vault'],
     },
     {
         title: 'Aroma Ecosystem',
@@ -995,6 +1386,10 @@ const PROJECTS = [
         accentColor: '#10b981',
 
         status: 'Production',
+
+        projectLinks: [
+            { label: 'Live Website', display: 'leomultiple325.com', href: 'https://leomultiple325.com/' },
+        ],
 
         architectureDiagram: [
             'Public Web Portal',
@@ -1109,6 +1504,35 @@ const initWorkModal = () => {
     const modal = document.getElementById('workModal');
     if (!modal) return;
 
+    const getModalScrollContainer = () =>
+        modal.querySelector('.project-modal-mobile-content, .project-modal-tablet-scroll, .project-modal-body, .project-modal');
+
+    const renderProjectLinks = (project) => {
+        if (!project.projectLinks?.length) return '';
+
+        return project.projectLinks.map(link => `
+            <a class="project-link-item" href="${link.href}" target="_blank" rel="noopener noreferrer" aria-label="Open ${link.label} for ${project.title}">
+                <span class="project-link-meta">
+                    <span class="project-link-label">${link.label}</span>
+                    <span class="project-link-url">${link.display}</span>
+                </span>
+                <span class="project-link-arrow" aria-hidden="true">↗</span>
+            </a>
+        `).join('');
+    };
+
+    const renderProjectLinksCard = (project, cardClass, titleClass, title = 'Project Links') => {
+        const links = renderProjectLinks(project);
+        if (!links) return '';
+
+        return `
+            <div class="${cardClass} project-links-card">
+                <div class="${titleClass}">${title}</div>
+                <div class="project-links-list">${links}</div>
+            </div>
+        `;
+    };
+
     const navigateToProject = (targetProj, targetNum) => {
         const content = modal.querySelector('.project-modal');
         if (content) {
@@ -1120,8 +1544,11 @@ const initWorkModal = () => {
         setTimeout(() => {
             window.openWorkModal(targetProj, targetNum);
             const newContent = modal.querySelector('.project-modal');
+            const scrollContainer = getModalScrollContainer();
+            if (scrollContainer) {
+                scrollContainer.scrollTop = 0;
+            }
             if (newContent) {
-                newContent.scrollTop = 0;
                 newContent.style.opacity = '0';
                 newContent.style.transform = 'translateY(-10px)';
                 requestAnimationFrame(() => {
@@ -1143,11 +1570,11 @@ const initWorkModal = () => {
         modal.innerHTML = `
             <div class="project-modal mobile-version">
                 <div class="project-modal-mobile-header">
-                    <button class="mobile-header-back-btn" id="mobileBackBtn" aria-label="Go back">
+                    <button type="button" class="mobile-header-back-btn" id="mobileBackBtn" aria-label="Go back">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                     </button>
                     <span class="project-modal-mobile-header-title" id="mobileHeaderTitle">${project.title}</span>
-                    <button class="mobile-header-share-btn" id="mobileShareBtn" aria-label="Share case study">
+                    <button type="button" class="mobile-header-share-btn" id="mobileShareBtn" aria-label="Share case study">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
                     </button>
                 </div>
@@ -1161,6 +1588,7 @@ const initWorkModal = () => {
                         <div class="mobile-hero-focus-chips">
                             ${project.focus.map(chip => `<span class="mobile-focus-chip">${chip}</span>`).join('')}
                         </div>
+                        ${renderProjectLinksCard(project, 'mobile-project-links-card', 'mobile-section-label', 'Project Links')}
                     </div>
                     
                     <div class="mobile-divider"></div>
@@ -1258,14 +1686,14 @@ const initWorkModal = () => {
                             <span class="status-badge" style="background: var(--project-gradient); border-color: var(--project-accent);">${project.status}</span>
                         </div>
                         <div class="mobile-footer-nav">
-                            <button class="footer-nav-btn prev-project-btn" id="mobilePrevBtn" aria-label="Previous project">
+                            <button type="button" class="footer-nav-btn prev-project-btn" id="mobilePrevBtn" aria-label="Previous project">
                                 <span class="nav-arrow">←</span>
                                 <div class="nav-project-info">
                                     <span class="nav-label">PREVIOUS</span>
                                     <span class="nav-title">${prevProject.title}</span>
                                 </div>
                             </button>
-                            <button class="footer-nav-btn next-project-btn" id="mobileNextBtn" aria-label="Next project">
+                            <button type="button" class="footer-nav-btn next-project-btn" id="mobileNextBtn" aria-label="Next project">
                                 <div class="nav-project-info align-right">
                                     <span class="nav-label">NEXT</span>
                                     <span class="nav-title">${nextProject.title}</span>
@@ -1279,7 +1707,7 @@ const initWorkModal = () => {
         `;
 
         // Bind mobile scroll actions
-        const scrollContainer = modal.querySelector('.project-modal.mobile-version');
+        const scrollContainer = modal.querySelector('.project-modal-mobile-content');
         const header = modal.querySelector('.project-modal-mobile-header');
         const headerTitle = modal.querySelector('#mobileHeaderTitle');
 
@@ -1304,12 +1732,19 @@ const initWorkModal = () => {
         requestAnimationFrame(() => {
             // Back action
             const backBtn = modal.querySelector('#mobileBackBtn');
-            if (backBtn) backBtn.addEventListener('click', closeModal);
+            if (backBtn) {
+                backBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeModal();
+                });
+            }
 
             // Share action
             const shareBtn = modal.querySelector('#mobileShareBtn');
             if (shareBtn) {
                 shareBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
                     e.stopPropagation();
                     const shareData = {
                         title: `${project.title} - Sajag Silwal Portfolio`,
@@ -1337,10 +1772,22 @@ const initWorkModal = () => {
 
             // Navigation actions
             const prevBtn = modal.querySelector('#mobilePrevBtn');
-            if (prevBtn) prevBtn.addEventListener('click', () => navigateToProject(prevProject, prevNum));
+            if (prevBtn) {
+                prevBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigateToProject(prevProject, prevNum);
+                });
+            }
 
             const nextBtn = modal.querySelector('#mobileNextBtn');
-            if (nextBtn) nextBtn.addEventListener('click', () => navigateToProject(nextProject, nextNum));
+            if (nextBtn) {
+                nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigateToProject(nextProject, nextNum);
+                });
+            }
         });
     };
 
@@ -1471,19 +1918,21 @@ const initWorkModal = () => {
                                     ${project.status}
                                 </div>
                             </div>
+
+                            ${renderProjectLinksCard(project, 'tablet-info-card', 'tablet-info-card-title')}
                         </div>
                     </div>
 
                     <div class="tablet-footer-section">
                         <div class="tablet-footer-nav">
-                            <button class="tablet-footer-nav-btn prev-btn" id="tabletPrevBtn" aria-label="Previous project">
+                            <button type="button" class="tablet-footer-nav-btn prev-btn" id="tabletPrevBtn" aria-label="Previous project">
                                 <span class="tablet-nav-arrow">←</span>
                                 <div class="tablet-nav-project-info">
                                     <span class="tablet-nav-label">PREVIOUS</span>
                                     <span class="tablet-nav-title">${prevProject.title}</span>
                                 </div>
                             </button>
-                            <button class="tablet-footer-nav-btn next-btn" id="tabletNextBtn" aria-label="Next project">
+                            <button type="button" class="tablet-footer-nav-btn next-btn" id="tabletNextBtn" aria-label="Next project">
                                 <div class="tablet-nav-project-info align-right">
                                     <span class="tablet-nav-label">NEXT</span>
                                     <span class="tablet-nav-title">${nextProject.title}</span>
@@ -1523,10 +1972,22 @@ const initWorkModal = () => {
 
         // Footer buttons navigation
         const prevBtn = modal.querySelector('#tabletPrevBtn');
-        if (prevBtn) prevBtn.addEventListener('click', () => navigateToProject(prevProject, prevNum));
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                navigateToProject(prevProject, prevNum);
+            });
+        }
 
         const nextBtn = modal.querySelector('#tabletNextBtn');
-        if (nextBtn) nextBtn.addEventListener('click', () => navigateToProject(nextProject, nextNum));
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                navigateToProject(nextProject, nextNum);
+            });
+        }
 
         // Swipe gestures navigation
         const container = modal.querySelector('.project-modal.tablet-version');
@@ -1595,6 +2056,7 @@ const initWorkModal = () => {
                                     ${project.status}
                                 </div>
                             </div>
+                            ${renderProjectLinksCard(project, 'project-modal-info-card', 'project-modal-info-card-title')}
                             ${project.architectureDiagram ? `
                                 <div class="project-modal-info-card project-modal-topology-card">
                                     <div class="project-modal-info-card-title">System Topology</div>
@@ -1670,14 +2132,14 @@ const initWorkModal = () => {
                         </div>
                     </div>
                     <div class="project-modal-footer-nav">
-                        <button class="project-modal-footer-nav-btn prev-btn" id="desktopPrevBtn" aria-label="Previous project">
+                        <button type="button" class="project-modal-footer-nav-btn prev-btn" id="desktopPrevBtn" aria-label="Previous project">
                             <span class="project-nav-arrow">←</span>
                             <div class="project-nav-project-info">
                                 <span class="project-nav-label">PREVIOUS</span>
                                 <span class="project-nav-title">${prevProject.title}</span>
                             </div>
                         </button>
-                        <button class="project-modal-footer-nav-btn next-btn" id="desktopNextBtn" aria-label="Next project">
+                        <button type="button" class="project-modal-footer-nav-btn next-btn" id="desktopNextBtn" aria-label="Next project">
                             <div class="project-nav-project-info align-right">
                                 <span class="project-nav-label">NEXT</span>
                                 <span class="project-nav-title">${nextProject.title}</span>
@@ -1693,10 +2155,22 @@ const initWorkModal = () => {
         if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
         const prevBtn = modal.querySelector('#desktopPrevBtn');
-        if (prevBtn) prevBtn.addEventListener('click', () => navigateToProject(prevProject, prevNum));
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                navigateToProject(prevProject, prevNum);
+            });
+        }
 
         const nextBtn = modal.querySelector('#desktopNextBtn');
-        if (nextBtn) nextBtn.addEventListener('click', () => navigateToProject(nextProject, nextNum));
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                navigateToProject(nextProject, nextNum);
+            });
+        }
     };
 
     window.openWorkModal = (project, num) => {
@@ -1712,7 +2186,9 @@ const initWorkModal = () => {
             renderDesktopModal(project, num);
         }
 
-        modal.showModal();
+        if (!modal.open) {
+            modal.showModal();
+        }
 
         setTimeout(() => {
             modal.classList.add('active');

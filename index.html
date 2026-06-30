@@ -56,7 +56,7 @@
 
 
   <link rel="icon" href="favicon.png">
-  <link rel="stylesheet" href="styles.css?v=5.1">
+  <link rel="stylesheet" href="styles.css?v=5.5">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -876,6 +876,57 @@
 
   </main>
 
+  <!-- UNPLUGGED GALLERY MODAL -->
+  <dialog class="gallery-modal-overlay" id="unpluggedGallery" aria-modal="true" aria-labelledby="galleryTitle">
+    <div class="gallery-modal">
+      <header class="gallery-toolbar" data-gallery-chrome>
+        <div class="gallery-title-group">
+          <span class="gallery-eyebrow">Unplugged Gallery</span>
+          <span class="gallery-project" id="galleryCategory">Gallery</span>
+        </div>
+        <button type="button" class="gallery-close-btn" id="galleryCloseBtn" aria-label="Close gallery">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </header>
+
+      <div class="gallery-stage" id="galleryStage">
+        <button type="button" class="gallery-nav-btn gallery-prev-btn" id="galleryPrevBtn" aria-label="Previous image"
+          data-gallery-chrome>
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
+
+        <figure class="gallery-figure">
+          <div class="gallery-image-frame" id="galleryImageFrame">
+            <img alt="" class="gallery-image" id="galleryImage" draggable="false">
+          </div>
+          <figcaption class="gallery-meta-panel" data-gallery-chrome>
+            <div class="gallery-meta-copy">
+              <span class="gallery-meta-kicker" id="galleryAssociation">Unplugged</span>
+              <h3 class="gallery-title" id="galleryTitle">Gallery</h3>
+              <p class="gallery-caption" id="galleryCaption"></p>
+            </div>
+            <span class="gallery-counter" id="galleryCounter">01 / 01</span>
+          </figcaption>
+        </figure>
+
+        <button type="button" class="gallery-nav-btn gallery-next-btn" id="galleryNextBtn" aria-label="Next image"
+          data-gallery-chrome>
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
   <!-- PDF VIEWER MODAL -->
   <dialog class="pdf-modal-overlay" id="pdfModal" aria-modal="true" aria-labelledby="pdfModalTitle">
     <div class="pdf-modal">
@@ -946,7 +997,7 @@
     </div>
   </dialog>
 
-  <script src="script.js?v=2.3"></script>
+  <script src="script.js?v=2.6"></script>
 </body>
 
 </html>
