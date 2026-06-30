@@ -1300,46 +1300,50 @@ const initWorkModal = () => {
             });
         }
 
-        // Back action
-        const backBtn = modal.querySelector('#mobileBackBtn');
-        if (backBtn) backBtn.addEventListener('click', closeModal);
+        // Defer all button listeners by one animation frame to prevent
+        // the touch-event that opened the modal from ghost-firing immediately
+        requestAnimationFrame(() => {
+            // Back action
+            const backBtn = modal.querySelector('#mobileBackBtn');
+            if (backBtn) backBtn.addEventListener('click', closeModal);
 
-        // Share action
-        const shareBtn = modal.querySelector('#mobileShareBtn');
-        if (shareBtn) {
-            shareBtn.addEventListener('click', async (e) => {
-                e.stopPropagation();
-                const shareData = {
-                    title: `${project.title} - Sajag Silwal Portfolio`,
-                    text: `${project.title}: ${project.headline}`,
-                    url: window.location.href
-                };
-                try {
-                    if (navigator.share) {
-                        await navigator.share(shareData);
-                    } else {
-                        await navigator.clipboard.writeText(window.location.href);
-                        const span = shareBtn.querySelector('span');
-                        if (span) {
-                            const originalText = span.textContent;
-                            span.textContent = 'Copied!';
-                            setTimeout(() => {
-                                span.textContent = originalText;
-                            }, 2000);
+            // Share action
+            const shareBtn = modal.querySelector('#mobileShareBtn');
+            if (shareBtn) {
+                shareBtn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const shareData = {
+                        title: `${project.title} - Sajag Silwal Portfolio`,
+                        text: `${project.title}: ${project.headline}`,
+                        url: window.location.href
+                    };
+                    try {
+                        if (navigator.share) {
+                            await navigator.share(shareData);
+                        } else {
+                            await navigator.clipboard.writeText(window.location.href);
+                            const span = shareBtn.querySelector('span');
+                            if (span) {
+                                const originalText = span.textContent;
+                                span.textContent = 'Copied!';
+                                setTimeout(() => {
+                                    span.textContent = originalText;
+                                }, 2000);
+                            }
                         }
+                    } catch (err) {
+                        console.error('Error sharing:', err);
                     }
-                } catch (err) {
-                    console.error('Error sharing:', err);
-                }
-            });
-        }
+                });
+            }
 
-        // Navigation actions
-        const prevBtn = modal.querySelector('#mobilePrevBtn');
-        if (prevBtn) prevBtn.addEventListener('click', () => navigateToProject(prevProject, prevNum));
+            // Navigation actions
+            const prevBtn = modal.querySelector('#mobilePrevBtn');
+            if (prevBtn) prevBtn.addEventListener('click', () => navigateToProject(prevProject, prevNum));
 
-        const nextBtn = modal.querySelector('#mobileNextBtn');
-        if (nextBtn) nextBtn.addEventListener('click', () => navigateToProject(nextProject, nextNum));
+            const nextBtn = modal.querySelector('#mobileNextBtn');
+            if (nextBtn) nextBtn.addEventListener('click', () => navigateToProject(nextProject, nextNum));
+        });
     };
 
     const renderTabletModal = (project, num) => {
