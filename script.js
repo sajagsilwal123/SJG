@@ -1143,13 +1143,11 @@ const initWorkModal = () => {
             <div class="project-modal mobile-version">
                 <div class="project-modal-mobile-header">
                     <button class="mobile-header-back-btn" id="mobileBackBtn" aria-label="Go back">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                        <span>Back</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                     </button>
                     <span class="project-modal-mobile-header-title" id="mobileHeaderTitle">${project.title}</span>
                     <button class="mobile-header-share-btn" id="mobileShareBtn" aria-label="Share case study">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                        <span>Share</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
                     </button>
                 </div>
                 <div class="project-modal-mobile-content">
@@ -1322,14 +1320,13 @@ const initWorkModal = () => {
                             await navigator.share(shareData);
                         } else {
                             await navigator.clipboard.writeText(window.location.href);
-                            const span = shareBtn.querySelector('span');
-                            if (span) {
-                                const originalText = span.textContent;
-                                span.textContent = 'Copied!';
-                                setTimeout(() => {
-                                    span.textContent = originalText;
-                                }, 2000);
-                            }
+                            const originalHTML = shareBtn.innerHTML;
+                            shareBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+                            shareBtn.classList.add('copied');
+                            setTimeout(() => {
+                                shareBtn.innerHTML = originalHTML;
+                                shareBtn.classList.remove('copied');
+                            }, 2000);
                         }
                     } catch (err) {
                         console.error('Error sharing:', err);
