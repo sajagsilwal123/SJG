@@ -97,7 +97,7 @@
   --transition-slow: 400ms cubic-bezier(.2, .8, .2, 1);
   --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* Font — Inter from Google Fonts */
+  /* Font — local/system stack to avoid render-blocking third-party font CSS */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
   /* Typography Sizes (64px, 48px, 36px, 28px, 24px, 20px, 17px, 16px, 15px, 14px, 13px, 12px) */
@@ -376,7 +376,7 @@ select {
 .navbar-logo {
   font-weight: 700;
   font-size: 1.75rem;
-  letter-spacing: -0.05em;
+  letter-spacing: 0;
   color: var(--theme-text-primary);
 }
 
@@ -499,7 +499,7 @@ select {
   padding: var(--spacing-3) 0;
   font-size: 22px;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   color: var(--theme-text-primary);
   border-bottom: 1px solid var(--theme-border);
   transition: var(--transition-smooth);
@@ -2954,7 +2954,7 @@ select {
 .lang-card-title {
   font-size: 24px;
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: 0;
   color: var(--theme-text-primary);
   margin: 0;
   line-height: 1.2;
@@ -3533,7 +3533,7 @@ select {
   color: var(--theme-text-primary);
   margin-top: 0;
   margin-bottom: var(--spacing-6);
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .about-subtitle {
@@ -3982,7 +3982,7 @@ select {
   color: var(--theme-text-muted);
   opacity: 0.35;
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   user-select: none;
   flex-shrink: 0;
 }
@@ -3992,7 +3992,7 @@ select {
   font-weight: 700;
   color: var(--theme-text-primary);
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 @media (min-width: 1024px) {
@@ -4097,6 +4097,10 @@ select {
 
   .work-card {
     padding: var(--spacing-6);
+    background: var(--theme-bg-elevated);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    contain: layout paint style;
   }
 
   .work-card-title {
@@ -4386,7 +4390,7 @@ select {
   font-weight: 800;
   color: var(--project-accent, var(--theme-text-muted));
   opacity: 0.25;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   line-height: 1;
 }
 
@@ -4394,7 +4398,7 @@ select {
   font-size: 48px;
   font-weight: 800;
   color: var(--theme-text-primary);
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   line-height: 1.1;
 }
 
@@ -4459,7 +4463,7 @@ select {
   line-height: 1.4;
   max-width: 900px;
   margin-top: var(--spacing-4);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .project-modal-content-grid {
@@ -4502,7 +4506,7 @@ select {
   font-size: var(--text-24);
   font-weight: 700;
   color: var(--theme-text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .project-modal-section-content {
@@ -4799,7 +4803,7 @@ select {
   body.body-modal-open main,
   body.body-modal-open .navbar {
     transform: none !important;
-    filter: brightness(0.4) !important;
+    filter: none !important;
   }
 
   main,
@@ -4837,7 +4841,7 @@ select {
     min-height: 0;
     border-radius: 0 !important;
     border: none !important;
-    transform: translateY(100%);
+    transform: translate3d(0, 100%, 0);
     opacity: 1 !important;
     box-shadow: none !important;
     display: flex;
@@ -4846,6 +4850,8 @@ select {
     overflow-x: hidden;
     transition: transform 400ms cubic-bezier(0.32, 0.94, 0.6, 1);
     background-color: var(--theme-bg);
+    contain: layout paint style;
+    will-change: transform;
   }
 
   [data-theme="dark"] .project-modal.mobile-version {
@@ -4858,7 +4864,7 @@ select {
   }
 
   .project-modal-overlay.active .project-modal.mobile-version {
-    transform: translateY(0) !important;
+    transform: translate3d(0, 0, 0) !important;
   }
 
   /* Sticky iOS Navigation Header */
@@ -4973,6 +4979,8 @@ select {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   /* Hero Section */
@@ -4989,13 +4997,13 @@ select {
     color: var(--theme-text-muted);
     opacity: 0.35;
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
   }
 
   .mobile-hero-title {
     font-size: 40px;
     font-weight: 800;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
     color: var(--theme-text-primary);
     line-height: 1.15;
   }
@@ -5005,7 +5013,7 @@ select {
     font-weight: 600;
     color: var(--theme-text-secondary);
     line-height: 1.35;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 
   .mobile-hero-summary {
@@ -5103,7 +5111,7 @@ select {
     font-weight: 700;
     color: var(--theme-text-primary);
     line-height: 1.3;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 
   .mobile-section-body {
@@ -5472,13 +5480,13 @@ select {
     color: var(--theme-text-muted);
     opacity: 0.35;
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
   }
 
   .tablet-hero-title {
     font-size: 44px;
     font-weight: 800;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
     color: var(--theme-text-primary);
     line-height: 1.15;
   }
@@ -5488,7 +5496,7 @@ select {
     font-weight: 600;
     color: var(--theme-text-secondary);
     line-height: 1.35;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 
   .tablet-hero-summary {
@@ -5557,7 +5565,7 @@ select {
     font-weight: 700;
     color: var(--theme-text-primary);
     line-height: 1.3;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 
   .tablet-section-body {
