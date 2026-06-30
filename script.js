@@ -1108,6 +1108,7 @@ const initSelectedWork = () => {
 const initWorkModal = () => {
     const modal = document.getElementById('workModal');
     if (!modal) return;
+    modal.setAttribute('tabindex', '-1');
 
     const setModalViewportHeight = () => {
         const viewportHeight = Math.round(
@@ -1738,11 +1739,10 @@ const initWorkModal = () => {
             renderDesktopModal(project, num);
         }
 
-        // Prevent showModal() from auto-scrolling to the first focusable element
-        // by focusing the dialog itself first, then showing
         if (!modal.open) {
             modal.showModal();
         }
+        modal.focus({ preventScroll: true });
 
         // Immediately reset scroll on all internal scroll containers
         // to prevent browser autofocus from scrolling content down
@@ -1753,12 +1753,6 @@ const initWorkModal = () => {
         if (mobileContent) mobileContent.scrollTop = 0;
         if (tabletScroll) tabletScroll.scrollTop = 0;
         if (mobileContainer) mobileContainer.scrollTop = 0;
-
-        // Focus the back/close button without scrolling (prevents auto-scroll to focused element)
-        const backBtn = modal.querySelector('#mobileBackBtn') || modal.querySelector('#tabletCloseBtn');
-        if (backBtn) {
-            backBtn.focus({ preventScroll: true });
-        }
 
         setTimeout(() => {
             modal.classList.add('active');

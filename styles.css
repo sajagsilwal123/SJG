@@ -4317,6 +4317,10 @@ select {
   opacity: 1;
 }
 
+.project-modal-overlay:focus {
+  outline: none;
+}
+
 .project-modal {
   width: 80vw;
   max-width: 1200px;
@@ -5004,8 +5008,8 @@ select {
   .mobile-hero-num {
     font-size: 48px;
     font-weight: 300;
-    color: var(--theme-text-muted);
-    opacity: 0.35;
+    color: var(--project-accent);
+    opacity: 0.32;
     line-height: 1;
     letter-spacing: 0;
   }
@@ -5021,7 +5025,7 @@ select {
   .mobile-hero-headline {
     font-size: 24px;
     font-weight: 600;
-    color: var(--theme-text-secondary);
+    color: var(--project-accent);
     line-height: 1.35;
     letter-spacing: 0;
   }
@@ -5043,8 +5047,8 @@ select {
   .mobile-focus-chip {
     font-size: var(--text-13);
     font-weight: 600;
-    background-color: var(--theme-bg-elevated);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 10%, var(--theme-bg-elevated));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 28%, var(--theme-border));
     padding: var(--spacing-2) var(--spacing-4);
     border-radius: var(--radius-full);
     color: var(--theme-text-primary);
@@ -5060,7 +5064,8 @@ select {
 
   .mobile-project-links-card .project-link-item {
     border-radius: 14px;
-    background-color: var(--theme-bg-elevated);
+    background: color-mix(in srgb, var(--project-accent) 8%, var(--theme-bg-elevated));
+    border-color: color-mix(in srgb, var(--project-accent) 24%, var(--theme-border));
     padding: var(--spacing-3) var(--spacing-4);
   }
 
@@ -5080,8 +5085,8 @@ select {
   }
 
   .mobile-platform-card {
-    background-color: var(--theme-bg-elevated);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 7%, var(--theme-bg-elevated));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 22%, var(--theme-border));
     border-radius: 16px;
     padding: var(--spacing-4);
     display: flex;
@@ -5137,8 +5142,8 @@ select {
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-1);
-    background-color: var(--theme-bg-elevated);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 7%, var(--theme-bg-elevated));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 22%, var(--theme-border));
     border-radius: 20px;
     padding: var(--spacing-6) var(--spacing-4);
     margin-top: var(--spacing-1);
@@ -5153,8 +5158,8 @@ select {
   }
 
   .arch-node {
-    background-color: var(--theme-bg);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 4%, var(--theme-bg));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 18%, var(--theme-border));
     border-left: 4px solid var(--project-accent);
     padding: var(--spacing-3) var(--spacing-4);
     border-radius: 12px;
@@ -5189,8 +5194,8 @@ select {
   }
 
   .mobile-feature-card {
-    background-color: var(--theme-bg-elevated);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 7%, var(--theme-bg-elevated));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 22%, var(--theme-border));
     border-radius: 16px;
     padding: var(--spacing-4);
     display: flex;
@@ -5227,10 +5232,10 @@ select {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--theme-bg-elevated);
+    background: color-mix(in srgb, var(--project-accent) 8%, var(--theme-bg-elevated));
     padding: var(--spacing-4) var(--spacing-5);
     border-radius: 16px;
-    border: 1px solid var(--theme-border);
+    border: 1px solid color-mix(in srgb, var(--project-accent) 26%, var(--theme-border));
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
   }
 
@@ -5257,8 +5262,8 @@ select {
 
   .footer-nav-btn {
     flex: 1;
-    background-color: var(--theme-bg-elevated);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 6%, var(--theme-bg-elevated));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 20%, var(--theme-border));
     border-radius: 16px;
     padding: var(--spacing-4) var(--spacing-3);
     display: flex;
@@ -5445,8 +5450,8 @@ select {
     width: 2.75rem;
     height: 2.75rem;
     border-radius: var(--radius-full);
-    background: var(--theme-bg-subtle);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 8%, var(--theme-bg-subtle));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 32%, var(--theme-border));
     color: var(--theme-text-primary);
     display: flex;
     align-items: center;
@@ -5457,7 +5462,7 @@ select {
   }
 
   .tablet-close-btn:active {
-    background: var(--theme-bg-badge);
+    background: color-mix(in srgb, var(--project-accent) 16%, var(--theme-bg-badge));
   }
 
   .tablet-close-btn svg {
@@ -5487,8 +5492,8 @@ select {
   .tablet-hero-num {
     font-size: 56px;
     font-weight: 300;
-    color: var(--theme-text-muted);
-    opacity: 0.35;
+    color: var(--project-accent);
+    opacity: 0.32;
     line-height: 1;
     letter-spacing: 0;
   }
@@ -5504,7 +5509,7 @@ select {
   .tablet-hero-headline {
     font-size: 26px;
     font-weight: 600;
-    color: var(--theme-text-secondary);
+    color: var(--project-accent);
     line-height: 1.35;
     letter-spacing: 0;
   }
@@ -5527,8 +5532,8 @@ select {
   .tablet-focus-chip {
     font-size: var(--text-14);
     font-weight: 600;
-    background-color: var(--theme-bg-elevated);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 10%, var(--theme-bg-elevated));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 28%, var(--theme-border));
     padding: var(--spacing-2) var(--spacing-4);
     border-radius: var(--radius-full);
     color: var(--theme-text-primary);
@@ -5603,8 +5608,8 @@ select {
 
   /* Structured Info Cards */
   .tablet-info-card {
-    background-color: var(--theme-bg-elevated);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 7%, var(--theme-bg-elevated));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 22%, var(--theme-border));
     border-radius: 20px;
     padding: var(--spacing-6);
     display: flex;
@@ -5662,8 +5667,8 @@ select {
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-1);
-    background-color: var(--theme-bg-elevated);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 7%, var(--theme-bg-elevated));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 22%, var(--theme-border));
     border-radius: 24px;
     padding: var(--spacing-8) var(--spacing-6);
     margin-top: var(--spacing-1);
@@ -5679,8 +5684,8 @@ select {
   }
 
   .tablet-arch-node {
-    background-color: var(--theme-bg);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 4%, var(--theme-bg));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 18%, var(--theme-border));
     border-left: 4px solid var(--project-accent);
     padding: var(--spacing-4) var(--spacing-6);
     border-radius: 16px;
@@ -5721,8 +5726,8 @@ select {
 
   .tablet-footer-nav-btn {
     flex: 1;
-    background-color: var(--theme-bg-elevated);
-    border: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--project-accent) 6%, var(--theme-bg-elevated));
+    border: 1px solid color-mix(in srgb, var(--project-accent) 20%, var(--theme-border));
     border-radius: 20px;
     padding: var(--spacing-5) var(--spacing-4);
     display: flex;
