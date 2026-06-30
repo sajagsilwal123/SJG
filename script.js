@@ -1122,6 +1122,12 @@ const initWorkModal = () => {
             const newContent = modal.querySelector('.project-modal');
             if (newContent) {
                 newContent.scrollTop = 0;
+                // Also reset inner scroll containers
+                const innerMobile = newContent.querySelector('.project-modal-mobile-content');
+                const innerTablet = newContent.querySelector('.project-modal-tablet-scroll');
+                if (innerMobile) innerMobile.scrollTop = 0;
+                if (innerTablet) innerTablet.scrollTop = 0;
+
                 newContent.style.opacity = '0';
                 newContent.style.transform = 'translateY(-10px)';
                 requestAnimationFrame(() => {
@@ -1712,7 +1718,24 @@ const initWorkModal = () => {
             renderDesktopModal(project, num);
         }
 
+        // Prevent showModal() from auto-scrolling to the first focusable element
+        // by focusing the dialog itself first, then showing
         modal.showModal();
+
+        // Immediately reset scroll on all internal scroll containers
+        // to prevent browser autofocus from scrolling content down
+        const mobileContent = modal.querySelector('.project-modal-mobile-content');
+        const tabletScroll = modal.querySelector('.project-modal-tablet-scroll');
+        const mobileContainer = modal.querySelector('.project-modal.mobile-version');
+        if (mobileContent) mobileContent.scrollTop = 0;
+        if (tabletScroll) tabletScroll.scrollTop = 0;
+        if (mobileContainer) mobileContainer.scrollTop = 0;
+
+        // Focus the back/close button without scrolling (prevents auto-scroll to focused element)
+        const backBtn = modal.querySelector('#mobileBackBtn') || modal.querySelector('#tabletCloseBtn');
+        if (backBtn) {
+            backBtn.focus({ preventScroll: true });
+        }
 
         setTimeout(() => {
             modal.classList.add('active');
@@ -1721,6 +1744,10 @@ const initWorkModal = () => {
             } else if (window.innerWidth >= 768 && window.innerWidth <= 1199) {
                 document.body.classList.add('body-modal-open-tablet');
             }
+
+            // Double-ensure scroll reset after animation starts
+            if (mobileContent) mobileContent.scrollTop = 0;
+            if (tabletScroll) tabletScroll.scrollTop = 0;
         }, 10);
         document.body.style.overflow = 'hidden';
     };
