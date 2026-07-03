@@ -4763,7 +4763,7 @@ select {
 }
 
 .project-nav-project-info.align-right {
-  text-align: right;
+  text-align: left;
 }
 
 .project-nav-label {
@@ -5256,6 +5256,7 @@ select {
 
   .mobile-footer-nav {
     display: flex;
+    flex-direction: column;
     gap: var(--spacing-3);
     width: 100%;
   }
@@ -5302,7 +5303,7 @@ select {
   }
 
   .footer-nav-btn .nav-project-info.align-right {
-    text-align: right;
+    text-align: left;
   }
 
   .footer-nav-btn .nav-label {
@@ -5762,7 +5763,7 @@ select {
   }
 
   .tablet-nav-project-info.align-right {
-    text-align: right;
+    text-align: left;
   }
 
   .tablet-nav-label {

@@ -875,7 +875,7 @@ const PROJECTS = [
         focus: ['Workflow Automation', 'Enterprise Resource Planning', 'Operational Intelligence', 'Platform Architecture'],
         platform: ['Web Application (React)', 'Express API Backend', 'PostgreSQL Database', 'Geolocation Tracking API'],
         coreSystems: ['Multi-Tenant Fleet Engine', 'Automated Operational Workflows', 'Document Verification Pipeline', 'Dynamic Financial Reporting'],
-        aiCollaboration: ['Gemini API integration', 'AI-Assisted Document Processing', 'Human Architectural Validation'],
+        aiCollaboration: ['Gemini API integration', 'AI-Assisted Document Processing'],
         gradient: 'linear-gradient(135deg, #f5576c22 0%, #f093fb22 100%)',
         accentColor: '#f5576c',
         status: 'Production',
@@ -905,7 +905,7 @@ const PROJECTS = [
         focus: ['AI-Assisted Engineering', 'Financial Infrastructure', 'Cross-Platform Systems', 'Enterprise Architecture'],
         platform: ['Mobile App (React Native/Expo)', 'Web Application (React)', 'Express API Gateway', 'PostgreSQL Database'],
         coreSystems: ['Double Entry Accounting', 'Loan Ledger Engine', 'Settlement Optimization', 'Encrypted Document Vault', 'Multi-Tenancy Routing'],
-        aiCollaboration: ['Antigravity Agent Orchestration', 'Claude Code Generation', 'Gemini Reasoning Engine', 'Human Validation Framework'],
+        aiCollaboration: ['Antigravity Agent Orchestration', 'Claude Code Generation', 'Gemini Reasoning Engine'],
         gradient: 'linear-gradient(135deg, #4facfe22 0%, #00f2fe22 100%)',
         accentColor: '#4facfe',
         status: 'Case Study / Specification',
@@ -935,7 +935,6 @@ const PROJECTS = [
         focus: ['Commerce Ecosystem', 'Warehouse Automation', 'Supply Chain Operations', 'Multi Vendor Commerce', 'Business Strategy', 'Operational Excellence'],
         platform: ['Multi-Merchant Web Portal', 'Node.js Microservices', 'Redis Caching Server', 'PostgreSQL Cluster'],
         coreSystems: ['Inventory Health Monitor', 'Automated Replenishment Engine', 'Vendor Settlement System', 'QCU Quality Verification'],
-        aiCollaboration: ['Human Architectural Direction'],
         gradient: 'linear-gradient(135deg, #667eea22 0%, #764ba222 100%)',
         accentColor: '#667eea',
         status: 'Completed / Ready for Launch',
@@ -986,10 +985,6 @@ const PROJECTS = [
             'Content Publishing'
         ],
 
-        aiCollaboration: [
-            'Human Product Leadership'
-        ],
-
         gradient: 'linear-gradient(135deg, #10b98122 0%, #a8edea22 100%)',
 
         accentColor: '#10b981',
@@ -1023,7 +1018,6 @@ const PROJECTS = [
         focus: ['Data Engineering', 'Market Intelligence', 'Automation Systems', 'Information Processing'],
         platform: ['CLI Application Console', 'Python Scraping Scripts', 'Cron Job Scheduler'],
         coreSystems: ['Automated Web Scrapers', 'Floorsheet Data Parser', 'Chronological Pipeline'],
-        aiCollaboration: ['Human-Led Optimization'],
         gradient: 'linear-gradient(135deg, #f9731622 0%, #ffecd222 100%)',
         accentColor: '#f97316',
         status: 'Completed / Automated',
@@ -1048,7 +1042,6 @@ const PROJECTS = [
         focus: ['Learning Platforms', 'Academic Workflows', 'Secure Platform Design', 'Task Orchestration'],
         platform: ['React Web Application', 'Node.js API Service', 'MongoDB Storage Cluster'],
         coreSystems: ['JSON Web Token Auth', 'Syllabus Course Scheduler', 'Task Progress Analytics'],
-        aiCollaboration: ['Human-Led Design'],
         gradient: 'linear-gradient(135deg, #6366f122 0%, #c3cfe222 100%)',
         accentColor: '#6366f1',
         status: 'Completed',
@@ -1261,7 +1254,7 @@ const initWorkModal = () => {
                         </div>
                     ` : ''}
 
-                    ${project.aiCollaboration ? `
+                    ${project.aiCollaboration && project.aiCollaboration.length > 0 ? `
                         <div class="mobile-detail-section">
                             <span class="mobile-section-label">AI COLLABORATION</span>
                             <h2 class="mobile-section-heading">Intelligent Tooling</h2>
@@ -1477,7 +1470,7 @@ const initWorkModal = () => {
                                 </div>
                             ` : ''}
 
-                            ${project.aiCollaboration ? `
+                            ${project.aiCollaboration && project.aiCollaboration.length > 0 ? `
                                 <div class="tablet-info-card">
                                     <div class="tablet-info-card-title">AI Collaboration</div>
                                     <div class="tablet-info-card-list">
@@ -1680,7 +1673,7 @@ const initWorkModal = () => {
                                     </div>
                                 </div>
                             ` : ''}
-                            ${project.aiCollaboration ? `
+                            ${project.aiCollaboration && project.aiCollaboration.length > 0 ? `
                                 <div class="project-modal-info-card">
                                     <div class="project-modal-info-card-title">AI Collaboration Tools</div>
                                     <div class="project-modal-info-card-list">
