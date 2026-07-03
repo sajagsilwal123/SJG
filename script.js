@@ -678,7 +678,6 @@ const initTypedText = () => {
 
 initTypedText();
 
-
 // =============================================
 // ABOUT & STORY (TABS / ACCORDION) CONTROLLERS
 // =============================================
@@ -728,7 +727,6 @@ const initAboutTabs = () => {
 
 initAboutBioToggle();
 initAboutTabs();
-
 
 // =============================================
 // RICH TEXT PARSER — formatRichText()
