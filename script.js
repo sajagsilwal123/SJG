@@ -1,3 +1,53 @@
+// =========================================================================
+// CAPTION CONFIGURATION
+// Easily edit the captions for the Unplugged cards and gallery images here.
+// =========================================================================
+const UNPLUGGED_CONFIG = {
+    music: {
+        cardCaption: "Unwinding with 6 strings. Finding rhythm in chaos.",
+        imageCaptions: {
+            "Playing Guitar": "Lost in the chords of my favorite acoustic melodies.",
+            "Guitar": "My trusted six-string companion, always ready for a tune.",
+            "Sheet Music": "Deciphering sheet music, translating notes into feelings.",
+            "Acoustic Guitar Performance": "A quiet afternoon session with the acoustic guitar.",
+            "Electric Guitar Performance": "Plugging in the electric guitar to explore heavier sounds."
+        }
+    },
+    travel: {
+        cardCaption: "Exploring new elevations. Trekking through the Himalayas.",
+        imageCaptions: {
+            "Trekking": "Trekking deep into the heart of the mountains.",
+            "Himalayan Sunrise": "A breathtaking sunrise lighting up the Himalayan peaks.",
+            "Mountain Hiker": "Taking a moment to absorb the vastness of the peaks.",
+            "Himalayan View": "Unobstructed views of the majestic Himalayan range.",
+            "Mountain Base Camp": "Resting at base camp, surrounded by snow-capped giants.",
+            "Scenic Valley": "Looking down at a scenic valley carved by ancient glaciers.",
+            "Suspension Bridge": "Crossing a suspension bridge high above a roaring river.",
+            "High Elevation Pass": "Reaching the highest pass, standing above the clouds."
+        }
+    },
+    trading: {
+        cardCaption: "Analyzing the pulse of the market.",
+        imageCaptions: {
+            "Trading Setup": "Monitoring charts and key metrics on the primary display.",
+            "Trading Desk": "A focused look at the multi-screen workspace setup."
+        }
+    }
+};
+
+const initCardCaptions = () => {
+    document.querySelectorAll('#unplugged [data-carousel]').forEach(carousel => {
+        const titleEl = carousel.querySelector('.hobby-card-title');
+        const captionEl = carousel.querySelector('.hobby-card-caption, .trading-card-caption');
+        if (titleEl && captionEl) {
+            const key = titleEl.textContent.trim().toLowerCase();
+            if (UNPLUGGED_CONFIG[key]) {
+                captionEl.textContent = UNPLUGGED_CONFIG[key].cardCaption;
+            }
+        }
+    });
+};
+
 // Theme Toggle - Initialize ASAP to prevent flash
 const initTheme = () => {
     const html = document.documentElement;
@@ -469,7 +519,16 @@ const initUnpluggedGallery = () => {
         titleEl.textContent = item.alt;
         categoryEl.textContent = galleryTitle;
         associationEl.textContent = `Unplugged / ${galleryTitle}`;
-        captionEl.textContent = `From the ${galleryTitle} collection.`;
+        
+        // Load custom image caption from configuration if available
+        const categoryKey = galleryTitle.toLowerCase();
+        const config = UNPLUGGED_CONFIG[categoryKey];
+        const altText = item.alt;
+        if (config && config.imageCaptions && config.imageCaptions[altText]) {
+            captionEl.textContent = config.imageCaptions[altText];
+        } else {
+            captionEl.textContent = `From the ${galleryTitle} collection.`;
+        }
         counterEl.textContent = formatCounter();
         const hasMultipleImages = galleryImages.length > 1;
         prevBtn.hidden = !hasMultipleImages;
@@ -726,6 +785,7 @@ const initUnpluggedGallery = () => {
 };
 
 // Initialize carousels and constellation when DOM is ready
+initCardCaptions();
 initCarousels();
 initUnpluggedGallery();
 initConstellation();
