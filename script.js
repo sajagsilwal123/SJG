@@ -1270,6 +1270,35 @@ const formatRichText = (text) => {
     return rendered.join('');
 };
 
+const getProjectIconSvg = (type) => {
+    const attrs = 'xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"';
+    const icons = {
+        monitor: `<svg ${attrs} aria-hidden="true"><rect width="18" height="12" x="3" y="4" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/></svg>`,
+        phone: `<svg ${attrs} aria-hidden="true"><rect width="12" height="20" x="6" y="2" rx="2"/><path d="M11 18h2"/></svg>`,
+        server: `<svg ${attrs} aria-hidden="true"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01"/><path d="M6 18h.01"/></svg>`,
+        database: `<svg ${attrs} aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>`,
+        check: `<svg ${attrs} aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>`,
+        sparkle: `<svg ${attrs} aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>`,
+        diamond: `<svg ${attrs} aria-hidden="true"><path d="m12 3 9 9-9 9-9-9 9-9Z"/></svg>`,
+        dot: `<svg ${attrs} aria-hidden="true"><circle cx="12" cy="12" r="3"/></svg>`
+    };
+    return icons[type] || icons.monitor;
+};
+
+const getPlatformIconSvg = (platform) => {
+    const lower = platform.toLowerCase();
+    if (lower.includes('mobile') || lower.includes('react native') || lower.includes('ios') || lower.includes('android')) {
+        return getProjectIconSvg('phone');
+    }
+    if (lower.includes('api') || lower.includes('backend') || lower.includes('microservice') || lower.includes('server') || lower.includes('scraping') || lower.includes('script') || lower.includes('console')) {
+        return getProjectIconSvg('server');
+    }
+    if (lower.includes('db') || lower.includes('database') || lower.includes('postgres') || lower.includes('sql') || lower.includes('mongo') || lower.includes('redis') || lower.includes('cluster') || lower.includes('caching') || lower.includes('storage')) {
+        return getProjectIconSvg('database');
+    }
+    return getProjectIconSvg('monitor');
+};
+
 // Plain-text stripper for clamped card previews (strips all markup tokens)
 const stripRichTokens = (text) => {
     if (!text || typeof text !== 'string') return '';
@@ -1635,18 +1664,10 @@ const initWorkModal = () => {
                             <h2 class="mobile-section-heading">Target Environment</h2>
                             <div class="mobile-platform-cards">
                                 ${project.platform.map(plat => {
-            let emoji = '💻';
-            const lowerPlat = plat.toLowerCase();
-            if (lowerPlat.includes('mobile') || lowerPlat.includes('react native') || lowerPlat.includes('ios') || lowerPlat.includes('android')) {
-                emoji = '📱';
-            } else if (lowerPlat.includes('api') || lowerPlat.includes('backend') || lowerPlat.includes('microservice') || lowerPlat.includes('server') || lowerPlat.includes('scraping') || lowerPlat.includes('script') || lowerPlat.includes('console')) {
-                emoji = '⚙️';
-            } else if (lowerPlat.includes('db') || lowerPlat.includes('database') || lowerPlat.includes('postgres') || lowerPlat.includes('sql') || lowerPlat.includes('mongo') || lowerPlat.includes('redis') || lowerPlat.includes('cluster') || lowerPlat.includes('caching') || lowerPlat.includes('storage')) {
-                emoji = '🗄️';
-            }
+            const icon = getPlatformIconSvg(plat);
             return `
                                         <div class="mobile-platform-card">
-                                            <span class="plat-emoji">${emoji}</span>
+                                            <span class="plat-icon">${icon}</span>
                                             <span class="plat-text">${plat}</span>
                                         </div>
                                     `;
@@ -1689,9 +1710,7 @@ const initWorkModal = () => {
                             <div class="mobile-feature-grid">
                                 ${project.coreSystems.map(sys => `
                                     <div class="mobile-feature-card">
-                                        <div class="mobile-feature-icon" style="color: var(--project-accent)">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                                        </div>
+                                        <div class="mobile-feature-icon" style="color: var(--project-accent)">${getProjectIconSvg('check')}</div>
                                         <span class="mobile-feature-text">${sys}</span>
                                     </div>
                                 `).join('')}
@@ -1706,9 +1725,7 @@ const initWorkModal = () => {
                             <div class="mobile-feature-grid">
                                 ${project.aiCollaboration.map(collab => `
                                     <div class="mobile-feature-card">
-                                        <div class="mobile-feature-icon" style="color: var(--project-accent)">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"/></svg>
-                                        </div>
+                                        <div class="mobile-feature-icon" style="color: var(--project-accent)">${getProjectIconSvg('sparkle')}</div>
                                         <span class="mobile-feature-text">${collab}</span>
                                     </div>
                                 `).join('')}
@@ -1881,18 +1898,10 @@ const initWorkModal = () => {
                                     <div class="tablet-info-card-title">Platform</div>
                                     <div class="tablet-info-card-list">
                                         ${project.platform.map(plat => {
-            let emoji = '💻';
-            const lowerPlat = plat.toLowerCase();
-            if (lowerPlat.includes('mobile') || lowerPlat.includes('react native') || lowerPlat.includes('ios') || lowerPlat.includes('android')) {
-                emoji = '📱';
-            } else if (lowerPlat.includes('api') || lowerPlat.includes('backend') || lowerPlat.includes('microservice') || lowerPlat.includes('server') || lowerPlat.includes('scraping') || lowerPlat.includes('script') || lowerPlat.includes('console')) {
-                emoji = '⚙️';
-            } else if (lowerPlat.includes('db') || lowerPlat.includes('database') || lowerPlat.includes('postgres') || lowerPlat.includes('sql') || lowerPlat.includes('mongo') || lowerPlat.includes('redis') || lowerPlat.includes('cluster') || lowerPlat.includes('caching') || lowerPlat.includes('storage')) {
-                emoji = '🗄️';
-            }
+            const icon = getPlatformIconSvg(plat);
             return `
                                                 <div class="tablet-info-item">
-                                                    <span class="tablet-info-icon">${emoji}</span>
+                                                    <span class="tablet-info-icon">${icon}</span>
                                                     <span class="tablet-info-text">${plat}</span>
                                                 </div>
                                             `;
@@ -1907,7 +1916,7 @@ const initWorkModal = () => {
                                     <div class="tablet-info-card-list">
                                         ${project.coreSystems.map(sys => `
                                             <div class="tablet-info-item">
-                                                <span class="tablet-info-icon" style="color: var(--project-accent);">✓</span>
+                                                <span class="tablet-info-icon" style="color: var(--project-accent);">${getProjectIconSvg('check')}</span>
                                                 <span class="tablet-info-text">${sys}</span>
                                             </div>
                                         `).join('')}
@@ -1921,7 +1930,7 @@ const initWorkModal = () => {
                                     <div class="tablet-info-card-list">
                                         ${project.aiCollaboration.map(collab => `
                                             <div class="tablet-info-item">
-                                                <span class="tablet-info-icon" style="color: var(--project-accent);">⚡</span>
+                                                <span class="tablet-info-icon" style="color: var(--project-accent);">${getProjectIconSvg('sparkle')}</span>
                                                 <span class="tablet-info-text">${collab}</span>
                                             </div>
                                         `).join('')}
@@ -2085,7 +2094,7 @@ const initWorkModal = () => {
                                     <div class="project-modal-info-card-list">
                                         ${project.focus.map(item => `
                                             <div class="info-card-item">
-                                                <span class="bullet" style="color: var(--project-accent);">◆</span>
+                                                <span class="bullet" style="color: var(--project-accent);">${getProjectIconSvg('diamond')}</span>
                                                 <span class="text">${item}</span>
                                             </div>
                                         `).join('')}
@@ -2098,7 +2107,7 @@ const initWorkModal = () => {
                                     <div class="project-modal-info-card-list">
                                         ${project.platform.map(item => `
                                             <div class="info-card-item">
-                                                <span class="bullet" style="color: var(--project-accent);">✓</span>
+                                                <span class="bullet" style="color: var(--project-accent);">${getProjectIconSvg('check')}</span>
                                                 <span class="text">${item}</span>
                                             </div>
                                         `).join('')}
@@ -2111,7 +2120,7 @@ const initWorkModal = () => {
                                     <div class="project-modal-info-card-list">
                                         ${project.coreSystems.map(item => `
                                             <div class="info-card-item">
-                                                <span class="bullet" style="color: var(--project-accent);">•</span>
+                                                <span class="bullet" style="color: var(--project-accent);">${getProjectIconSvg('dot')}</span>
                                                 <span class="text">${item}</span>
                                             </div>
                                         `).join('')}
@@ -2124,7 +2133,7 @@ const initWorkModal = () => {
                                     <div class="project-modal-info-card-list">
                                         ${project.aiCollaboration.map(item => `
                                             <div class="info-card-item">
-                                                <span class="bullet" style="color: var(--project-accent);">⚡</span>
+                                                <span class="bullet" style="color: var(--project-accent);">${getProjectIconSvg('sparkle')}</span>
                                                 <span class="text">${item}</span>
                                             </div>
                                         `).join('')}
