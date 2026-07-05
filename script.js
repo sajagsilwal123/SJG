@@ -106,7 +106,7 @@ initTheme();
 // Navbar scroll effect + Active nav highlight
 const navbar = document.getElementById('navbar');
 const navLinks = document.querySelectorAll('.navbar-link');
-const sections = document.querySelectorAll('#about, #story, #journey, #work, #connect');
+const sections = document.querySelectorAll('#about, #journey, #work, #connect');
 let lastScrollTop = 0;
 
 window.addEventListener('scroll', () => {
@@ -1353,6 +1353,10 @@ const PROJECTS = [
         gradient: 'linear-gradient(135deg, #f5576c22 0%, #f093fb22 100%)',
         accentColor: '#f5576c',
         status: 'Production',
+        projectLinks: [
+            { label: 'Company Website', display: 'www.basukitransport.com', href: 'https://www.basukitransport.com' },
+            { label: 'Management System', display: 'ms.basukitransport.com', href: 'https://ms.basukitransport.com' },
+        ],
         architectureDiagram: ['React Web App', 'Express Backend', 'PostgreSQL Database', 'SMS & Payment APIs', 'Telemetry Processing'],
     },
     {
@@ -1464,6 +1468,10 @@ const PROJECTS = [
         accentColor: '#10b981',
 
         status: 'Production',
+
+        projectLinks: [
+            { label: 'Live Website', display: 'leomultiple325.com', href: 'https://leomultiple325.com/' },
+        ],
 
         architectureDiagram: [
             'Public Web Portal',
@@ -1577,6 +1585,32 @@ const initWorkModal = () => {
     if (!modal) return;
     modal.setAttribute('tabindex', '-1');
 
+    const renderProjectLinks = (project) => {
+        if (!project.projectLinks?.length) return '';
+
+        return project.projectLinks.map(link => `
+            <a class="project-link-item" href="${link.href}" target="_blank" rel="noopener noreferrer" aria-label="Open ${link.label} for ${project.title}">
+                <span class="project-link-meta">
+                    <span class="project-link-label">${link.label}</span>
+                    <span class="project-link-url">${link.display}</span>
+                </span>
+                <span class="project-link-arrow" aria-hidden="true">↗</span>
+            </a>
+        `).join('');
+    };
+
+    const renderProjectLinksCard = (project, cardClass, titleClass, title = 'Project Links') => {
+        const links = renderProjectLinks(project);
+        if (!links) return '';
+
+        return `
+            <div class="${cardClass} project-links-card">
+                <div class="${titleClass}">${title}</div>
+                <div class="project-links-list">${links}</div>
+            </div>
+        `;
+    };
+
     const setModalViewportHeight = () => {
         const viewportHeight = Math.round(
             window.visualViewport?.height || window.innerHeight || document.documentElement.clientHeight
@@ -1654,6 +1688,7 @@ const initWorkModal = () => {
                         <div class="mobile-hero-focus-chips">
                             ${project.focus.map(chip => `<span class="mobile-focus-chip">${chip}</span>`).join('')}
                         </div>
+                        ${renderProjectLinksCard(project, 'mobile-project-links-card', 'mobile-section-label', 'Project Links')}
                     </div>
                     
                     <div class="mobile-divider"></div>
@@ -1944,6 +1979,8 @@ const initWorkModal = () => {
                                     ${project.status}
                                 </div>
                             </div>
+
+                            ${renderProjectLinksCard(project, 'tablet-info-card', 'tablet-info-card-title')}
                         </div>
                     </div>
 
@@ -2068,6 +2105,7 @@ const initWorkModal = () => {
                                     ${project.status}
                                 </div>
                             </div>
+                            ${renderProjectLinksCard(project, 'project-modal-info-card', 'project-modal-info-card-title')}
                             ${project.architectureDiagram ? `
                                 <div class="project-modal-info-card project-modal-topology-card">
                                     <div class="project-modal-info-card-title">System Topology</div>
