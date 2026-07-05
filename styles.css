@@ -4755,7 +4755,9 @@ select {
   padding: var(--spacing-5) var(--spacing-6);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--spacing-4);
+  text-align: left;
   color: var(--theme-text-primary);
   cursor: pointer;
   transition: var(--transition-smooth);
@@ -4803,7 +4805,7 @@ select {
   flex-direction: column;
   gap: var(--spacing-1);
   min-width: 0;
-  flex: 0 1 auto;
+  flex: 1;
 }
 
 .prev-btn .project-nav-project-info {
@@ -5335,8 +5337,10 @@ select {
     padding: var(--spacing-4);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--spacing-3);
     cursor: pointer;
+    text-align: left;
     transition: var(--transition-smooth);
     overflow: hidden;
     min-height: 64px;
@@ -5345,16 +5349,6 @@ select {
     touch-action: manipulation;
     position: relative;
     z-index: 1;
-  }
-
-  .footer-nav-btn.prev-project-btn {
-    justify-content: flex-start;
-    text-align: left;
-  }
-
-  .footer-nav-btn.next-project-btn {
-    justify-content: flex-end;
-    text-align: right;
   }
 
   .footer-nav-btn:active .nav-title {
@@ -5387,7 +5381,7 @@ select {
     flex-direction: column;
     gap: var(--spacing-1);
     overflow: hidden;
-    flex: 0 1 auto;
+    flex: 1;
   }
 
   .footer-nav-btn.prev-project-btn .nav-project-info {
@@ -5836,8 +5830,10 @@ select {
     padding: var(--spacing-5) var(--spacing-4);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--spacing-3);
     cursor: pointer;
+    text-align: left;
     transition: var(--transition-smooth);
     min-height: 64px;
     overflow: hidden;
@@ -5847,16 +5843,6 @@ select {
     background: color-mix(in srgb, var(--project-accent) 10%, var(--theme-bg-elevated));
     border-color: color-mix(in srgb, var(--project-accent) 34%, var(--theme-border));
     transform: translateY(-2px);
-  }
-
-  .tablet-footer-nav-btn.prev-btn {
-    justify-content: flex-start;
-    text-align: left;
-  }
-
-  .tablet-footer-nav-btn.next-btn {
-    justify-content: flex-end;
-    text-align: right;
   }
 
   .tablet-footer-nav-btn:hover .tablet-nav-title {
@@ -5884,7 +5870,7 @@ select {
     flex-direction: column;
     gap: var(--spacing-1);
     overflow: hidden;
-    flex: 0 1 auto;
+    flex: 1;
   }
 
   .tablet-footer-nav-btn.prev-btn .tablet-nav-project-info {

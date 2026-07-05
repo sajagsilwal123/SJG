@@ -1323,7 +1323,7 @@ const PROJECTS = [
     {
         title: 'BasukiMS',
         headline: 'Leading the Digital Transformation of a 30-Year Transport Legacy.',
-        overview: 'Led the conception, strategy, and end-to-end execution of **BasukiMS**, an ==enterprise-grade fleet management and transport operations platform== built to modernize Nepal\'s logistics industry. Defined the product vision, designed the core business workflows, and translated complex operational challenges into scalable digital solutions tailored for transport companies.\n\n> Insight: Modernizing a legacy, offline-first industry required bridging manual operational trust with real-world automated guardrails.',
+        overview: 'Led the conception, strategy, and end-to-end execution of **BasukiMS**, an ==enterprise-grade fleet management and transport operations platform== built to modernize Nepal\'s logistics industry. The platform features **GatiAI**, a proprietary AI system powered by **Qwen**, to automate complex operational workflows. Defined the product vision, designed the core business workflows, and translated complex operational challenges into scalable digital solutions tailored for transport companies.\n\n> Insight: Modernizing a legacy, offline-first industry required bridging manual operational trust with real-world automated guardrails.',
         sections: [
             {
                 label: 'ARCHITECTURE',
@@ -1338,7 +1338,7 @@ const PROJECTS = [
             {
                 label: 'INTELLIGENT SYSTEMS',
                 title: 'Operational Automation',
-                content: 'Spearheaded the design of advanced capabilities such as:\n\n- **AI-assisted document processing** for automated license and permit verification\n- **Intelligent compliance monitoring** to prevent regulatory violations\n- **Predictive financial insights** for fleet fuel and maintenance costs\n- **Automated dispatch workflows** based on vehicle proximity'
+                content: 'Spearheaded the design of advanced capabilities, including **GatiAI**—the platform\'s proprietary AI system powered by **Qwen**:\n\n- **AI-assisted document processing** for automated license and permit verification\n- **Intelligent compliance monitoring** to prevent regulatory violations\n- **Predictive financial insights** for fleet fuel and maintenance costs\n- **Automated dispatch workflows** based on vehicle proximity'
             },
             {
                 label: 'LEADERSHIP & EXECUTION',
@@ -1349,7 +1349,7 @@ const PROJECTS = [
         focus: ['Workflow Automation', 'Enterprise Resource Planning', 'Operational Intelligence', 'Platform Architecture'],
         platform: ['Web Application (React)', 'Express API Backend', 'PostgreSQL Database', 'Geolocation Tracking API'],
         coreSystems: ['Multi-Tenant Fleet Engine', 'Automated Operational Workflows', 'Document Verification Pipeline', 'Dynamic Financial Reporting'],
-        aiCollaboration: ['Gemini API integration', 'AI-Assisted Document Processing'],
+        aiCollaboration: ['GatiAI (Proprietary AI Integration)', 'Qwen AI Models Integration', 'AI-Assisted Document Processing'],
         gradient: 'linear-gradient(135deg, #f5576c22 0%, #f093fb22 100%)',
         accentColor: '#f5576c',
         status: 'Production',
