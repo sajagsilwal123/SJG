@@ -1771,7 +1771,7 @@ const initWorkModal = () => {
                     <div class="mobile-footer-section">
                         <div class="mobile-project-status">
                             <span class="status-label">Project Status</span>
-                            <span class="status-badge" style="background: var(--project-gradient); border-color: var(--project-accent);">${project.status}</span>
+                            <span class="status-badge">${project.status}</span>
                         </div>
                         <div class="mobile-footer-nav">
                             <button class="footer-nav-btn prev-project-btn" id="mobilePrevBtn" aria-label="Previous project">
@@ -1973,9 +1973,9 @@ const initWorkModal = () => {
                                 </div>
                             ` : ''}
 
-                            <div class="tablet-info-card">
+                            <div class="tablet-info-card tablet-status-card">
                                 <div class="tablet-info-card-title">Project Status</div>
-                                <div class="tablet-status-badge" style="background: var(--project-gradient); border-color: var(--project-accent);">
+                                <div class="tablet-status-badge" style="background: var(--project-gradient);">
                                     ${project.status}
                                 </div>
                             </div>

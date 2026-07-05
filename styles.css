@@ -5298,11 +5298,11 @@ select {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: color-mix(in srgb, var(--project-accent) 8%, var(--theme-bg-elevated));
+    background: transparent;
     padding: var(--spacing-4) var(--spacing-5);
     border-radius: 16px;
-    border: 1px solid color-mix(in srgb, var(--project-accent) 26%, var(--theme-border));
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    border: none;
+    box-shadow: none;
   }
 
   .mobile-project-status .status-label {
@@ -5316,7 +5316,8 @@ select {
     font-weight: 700;
     padding: var(--spacing-1) var(--spacing-3);
     border-radius: var(--radius-full);
-    border: 1px solid var(--project-accent);
+    border: none;
+    background: transparent;
     color: var(--theme-text-primary);
   }
 
@@ -5370,6 +5371,7 @@ select {
     color: var(--project-accent);
     font-weight: bold;
     flex-shrink: 0;
+    background: transparent;
     transition: transform 0.2s ease;
   }
 
@@ -5703,6 +5705,10 @@ select {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
   }
 
+  .tablet-status-card {
+    border: none;
+  }
+
   .tablet-info-card-title {
     font-size: var(--text-14);
     font-weight: 700;
@@ -5752,7 +5758,7 @@ select {
     font-weight: 700;
     padding: var(--spacing-2) var(--spacing-4);
     border-radius: var(--radius-full);
-    border: 1px solid var(--project-accent);
+    border: none;
     color: var(--theme-text-primary);
   }
 
