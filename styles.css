@@ -5298,38 +5298,38 @@ select {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: transparent;
-    padding: var(--spacing-4) var(--spacing-5);
-    border-radius: 16px;
-    border: none;
-    box-shadow: none;
+    padding: var(--spacing-3) 0;
   }
 
   .mobile-project-status .status-label {
     font-size: var(--text-14);
     font-weight: 600;
-    color: var(--theme-text-secondary);
+    color: var(--theme-text-muted);
+    letter-spacing: 0.02em;
   }
 
   .mobile-project-status .status-badge {
     font-size: var(--text-13);
     font-weight: 700;
-    padding: var(--spacing-1) var(--spacing-3);
+    padding: 6px 16px;
     border-radius: var(--radius-full);
-    border: none;
-    background: transparent;
-    color: var(--theme-text-primary);
+    border: 1.5px solid color-mix(in srgb, var(--project-accent) 50%, transparent);
+    color: var(--project-accent);
+    background: color-mix(in srgb, var(--project-accent) 10%, var(--theme-bg-elevated));
+    letter-spacing: 0.01em;
+    white-space: nowrap;
   }
 
   .mobile-footer-nav {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: var(--spacing-3);
     width: 100%;
   }
 
   .footer-nav-btn {
     flex: 1;
+    min-width: 0;
     background: transparent;
     border: none;
     border-radius: 0;
@@ -5347,6 +5347,11 @@ select {
     touch-action: manipulation;
     position: relative;
     z-index: 1;
+  }
+
+  .footer-nav-btn.next-project-btn {
+    border-left: 1px solid var(--theme-border);
+    padding-left: var(--spacing-3);
   }
 
   .footer-nav-btn:active .nav-title {
