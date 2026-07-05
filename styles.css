@@ -4749,10 +4749,10 @@ select {
 .project-modal-footer-nav-btn {
   flex: 1;
   min-width: 0;
-  background: color-mix(in srgb, var(--project-accent, var(--accent)) 6%, var(--theme-bg-elevated));
-  border: 1px solid color-mix(in srgb, var(--project-accent, var(--accent)) 20%, var(--theme-border));
-  border-radius: var(--radius-xl);
-  padding: var(--spacing-5) var(--spacing-6);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: var(--spacing-3) 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -4775,8 +4775,6 @@ select {
 
 .project-modal-footer-nav-btn:hover {
   transform: translateY(-2px);
-  background: color-mix(in srgb, var(--project-accent, var(--accent)) 10%, var(--theme-bg-elevated));
-  border-color: color-mix(in srgb, var(--project-accent, var(--accent)) 34%, var(--theme-border));
 }
 
 .project-modal-footer-nav-btn:hover .project-nav-title {
@@ -5331,10 +5329,10 @@ select {
 
   .footer-nav-btn {
     flex: 1;
-    background: color-mix(in srgb, var(--project-accent) 6%, var(--theme-bg-elevated));
-    border: 1px solid color-mix(in srgb, var(--project-accent) 20%, var(--theme-border));
-    border-radius: 16px;
-    padding: var(--spacing-4);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: var(--spacing-3) 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -5343,7 +5341,6 @@ select {
     text-align: left;
     transition: var(--transition-smooth);
     overflow: hidden;
-    min-height: 64px;
     color: var(--theme-text-primary);
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -5356,8 +5353,8 @@ select {
   }
 
   .footer-nav-btn:active {
-    background: color-mix(in srgb, var(--project-accent) 12%, var(--theme-bg-elevated));
-    border-color: color-mix(in srgb, var(--project-accent) 34%, var(--theme-border));
+    background: transparent;
+    border-color: transparent;
   }
 
   .footer-nav-btn.prev-project-btn:active .nav-arrow {
@@ -5824,10 +5821,10 @@ select {
 
   .tablet-footer-nav-btn {
     flex: 1;
-    background: color-mix(in srgb, var(--project-accent) 6%, var(--theme-bg-elevated));
-    border: 1px solid color-mix(in srgb, var(--project-accent) 20%, var(--theme-border));
-    border-radius: 20px;
-    padding: var(--spacing-5) var(--spacing-4);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: var(--spacing-3) 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -5835,13 +5832,12 @@ select {
     cursor: pointer;
     text-align: left;
     transition: var(--transition-smooth);
-    min-height: 64px;
     overflow: hidden;
   }
 
   .tablet-footer-nav-btn:hover {
-    background: color-mix(in srgb, var(--project-accent) 10%, var(--theme-bg-elevated));
-    border-color: color-mix(in srgb, var(--project-accent) 34%, var(--theme-border));
+    background: transparent;
+    border-color: transparent;
     transform: translateY(-2px);
   }
 
