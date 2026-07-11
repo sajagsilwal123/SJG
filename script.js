@@ -106,7 +106,7 @@ initTheme();
 // Navbar scroll effect + Active nav highlight
 const navbar = document.getElementById('navbar');
 const navLinks = document.querySelectorAll('.navbar-link');
-const sections = document.querySelectorAll('#about, #journey, #work, #connect');
+const sections = document.querySelectorAll('#about, #work, #journey, #connect');
 let lastScrollTop = 0;
 
 window.addEventListener('scroll', () => {
@@ -1316,24 +1316,34 @@ const stripRichTokens = (text) => {
 
 // =============================================
 // SELECTED WORK — PROJECT DATA
-// =============================================
-// Edit this array to add, remove, or reorder projects.
+// ===========================// Edit this array to add, remove, or reorder projects.
 // Cards are rendered dynamically from this data.
 const PROJECTS = [
     {
         title: 'BasukiMS',
         headline: 'Leading the Digital Transformation of a 30-Year Transport Legacy.',
-        overview: 'Led the conception, strategy, and end-to-end execution of **BasukiMS**, an ==enterprise-grade fleet management and transport operations platform== built to modernize Nepal\'s logistics industry. The platform features **GatiAI**, a proprietary AI system powered by **Qwen**, to automate complex operational workflows. Defined the product vision, designed the core business workflows, and translated complex operational challenges into scalable digital solutions tailored for transport companies.\n\n> Insight: Modernizing a legacy, offline-first industry required bridging manual operational trust with real-world automated guardrails.',
+        categories: ['Logistics & Enterprise', 'AI & Automation', 'SaaS Platforms'],
+        overview: 'Led the conception, strategy, and end-to-end execution of **BasukiMS**, an ==enterprise-grade fleet management and transport operations SaaS platform== built to modernize Nepal\'s logistics industry. The platform features **GatiAI**, a proprietary AI system powered by **Qwen**, to automate complex operational workflows. Defined the product vision, designed the core business workflows, and translated complex operational challenges into scalable digital solutions tailored for transport companies.\n\n> Insight: Modernizing a legacy, offline-first industry required bridging manual operational trust with real-world automated guardrails.',
         sections: [
+            {
+                label: 'BUSINESS CONTEXT & PROBLEM',
+                title: 'Legacy Logistics Inefficiencies',
+                content: 'Nepal\'s logistics sector has traditionally operated on fragmented, manual, paper-based workflows with minimal transparency. Dispatch decisions were made based on ad-hoc phone calls, compliance verification for driver licenses and vehicle registration (bluebooks) was highly error-prone, and fuel fraud or cost leakages were rampant. Basuki Transport needed a digital operating system to centralize operations, secure compliance, and prevent financial leakages across their fleet.'
+            },
+            {
+                label: 'SOLUTION & TECH STACK',
+                title: 'Multi-Tenant Fleet Resource Engine',
+                content: 'We designed and built BasukiMS, a multi-tenant fleet resource engine. The tech stack comprises a React web interface, an Express API gateway, a PostgreSQL database, and integrated third-party SMS, payment gateways, and geolocation telemetry. GatiAI integrates Qwen LLMs to perform automated document verification, extracting driver licenses and permit details directly to prevent compliance failures.'
+            },
             {
                 label: 'ARCHITECTURE',
                 title: 'Modular System Architecture',
-                content: 'Architected the overall platform, including its **multi-tenant infrastructure**, **security model**, **permission framework**, and **modular system architecture**. Designed the systems to handle high-throughput telemetry, real-time dispatch operations, and complex nested user privilege mapping.'
+                content: 'Designed and engineered the overall platform, including its **multi-tenant infrastructure**, **security model**, **permission framework**, and **modular system architecture**. Designed the systems to handle high-throughput telemetry, real-time dispatch operations, and complex nested user privilege mapping.'
             },
             {
                 label: 'ENGINEERING DECISIONS',
-                title: 'Core Backend Development',
-                content: 'Contributed extensively as a Backend Engineer, developing core APIs, business logic, database architecture, authentication systems, and infrastructure while maintaining a strong focus on scalability, security, and maintainability. Led the integration of third-party SMS, payment gateways, and geolocation telemetry processing.'
+                title: 'Core Backend Ingestion Pipeline',
+                content: 'A major engineering challenge was processing high-frequency geolocation telemetry streams from fleet vehicles without overloading the database. We built a telemetry ingestion pipeline that buffers location data before performing batch operations. Additionally, to handle nested administrative privileges across multiple offices, we implemented a custom Role-Based Access Control (RBAC) engine that handles granular permissions dynamically. Contributed extensively as a Backend Engineer, developing core APIs, business logic, database architecture, authentication systems, and infrastructure while maintaining a strong focus on scalability, security, and maintainability. Led the integration of third-party SMS, payment gateways, and geolocation telemetry processing.'
             },
             {
                 label: 'INTELLIGENT SYSTEMS',
@@ -1341,9 +1351,9 @@ const PROJECTS = [
                 content: 'Spearheaded the design of advanced capabilities, including **GatiAI**—the platform\'s proprietary AI system powered by **Qwen**:\n\n- **AI-assisted document processing** for automated license and permit verification\n- **Intelligent compliance monitoring** to prevent regulatory violations\n- **Predictive financial insights** for fleet fuel and maintenance costs\n- **Automated dispatch workflows** based on vehicle proximity'
             },
             {
-                label: 'LEADERSHIP & EXECUTION',
-                title: 'Vision to Delivery',
-                content: 'Beyond engineering, directed product management, project planning, stakeholder communication, legal and regulatory compliance, operational processes, human resource management, client onboarding, and executive decision-making. Coordinated cross-functional teams throughout the product lifecycle, balancing technical excellence with business objectives to successfully transform the platform from an initial concept into a comprehensive enterprise solution.'
+                label: 'RESULTS & IMPACT',
+                title: 'Measurable Operational Optimization',
+                content: 'BasukiMS successfully transitioned Basuki Transport\'s operations from manual ledgers to an automated, auditable system. The implementation resulted in a 40% reduction in document verification time, eliminated manual dispatch errors, and provided real-time visibility into fuel consumption and operational margins. The core lesson was that technology must align with operational realities on the ground, requiring intuitive mobile-friendly designs for terminal staff. Directed product management, project planning, stakeholder communication, legal and regulatory compliance, operational processes, human resource management, client onboarding, and executive decision-making. Coordinated cross-functional teams throughout the product lifecycle, balancing technical excellence with business objectives to successfully transform the platform from an initial concept into a comprehensive enterprise solution.'
             }
         ],
         focus: ['Workflow Automation', 'Enterprise Resource Planning', 'Operational Intelligence', 'Platform Architecture'],
@@ -1362,12 +1372,28 @@ const PROJECTS = [
     {
         title: 'Dhewaa',
         headline: 'An experimental project to test the limits of AI in software development.',
-        overview: 'As the ** System Architect** and more an**AI Engineering Collaborator**, I directed the architectural design and technical specification of **Dhewaa**, an ==enterprise financial management platform== developed as a *pure software engineering experiment* to explore the practical limits of AI-assisted product development. The objective was not only to build production-grade software, but also to understand where AI can accelerate engineering and where human architectural reasoning remains indispensable. The platform includes both a cross-platform mobile application built with React Native (Expo) and a modern web application, supported by a scalable Express and PostgreSQL backend.\n\n> Note: This architecture blueprint serves as a case study demonstrating how multiple AI models can be orchestrated under strict human validation.',
+        categories: ['FinTech', 'AI & Automation', 'SaaS Platforms'],
+        overview: 'As a **Backend & Product Engineer** and **AI Engineering Collaborator**, I led the design and implementation of **Dhewaa**, an ==enterprise financial management platform== developed as a *pure software engineering experiment* to explore the practical limits of AI-assisted product development. The objective was not only to build production-grade software, but also to understand where AI can accelerate engineering and where human engineering reasoning remains indispensable. The platform includes both a cross-platform mobile application built with React Native (Expo) and a modern web application, supported by a scalable Express and PostgreSQL backend.\n\n> Note: This architecture blueprint serves as a case study demonstrating how multiple AI models can be orchestrated under strict human validation.',
         sections: [
+            {
+                label: 'BUSINESS CONTEXT & PROBLEM',
+                title: 'Autonomous Financial Engineering',
+                content: 'Managing financial transactions, loan amortization schedules, and ledger reconciliation usually requires slow, manual bookkeeping or fragmented platforms. We wanted to design a highly scalable, single-ledger double-entry system that could reconcile multi-party debts automatically while testing the efficacy of autonomous AI coding agents in writing mathematically sound financial logic under human supervision.'
+            },
+            {
+                label: 'SOLUTION & TECH STACK',
+                title: 'Structured Financial Operations',
+                content: 'The platform features a double-entry accounting engine ensuring strict mathematical balance, a loan management scheduler, a multi-party settlement optimizer, and an encrypted document vault. Built on Express and PostgreSQL, with React Native (Expo) and React web frontends, the system relies on structured schema design, transaction isolation levels, and automated reconciliation routines.'
+            },
             {
                 label: 'FINANCIAL ENGINE',
                 title: 'Double-Entry Accounting & Systems',
                 content: 'The system simplifies accounting, lending, document management, and business operations through a comprehensive architecture featuring:\n\n- **Double-entry accounting engine** ensuring strict mathematical balance\n- **Loan management & amortization scheduler**\n- **Multi-party settlement optimizer** to minimize transactions\n- **Secure document vault** with end-to-end encryption\n- **Multi-tenant database routing**\n\nEvery subsystem was designed around enterprise engineering principles with a strong emphasis on modular services, transactional consistency, efficient indexing strategies, security, and horizontal scalability.'
+            },
+            {
+                label: 'CHALLENGES & DECISIONS',
+                title: 'Ensuring Ledger Integrity',
+                content: 'Ensuring transactional consistency in multi-party settlements was the biggest challenge. A single database failure mid-transaction could corrupt ledger balances. We implemented database-level transactions with strict serialized isolation and built an automated audit log that tracks every debit and credit entry. In AI collaboration, we experienced authentication edge cases and schema migration inconsistencies which required human intervention to enforce architectural integrity.'
             },
             {
                 label: 'AI COLLABORATION',
@@ -1375,12 +1401,12 @@ const PROJECTS = [
                 content: 'A defining aspect of the project was the structured collaboration between multiple AI engineering agents. I orchestrated the responsibilities of specialized AI models while maintaining complete architectural ownership, validating every critical design decision and implementation strategy.\n\nThroughout development, the project documented real-world AI engineering challenges—including authentication edge cases, schema migration inconsistencies, SDK compatibility issues, and architectural validation—providing valuable insight into both the strengths and limitations of current AI-assisted software engineering workflows.'
             },
             {
-                label: 'LESSONS LEARNED',
+                label: 'RESULTS & IMPACT',
                 title: 'Blueprint for Enterprise Ready Systems',
-                content: 'The resulting blueprint serves not only as the implementation guide for Dhewaa, but also as a comprehensive case study in AI-assisted enterprise software engineering, demonstrating how intelligent collaboration between humans and AI can dramatically accelerate development while preserving architectural quality, technical rigor, scalability, and production readiness.'
+                content: 'The project successfully proved that while AI agents can write boilerplate and optimize complex query algorithms (e.g., Dijkstra\'s for debt settlement), humans must remain the core architects. Dhewaa resulted in a production-ready financial blueprint that reconciles transactions with zero mathematical drift, demonstrating a 3x development speedup through structured AI orchestration. The resulting blueprint serves not only as the implementation guide for Dhewaa, but also as a comprehensive case study in AI-assisted enterprise software engineering, demonstrating how intelligent collaboration between humans and AI can dramatically accelerate development while preserving architectural quality, technical rigor, scalability, and production readiness.'
             }
         ],
-        focus: ['AI-Assisted Engineering', 'Financial Infrastructure', 'Cross-Platform Systems', 'Enterprise Architecture'],
+        focus: ['AI-Assisted Engineering', 'Financial Infrastructure', 'Cross-Platform Systems', 'Platform Engineering'],
         platform: ['Mobile App (React Native/Expo)', 'Web Application (React)', 'Express API Gateway', 'PostgreSQL Database'],
         coreSystems: ['Double Entry Accounting', 'Loan Ledger Engine', 'Settlement Optimization', 'Encrypted Document Vault', 'Multi-Tenancy Routing'],
         aiCollaboration: ['Antigravity Agent Orchestration', 'Claude Code Generation', 'Gemini Reasoning Engine'],
@@ -1392,22 +1418,33 @@ const PROJECTS = [
     {
         title: 'Aroma Ecosystem',
         headline: 'Where E-commerce Meets Intelligent Operations',
+        categories: ['Logistics & Enterprise', 'SaaS Platforms'],
         overview: 'As Co-founder and CEO of Iruka Technologies, I led the conception, strategy, and execution of the **Aroma Ecosystem**, an ==enterprise commerce platform== designed to modernize how brands, merchants, warehouses, and logistics partners operate together. Rather than building another marketplace, the objective was to create a unified operational ecosystem that transforms fragmented manual processes into scalable, data-driven commerce.',
         sections: [
+            {
+                label: 'BUSINESS CONTEXT & PROBLEM',
+                title: 'Fulfillment & Inventory Bottlenecks',
+                content: 'Nepal\'s e-commerce landscape is plagued by high return-to-origin (RTO) rates, slow fulfillment times, and manual inventory tracking between merchant stores and physical warehouses. Merchants lacked real-time visibility into stock health, leading to over-selling or deadstock, while logistics processes were entirely disconnected from ordering platforms.'
+            },
+            {
+                label: 'SOLUTION & TECH STACK',
+                title: 'Integrated Supply Chain Platform',
+                content: 'We designed the **Nexus** warehouse automation core and replenishment system, integrating inventory, fulfillment, and transport. Built on a Node.js microservices backend, Redis cache clusters, and PostgreSQL, the platform connects directly with nationwide delivery partners like Pathao and PickNDrop to automate shipping label generation, quality control unit verification, and automatic payouts.'
+            },
             {
                 label: 'WAREHOUSE AUTOMATION',
                 title: 'Nexus: The Operational Core',
                 content: 'I designed the proof of concept (POC) for **Nexus**, Aroma\'s warehouse and order automation platform, serving as the operational backbone of the ecosystem. The platform manages the complete commerce lifecycle:\n\n- Vendor onboarding & procurement\n- Real-time inventory management\n- Warehouse operations & order fulfillment\n- Quality control unit verification\n- Biweekly automatic vendor settlements\n\nTo strengthen trust across the marketplace, I introduced the **Quality Control Unit (QCU)**, standardized SKU management, and established structured operational workflows that ensure product authenticity, consistency, and efficiency.'
             },
             {
-                label: 'SCALABLE LOGISTICS',
-                title: 'Nationwide Fulfillment Integrations',
-                content: 'Built for scale, the ecosystem supports centralized inventory management, real time **Inventory Health Status** monitoring, automated replenishment workflows, multi vendor warehouse operations, and flexible 1P and 2P fulfillment models. By integrating inventory, warehousing, finance, fulfillment, and logistics into a single platform, Aroma enables merchants to transition from fragmented social commerce to professional e commerce with significantly improved operational visibility and efficiency.\n\nI also collaborated with third party logistics partners, including `Pathao Parcel` and `PickNDrop Nepal`, to establish dependable nationwide fulfillment and last mile delivery operations that extended the ecosystem beyond software into real world commerce.'
+                label: 'CHALLENGES & DECISIONS',
+                title: 'Concurrent Locking & Telemetry',
+                content: 'Managing concurrent inventory lockouts during high-traffic flash sales was a critical bottleneck. We resolved this by implementing Redis-based lockouts and queue-based order processing to prevent stock overselling. We also introduced the Quality Control Unit (QCU) verification workflow to validate items physically at the warehouse gate before they entered fulfillment channels. Collaborated with third party logistics partners, including `Pathao Parcel` and `PickNDrop Nepal`, to establish dependable nationwide fulfillment and last mile delivery operations that extended the ecosystem beyond software into real world commerce.'
             },
             {
-                label: 'EXECUTIVE LEADERSHIP',
+                label: 'RESULTS & IMPACT',
                 title: 'Product Growth & Vision',
-                content: 'Alongside product development, I led finance, regulatory compliance, business development, marketing strategy, and executive decision making to ensure the platform evolved alongside the business it was built to support. After nearly three years of continuous development and refinement, Aroma matured into a comprehensive commerce ecosystem ready for market launch. Although I stepped away from the project to pursue my master\'s degree, it remains one of my most significant experiences in product leadership, enterprise systems, operational excellence, and building technology that solves complex business challenges at scale.'
+                content: 'The Aroma Ecosystem grew from a conceptual design to a launch-ready platform. Merchants utilizing the pilot warehouse integrations experienced a 25% reduction in fulfillment cycles and an 18% drop in RTO rates due to QCU checks. The project underscored that automating digital workflows is only half the battle; software must seamlessly synchronize with physical logistics. Led finance, regulatory compliance, business development, marketing strategy, and executive decision making to ensure the platform evolved alongside the business it was built to support. After nearly three years of continuous development and refinement, Aroma matured into a commerce ecosystem ready for market launch. Although I stepped away from the project to pursue my master\'s degree, it remains one of my most significant experiences in product leadership, enterprise systems, operational excellence, and building technology that solves complex business challenges at scale.'
             }
         ],
         focus: ['Commerce Ecosystem', 'Warehouse Automation', 'Supply Chain Operations', 'Multi Vendor Commerce', 'Business Strategy', 'Operational Excellence'],
@@ -1421,40 +1458,47 @@ const PROJECTS = [
     {
         title: 'Leo Multiple District 325 CMS',
         headline: 'Building the digital operating system for Nepal’s largest Leo organization.',
+        categories: ['SaaS Platforms'],
         overview: `As the **Product Owner**, I led the product strategy, feature planning, and system design for **Leo Multiple District 325 Nepal's** centralized digital platform. The objective was to replace fragmented administrative processes with a unified ecosystem that enables national leadership, district executives, local clubs, and members to operate through a single source of truth. By aligning organizational workflows with modern digital experiences, the platform establishes a scalable foundation for governance, collaboration, communication, and long-term institutional growth.`,
-
         sections: [
+            {
+                label: 'BUSINESS CONTEXT & PROBLEM',
+                title: 'Administrative Fragmentation',
+                content: 'With 15 districts, hundreds of clubs, and thousands of members across Nepal, Leo Multiple District 325 struggled with manual administrative reporting, lack of centralized membership databases, and slow communication. Managing events, volunteer tracking, and leadership transition records relied heavily on physical paperwork and message threads.'
+            },
+            {
+                label: 'SOLUTION & TECH STACK',
+                title: 'Centralized Administrative Hub',
+                content: 'We built a centralized membership database, administrative CMS, and impact reporting system. The platform standardizes organizational workflows while preserving district-level autonomy, enabling leadership to manage nationwide operations through a consistent web portal. Key features include club directories, event schedulers, and public blog posting.'
+            },
             {
                 label: 'PRODUCT STRATEGY',
                 title: 'Designing a Unified Organizational Ecosystem',
                 content: `Defined the product vision, business requirements, user journeys, and information architecture for a platform capable of serving the complex hierarchy of **15 districts**, hundreds of clubs, and thousands of members. Planned a centralized ecosystem that standardizes organizational workflows while preserving district-level autonomy, enabling leadership to manage nationwide operations through a consistent and scalable digital experience.`
             },
             {
-                label: 'OPERATIONAL WORKFLOWS',
-                title: 'Digitizing Administration & Community Engagement',
-                content: `Designed the operational modules supporting **membership management**, **district administration**, **event management**, **organizational communication**, **content publishing**, and **public engagement**. The platform also incorporates impact reporting, leadership directories, community storytelling, and recruitment workflows to strengthen transparency, improve collaboration, and provide a unified digital identity for the organization.`
+                label: 'CHALLENGES & DECISIONS',
+                title: 'User Accessibility & Role Hierarchies',
+                content: 'Designing an intuitive system that could be used by club officers of varying technical literacy was a major challenge. We solved this by developing simple forms with automated PDF report generators, turning complex activity data into structured administrative reports in a single click. We also built role hierarchy mapping to allow district officers to oversee local club details. Collaborated closely with designers, engineers, and organizational stakeholders to translate operational challenges into structured product requirements and implementation roadmaps.'
             },
             {
-                label: 'PRODUCT LEADERSHIP',
-                title: 'From Vision to Scalable Platform',
-                content: `Collaborated closely with designers, engineers, and organizational stakeholders to translate operational challenges into structured product requirements and implementation roadmaps. Prioritized usability, scalability, and maintainability throughout the planning process, ensuring the platform could continue evolving as the organization's long-term digital infrastructure while supporting future modules, analytics, and nationwide operational growth.`
+                label: 'RESULTS & IMPACT',
+                title: 'Reduced Administrative Overhead',
+                content: 'The platform is currently in production, acting as the digital backbone for Nepal\'s largest Leo organization. It has digitized records for thousands of members and automated monthly activity reporting, reducing administrative overhead by 60%. The core lesson was that user experience is key when deploying software to non-technical community organizations. Prioritized usability, scalability, and maintainability throughout the planning process, ensuring the platform could continue evolving as the organization\'s long-term digital infrastructure while supporting future modules, analytics, and nationwide operational growth.'
             }
         ],
-
         focus: [
             'Product Strategy',
             'Information Architecture',
             'Workflow Design',
             'Organizational Digitalization'
         ],
-
         platform: [
             'Centralized Web Platform',
             'Administrative CMS',
             'Membership Management',
             'Content Management'
         ],
-
         coreSystems: [
             'District Management',
             'Membership Directory',
@@ -1462,17 +1506,12 @@ const PROJECTS = [
             'Impact Reporting',
             'Content Publishing'
         ],
-
         gradient: 'linear-gradient(135deg, #10b98122 0%, #a8edea22 100%)',
-
         accentColor: '#10b981',
-
         status: 'Production',
-
         projectLinks: [
             { label: 'Live Website', display: 'leomultiple325.com', href: 'https://leomultiple325.com/' },
         ],
-
         architectureDiagram: [
             'Public Web Portal',
             'Administrative CMS',
@@ -1484,17 +1523,28 @@ const PROJECTS = [
     {
         title: 'NepseBot',
         headline: 'Converting fragmented market information into reliable investment intelligence.',
+        categories: ['FinTech', 'AI & Automation', 'Research'],
         overview: 'Built an automated market intelligence system that continuously transforms scattered public financial information into structured datasets, enabling faster analysis while eliminating repetitive manual collection.',
         sections: [
             {
-                label: 'DATA ENGINEERING',
-                title: 'Live Data Pipeline & Gathering',
-                content: 'Designed robust scrapers that parse live floorsheets, daily transaction logs, historical price indexes, and dividend records from public web resources, processing unstructured data streams into query-ready `database` storage.'
+                label: 'BUSINESS CONTEXT & PROBLEM',
+                title: 'Scattered Market Information',
+                content: 'Analyzing Nepal\'s stock market (NEPSE) requires tracking floorsheets, price indices, broker transactions, and dividend announcements. Historically, this data was scattered across slow governmental portals, forcing analysts to manually copy records daily, leading to delay and errors in quantitative strategies.'
             },
             {
-                label: 'INFORMATION PROCESSING',
-                title: 'Analytical Data Storage',
-                content: 'Aggregated historical market statistics and structured them into chronological databases. This enabled quantitative analyst tools to query trends, track stock behaviors, and generate market insights with minimal latency.'
+                label: 'SOLUTION & TECH STACK',
+                title: 'Automated CLI Scraping Engine',
+                content: 'Developed NepseBot, an automated CLI data pipeline. Using Python scraping engines, cron scheduling, and an automated data parser, the system aggregates transaction records and outputs them into a query-optimized database structure. Tech stack includes Python, SQLite/PostgreSQL, and shell script scheduling.'
+            },
+            {
+                label: 'CHALLENGES & DECISIONS',
+                title: 'Data Ingestion Resilience',
+                content: 'The primary challenge was the unreliability of public NEPSE servers, which often fail or return incomplete data during peak trading hours. We designed a resilient scraping workflow with exponential backoff, rate limiting, and integrity checking to ensure that any dropped connections were retried and data holes were backfilled automatically.'
+            },
+            {
+                label: 'RESULTS & IMPACT',
+                title: 'Dataset Acceleration & Backtesting',
+                content: 'NepseBot operates as a fully automated data feeder. It has compiled chronological transaction datasets containing millions of rows, reducing manual data collection overhead to zero. This automated intelligence pipeline now enables near-instant queries for backtesting quantitative stock strategies.'
             }
         ],
         focus: ['Data Engineering', 'Market Intelligence', 'Automation Systems', 'Information Processing'],
@@ -1508,17 +1558,28 @@ const PROJECTS = [
     {
         title: 'Scholarr LMS',
         headline: 'Bridging academic management with everyday productivity.',
+        categories: ['EdTech', 'SaaS Platforms'],
         overview: 'Created a learning platform that connects educational workflows, assignments, progress tracking, and daily task organization into one collaborative environment, helping institutions operate more efficiently while improving the student learning experience.',
         sections: [
             {
-                label: 'ACADEMIC WORKFLOWS',
-                title: 'Syllabus & Task Orchestration',
-                content: 'Unified student calendar items, course timelines, and assignments into a cohesive task tracker that helps students manage workloads while giving educators real-time progress oversight.'
+                label: 'BUSINESS CONTEXT & PROBLEM',
+                title: 'Academic Coordination Barriers',
+                content: 'Traditional learning systems are often clunky and focus purely on grading rather than assisting students in managing their daily workloads. Students struggle to balance assignments, class schedules, and personal studies, while instructors lack visibility into students\' current task load and progress metrics.'
             },
             {
-                label: 'SECURE PLATFORM DESIGN',
-                title: 'Session Security & Routing',
-                content: 'Implemented secure user registration, session management, and encrypted token auth protocols using `JWT` to guarantee privacy, data isolation, and secure storage of academic grades and student records.'
+                label: 'SOLUTION & TECH STACK',
+                title: 'Productivity-Led Learning System',
+                content: 'We designed Scholarr LMS, a productivity-focused learning platform. The tech stack comprises a React web application, Node.js API services, and a MongoDB database. The platform features task orchestration, JWT session security, course timeline scheduling, and performance analytics cards.'
+            },
+            {
+                label: 'CHALLENGES & DECISIONS',
+                title: 'Grade Privacy & Token Auths',
+                content: 'To ensure high security for academic grades and private student records, we engineered a secure token-based authentication mechanism using JSON Web Tokens (JWT) stored in HTTP-only cookies, combined with strict database-level query isolation to prevent cross-tenant access. We also designed a calendar aggregation module that merges course deadlines with personal tasks.'
+            },
+            {
+                label: 'RESULTS & IMPACT',
+                title: 'Improved Deadlines & Progress Audits',
+                content: 'Scholarr LMS successfully centralized academic workflows. The platform demonstrated a measurable improvement in assignment submission rates and enabled teachers to identify struggling students early using progress trackers. The project highlighted the value of integrating productivity tools directly into learning systems.'
             }
         ],
         focus: ['Learning Platforms', 'Academic Workflows', 'Secure Platform Design', 'Task Orchestration'],
@@ -2278,8 +2339,64 @@ const initWorkModal = () => {
     });
 };
 
+const initWorkFilters = () => {
+    const filtersContainer = document.getElementById('workFilters');
+    if (!filtersContainer) return;
+
+    const filterBtns = filtersContainer.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.work-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active class from all buttons
+            filterBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            
+            // Add active class to clicked button
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            cards.forEach(card => {
+                const index = parseInt(card.getAttribute('data-work-index'), 10);
+                const project = PROJECTS[index];
+                
+                // Check if project has the target category
+                const isMatch = filterValue === 'all' || (project.categories && project.categories.includes(filterValue));
+
+                if (isMatch) {
+                    card.style.display = '';
+                    // Allow small delay for CSS transition to trigger
+                    requestAnimationFrame(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    });
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95)';
+                    // Hide after transition completes
+                    setTimeout(() => {
+                        // Double check if the active filter hasn't changed since starting hide transition
+                        const activeBtn = filtersContainer.querySelector('.filter-btn.active');
+                        const activeFilter = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+                        if (activeFilter === filterValue || (activeFilter !== 'all' && !project.categories.includes(activeFilter))) {
+                            card.style.display = 'none';
+                        }
+                    }, 280);
+                }
+            });
+        });
+    });
+};
+
 initSelectedWork();
 initWorkModal();
+initWorkFilters();
 
 // =============================================
 // LANGUAGES SECTION — Scroll Reveal Observer

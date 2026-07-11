@@ -3911,6 +3911,43 @@ select {
   position: relative;
 }
 
+/* --- Work Filters --- */
+.work-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-2);
+  margin-top: calc(-1 * var(--spacing-4));
+  margin-bottom: var(--spacing-8);
+  padding: 0 var(--spacing-4);
+}
+
+.filter-btn {
+  background: var(--theme-bg-badge);
+  border: 1px solid var(--theme-border);
+  color: var(--theme-text-secondary);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: var(--text-14);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+  background: var(--theme-bg-elevated);
+  color: var(--theme-text-primary);
+  border-color: var(--theme-border-strong);
+}
+
+.filter-btn.active {
+  background: var(--color-orange-500);
+  color: var(--color-white);
+  border-color: var(--color-orange-500);
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.25);
+}
+
 .work-stack {
   display: grid;
   grid-template-columns: 1fr;
@@ -3938,12 +3975,15 @@ select {
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-md);
   position: relative;
+  opacity: 1;
+  transform: scale(1);
   transition:
-    transform 350ms cubic-bezier(.2, .8, .2, 1),
+    opacity 280ms cubic-bezier(.2, .8, .2, 1),
+    transform 280ms cubic-bezier(.2, .8, .2, 1),
     box-shadow 280ms cubic-bezier(.2, .8, .2, 1),
     border-color 280ms cubic-bezier(.2, .8, .2, 1),
     filter 280ms cubic-bezier(.2, .8, .2, 1);
-  will-change: transform;
+  will-change: transform, opacity;
 }
 
 @media (min-width: 768px) {
