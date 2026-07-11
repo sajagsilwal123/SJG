@@ -3625,16 +3625,15 @@ select {
   transform: rotate(180deg);
 }
 
-/* Story/Tabs Section */
 .story-section {
-  padding: var(--spacing-8) 0 var(--spacing-20) 0;
+  padding: var(--spacing-8) 0 var(--spacing-10) 0;
   background-color: var(--theme-bg);
   transition: background-color var(--transition-normal);
 }
 
 @media (min-width: 768px) {
   .story-section {
-    padding: var(--spacing-10) 0 var(--spacing-30) 0;
+    padding: var(--spacing-10) 0 var(--spacing-16) 0;
   }
 }
 
@@ -3903,7 +3902,7 @@ select {
    SELECTED WORK SECTION
 ============================================= */
 .work-section {
-  padding-top: var(--spacing-20);
+  padding-top: var(--spacing-12);
   padding-bottom: var(--spacing-8);
   padding-left: var(--spacing-6);
   padding-right: var(--spacing-6);
