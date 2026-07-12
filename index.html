@@ -976,9 +976,12 @@
       </div>
       <div class="contact-modal-body">
         <form id="contactForm" novalidate>
-          <!-- Honeypot Field -->
-          <div style="display: none;" aria-hidden="true">
-            <input type="text" name="website_trap" id="contactFormWebsiteTrap" tabindex="-1" autocomplete="off" />
+          <!-- Honeypots (visual-hidden, offscreen, bypassed by screen readers & keyboards) -->
+          <div class="contact-hp-container" aria-hidden="true" tabindex="-1">
+            <input type="text" name="website_trap" id="contactFormWebsiteTrap" tabindex="-1" autocomplete="new-password" />
+            <input type="text" name="companyWebsite" id="contactFormCompanyWebsite" tabindex="-1" autocomplete="new-password" />
+            <input type="text" name="faxNumber" id="contactFormFaxNumber" tabindex="-1" autocomplete="new-password" />
+            <input type="text" name="middleName" id="contactFormMiddleName" tabindex="-1" autocomplete="new-password" />
           </div>
           
           <div class="form-row">
@@ -1013,8 +1016,8 @@
             <textarea id="contactMessage" required rows="4" placeholder="I would like to discuss a project..."></textarea>
           </div>
 
-          <div class="turnstile-container">
-            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" id="turnstileWidget"></div>
+          <div class="turnstile-container" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0;" aria-hidden="true">
+            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-size="invisible" id="turnstileWidget" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError"></div>
           </div>
 
           <div class="form-error-display" id="contactFormError" style="display: none;"></div>

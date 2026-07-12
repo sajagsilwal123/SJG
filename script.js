@@ -3030,7 +3030,7 @@ initWorkFilters();
 })();
 
 // =============================================
-// PORTFOLIO CONTACT FORM INTEGRATION
+// PORTFOLIO CONTACT FORM INTEGRATION (ANTI-SPAM SYSTEM)
 // =============================================
 const initContactForm = () => {
   const contactModal = document.getElementById("contactModal");
@@ -3042,19 +3042,102 @@ const initContactForm = () => {
 
   if (!contactModal) return;
 
+  // Anti-Spam Behavioral & Timers State
+  let openedAt = 0;
+  let mouseMoved = false;
+  let mouseMoveCount = 0;
+  let keyboardKeyPressCount = 0;
+  let pasteEventsCount = 0;
+  let scrollActivityDetected = false;
+  const focusedFields = new Set();
+  const requiredFields = ["contactFullName", "contactEmail", "contactSubject", "contactMessage"];
+  const interactedFields = new Set();
+
+  // Helper to generate a unique cyrb53 canvas fingerprint
+  const getBrowserFingerprint = () => {
+    try {
+      const components = [
+        navigator.userAgent,
+        navigator.language,
+        window.screen.width + "x" + window.screen.height,
+        window.screen.colorDepth,
+        new Date().getTimezoneOffset(),
+        navigator.platform,
+        navigator.hardwareConcurrency || "unknown",
+        (() => {
+          try {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            if (!ctx) return "no-canvas-context";
+            ctx.textBaseline = "top";
+            ctx.font = "14px Arial";
+            ctx.fillStyle = "#f60";
+            ctx.fillRect(10, 10, 100, 20);
+            ctx.fillStyle = "#069";
+            ctx.fillText("Sajag Portfolio, AntiSpam V2.0!", 2, 2);
+            return canvas.toDataURL();
+          } catch (e) {
+            return "canvas-error";
+          }
+        })()
+      ];
+      const str = components.join("|||");
+      
+      // cyrb53 hash function (stable, anonymous identifier)
+      let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+      for (let i = 0, ch; i < str.length; i++) {
+        ch = str.charCodeAt(i);
+        h1 = Math.imul(h1 ^ ch, 2654435761);
+        h2 = Math.imul(h2 ^ ch, 1597334903);
+      }
+      h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+      h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+      return ((h2 >>> 0).toString(16).padStart(8, "0") + (h1 >>> 0).toString(16).padStart(8, "0"));
+    } catch (err) {
+      console.error("Fingerprinting error:", err);
+      return "fallback-" + Math.random().toString(36).substring(2, 15);
+    }
+  };
+
+  // Open / Close Modal Logic
   const openContactModal = () => {
     contactModal.showModal();
     document.body.style.overflow = "hidden";
     requestAnimationFrame(() => {
       contactModal.classList.add("active");
     });
-    if (contactForm) contactForm.reset();
+    
+    // Set opened timestamp
+    openedAt = Date.now();
+    
+    // Reset interaction trackers
+    mouseMoved = false;
+    mouseMoveCount = 0;
+    keyboardKeyPressCount = 0;
+    pasteEventsCount = 0;
+    scrollActivityDetected = false;
+    focusedFields.clear();
+    interactedFields.clear();
+
+    if (contactForm) {
+      contactForm.reset();
+      const fields = contactForm.querySelectorAll("input, textarea");
+      fields.forEach(field => {
+        field.classList.remove("invalid-field");
+      });
+    }
+    
     if (contactFormError) {
       contactFormError.style.display = "none";
       contactFormError.textContent = "";
     }
+    
     if (window.turnstile) {
-      window.turnstile.reset("#turnstileWidget");
+      try {
+        window.turnstile.reset("#turnstileWidget");
+      } catch (e) {
+        console.warn("Turnstile reset failed:", e);
+      }
     }
   };
 
@@ -3066,6 +3149,7 @@ const initContactForm = () => {
     }, 350);
   };
 
+  // Attach Open Triggers
   triggers.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -3088,19 +3172,65 @@ const initContactForm = () => {
     closeContactModal();
   });
 
+  // Track human interaction metrics
+  const onFormMouseMove = () => {
+    mouseMoved = true;
+    mouseMoveCount++;
+    if (mouseMoveCount > 250 && contactForm) {
+      contactForm.removeEventListener("mousemove", onFormMouseMove);
+    }
+  };
+
   if (contactForm) {
-    contactForm.addEventListener("submit", async (e) => {
+    contactForm.addEventListener("mousemove", onFormMouseMove);
+    
+    contactForm.addEventListener("keypress", () => {
+      keyboardKeyPressCount++;
+    });
+
+    contactForm.addEventListener("paste", () => {
+      pasteEventsCount++;
+    });
+
+    const modalBody = contactModal.querySelector(".contact-modal-body");
+    if (modalBody) {
+      modalBody.addEventListener("scroll", () => {
+        scrollActivityDetected = true;
+      }, { passive: true });
+    }
+
+    const fields = contactForm.querySelectorAll("input, textarea");
+    fields.forEach(field => {
+      field.addEventListener("focus", () => {
+        focusedFields.add(field.id);
+        if (requiredFields.includes(field.id)) {
+          interactedFields.add(field.id);
+        }
+        field.classList.remove("invalid-field");
+      });
+    });
+  }
+
+  // Helper to visually invalidate form fields
+  const highlightInvalid = (elementId) => {
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.classList.add("invalid-field");
+    }
+  };
+
+  // Submit flow
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // Clear errors
+      // Clear previous error displays
       contactFormError.style.display = "none";
       contactFormError.textContent = "";
+      const fields = contactForm.querySelectorAll("input, textarea");
+      fields.forEach(field => field.classList.remove("invalid-field"));
 
-      // Honeypot trap check
-      const websiteTrapEl = document.getElementById("contactFormWebsiteTrap");
-      const websiteTrap = websiteTrapEl ? websiteTrapEl.value : "";
-
-      // Get form values
+      // Get values
       const fullNameEl = document.getElementById("contactFullName");
       const emailEl = document.getElementById("contactEmail");
       const companyEl = document.getElementById("contactCompany");
@@ -3115,99 +3245,169 @@ const initContactForm = () => {
       const subject = subjectEl ? subjectEl.value.trim() : "";
       const message = messageEl ? messageEl.value.trim() : "";
 
-      // Client Validation
+      // Client Validations
       if (!fullName || fullName.length < 2 || fullName.length > 100) {
-        showError(
-          "Full Name is required and must be between 2 and 100 characters."
-        );
+        showError("Full Name is required and must be between 2 and 100 characters.");
+        highlightInvalid("contactFullName");
         return;
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!email || !emailRegex.test(email)) {
         showError("Please enter a valid email address.");
+        highlightInvalid("contactEmail");
         return;
       }
 
       if (company && company.length > 100) {
         showError("Company name must not exceed 100 characters.");
+        highlightInvalid("contactCompany");
         return;
       }
 
       if (phone && phone.length > 25) {
         showError("Phone number must not exceed 25 characters.");
+        highlightInvalid("contactPhone");
         return;
       }
 
       if (!subject || subject.length < 5 || subject.length > 150) {
-        showError(
-          "Subject is required and must be between 5 and 150 characters."
-        );
+        showError("Subject is required and must be between 5 and 150 characters.");
+        highlightInvalid("contactSubject");
         return;
       }
 
       if (!message || message.length < 20 || message.length > 3000) {
-        showError(
-          "Message is required and must be between 20 and 3000 characters."
-        );
+        showError("Message is required and must be between 20 and 3000 characters.");
+        highlightInvalid("contactMessage");
         return;
       }
 
-      let turnstileToken = "";
-      if (window.turnstile) {
-        try {
-          turnstileToken =
-            window.turnstile.getResponse("#turnstileWidget") || "";
-        } catch (e) {
-          console.warn("Failed to retrieve Turnstile response:", e);
-        }
-      }
-
-      // Disable button, show loading
+      // Immediately set UI button status to loading and disable to prevent accidental duplicates
       setLoading(true);
 
-      try {
-        const response = await fetch(
-          "http://localhost:5001/api/public/contact",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              fullName,
-              email,
-              company: company || undefined,
-              phone: phone || undefined,
-              subject,
-              message,
-              turnstileToken,
-              website_trap: websiteTrap,
-            }),
-          }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || "Something went wrong.");
+      // Trigger invisible Cloudflare Turnstile CAPTCHA execution
+      if (window.turnstile) {
+        try {
+          window.turnstile.execute("#turnstileWidget");
+        } catch (err) {
+          console.error("Turnstile execution failed:", err);
+          // Fallback if execute crashes
+          submitFormData("");
         }
-
-        showToast(
-          data.message || "Your message has been successfully submitted.",
-          "success"
-        );
-        closeContactModal();
-      } catch (err) {
-        showError(
-          err.message ||
-            "Failed to connect to the server. Please try again later."
-        );
-      } finally {
-        setLoading(false);
+      } else {
+        // Script not available
+        submitFormData("");
       }
     });
   }
+
+  // Cloudflare Turnstile global callbacks
+  window.onTurnstileSuccess = (token) => {
+    submitFormData(token);
+  };
+
+  window.onTurnstileError = () => {
+    setLoading(false);
+    showError("Security check failed. Please refresh the page and try again.");
+    if (window.turnstile) {
+      try {
+        window.turnstile.reset("#turnstileWidget");
+      } catch (e) {
+        console.warn("Turnstile reset failed:", e);
+      }
+    }
+  };
+
+  // Compile payload and submit POST request to BasukiMS backend API
+  const submitFormData = async (turnstileToken) => {
+    // Honeypot inputs check
+    const websiteTrapVal = document.getElementById("contactFormWebsiteTrap")?.value || "";
+    const companyWebsiteVal = document.getElementById("contactFormCompanyWebsite")?.value || "";
+    const faxNumberVal = document.getElementById("contactFormFaxNumber")?.value || "";
+    const middleNameVal = document.getElementById("contactFormMiddleName")?.value || "";
+
+    const fullName = document.getElementById("contactFullName")?.value.trim() || "";
+    const email = document.getElementById("contactEmail")?.value.trim() || "";
+    const company = document.getElementById("contactCompany")?.value.trim() || "";
+    const phone = document.getElementById("contactPhone")?.value.trim() || "";
+    const subject = document.getElementById("contactSubject")?.value.trim() || "";
+    const message = document.getElementById("contactMessage")?.value.trim() || "";
+
+    // Calculate interaction metrics & timing
+    const timeOnForm = Date.now() - openedAt;
+    const humanInteractionMetrics = {
+      mouseMoved,
+      mouseMoveCount,
+      keyboardKeyPressCount,
+      fieldsFocusedCount: focusedFields.size,
+      scrollActivityDetected,
+      pasteEventsCount,
+      interactedWithAllRequired: requiredFields.every(id => interactedFields.has(id))
+    };
+
+    // Calculate metadata
+    const browserMetadata = {
+      language: navigator.language || "unknown",
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "unknown",
+      screenResolution: `${window.screen.width}x${window.screen.height}`,
+      colorDepth: window.screen.colorDepth || 0,
+      platform: navigator.platform || "unknown",
+      userAgent: navigator.userAgent || "unknown",
+      viewportSize: `${window.innerWidth}x${window.innerHeight}`
+    };
+
+    // Generate stable client fingerprint
+    const browserFingerprint = getBrowserFingerprint();
+
+    const securityMetadata = {
+      browserFingerprint,
+      timeOnForm,
+      browserMetadata,
+      humanInteractionMetrics
+    };
+
+    try {
+      const response = await fetch("http://localhost:5001/api/v1/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullName,
+          email,
+          company: company || undefined,
+          phone: phone || undefined,
+          subject,
+          message,
+          turnstileToken,
+          website_trap: websiteTrapVal,
+          companyWebsite: companyWebsiteVal,
+          faxNumber: faxNumberVal,
+          middleName: middleNameVal,
+          securityMetadata
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Unable to send message.");
+      }
+
+      showToast(data.message || "Your message has been sent successfully.", "success");
+      closeContactModal();
+    } catch (err) {
+      showError(err.message || "Failed to connect to the server. Please try again later.");
+    } finally {
+      setLoading(false);
+      if (window.turnstile) {
+        try {
+          window.turnstile.reset("#turnstileWidget");
+        } catch (e) {}
+      }
+    }
+  };
 
   const showError = (msg) => {
     if (contactFormError) {
@@ -3270,8 +3470,7 @@ const initContactForm = () => {
     toast.style.display = "flex";
     toast.style.alignItems = "center";
     toast.style.gap = "0.75rem";
-    toast.style.animation =
-      "slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards";
+    toast.style.animation = "slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards";
 
     const icon = type === "success" ? "✓" : "⚠️";
     toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
@@ -3282,26 +3481,25 @@ const initContactForm = () => {
       const style = document.createElement("style");
       style.id = "toastAnimationStyles";
       style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateY(-20px); opacity: 0; }
-                    to { transform: translateY(0); opacity: 1; }
-                }
-            `;
+        @keyframes slideIn {
+          from { transform: translateY(-20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+      `;
       document.head.appendChild(style);
     }
 
     setTimeout(() => {
-      toast.style.animation =
-        "slideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards";
+      toast.style.animation = "slideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards";
       if (!document.getElementById("toastOutAnimationStyles")) {
         const style = document.createElement("style");
         style.id = "toastOutAnimationStyles";
         style.textContent = `
-                    @keyframes slideOut {
-                        from { transform: translateY(0); opacity: 1; }
-                        to { transform: translateY(-20px); opacity: 0; }
-                    }
-                `;
+          @keyframes slideOut {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-20px); opacity: 0; }
+          }
+        `;
         document.head.appendChild(style);
       }
       setTimeout(() => toast.remove(), 300);
