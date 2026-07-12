@@ -2429,3 +2429,267 @@ initWorkFilters();
 
     langCards.forEach((card) => observer.observe(card));
 })();
+
+// =============================================
+// PORTFOLIO CONTACT FORM INTEGRATION
+// =============================================
+const initContactForm = () => {
+    const contactModal = document.getElementById('contactModal');
+    const closeContactModalBtn = document.getElementById('closeContactModalBtn');
+    const contactForm = document.getElementById('contactForm');
+    const contactFormError = document.getElementById('contactFormError');
+    const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+    const triggers = document.querySelectorAll('.message-me-trigger');
+
+    if (!contactModal) return;
+
+    const openContactModal = () => {
+        contactModal.showModal();
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => {
+            contactModal.classList.add('active');
+        });
+        if (contactForm) contactForm.reset();
+        if (contactFormError) {
+            contactFormError.style.display = 'none';
+            contactFormError.textContent = '';
+        }
+        if (window.turnstile) {
+            window.turnstile.reset('#turnstileWidget');
+        }
+    };
+
+    const closeContactModal = () => {
+        contactModal.classList.remove('active');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+            contactModal.close();
+        }, 350);
+    };
+
+    triggers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openContactModal();
+        });
+    });
+
+    if (closeContactModalBtn) {
+        closeContactModalBtn.addEventListener('click', closeContactModal);
+    }
+
+    contactModal.addEventListener('click', (e) => {
+        if (e.target === contactModal) {
+            closeContactModal();
+        }
+    });
+
+    contactModal.addEventListener('cancel', (e) => {
+        e.preventDefault();
+        closeContactModal();
+    });
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Clear errors
+            contactFormError.style.display = 'none';
+            contactFormError.textContent = '';
+
+            // Honeypot trap check
+            const websiteTrapEl = document.getElementById('contactFormWebsiteTrap');
+            const websiteTrap = websiteTrapEl ? websiteTrapEl.value : '';
+
+            // Get form values
+            const fullNameEl = document.getElementById('contactFullName');
+            const emailEl = document.getElementById('contactEmail');
+            const companyEl = document.getElementById('contactCompany');
+            const phoneEl = document.getElementById('contactPhone');
+            const subjectEl = document.getElementById('contactSubject');
+            const messageEl = document.getElementById('contactMessage');
+
+            const fullName = fullNameEl ? fullNameEl.value.trim() : '';
+            const email = emailEl ? emailEl.value.trim() : '';
+            const company = companyEl ? companyEl.value.trim() : '';
+            const phone = phoneEl ? phoneEl.value.trim() : '';
+            const subject = subjectEl ? subjectEl.value.trim() : '';
+            const message = messageEl ? messageEl.value.trim() : '';
+
+            // Client Validation
+            if (!fullName || fullName.length < 2 || fullName.length > 100) {
+                showError('Full Name is required and must be between 2 and 100 characters.');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                showError('Please enter a valid email address.');
+                return;
+            }
+
+            if (company && company.length > 100) {
+                showError('Company name must not exceed 100 characters.');
+                return;
+            }
+
+            if (phone && phone.length > 25) {
+                showError('Phone number must not exceed 25 characters.');
+                return;
+            }
+
+            if (!subject || subject.length < 5 || subject.length > 150) {
+                showError('Subject is required and must be between 5 and 150 characters.');
+                return;
+            }
+
+            if (!message || message.length < 20 || message.length > 3000) {
+                showError('Message is required and must be between 20 and 3000 characters.');
+                return;
+            }
+
+            let turnstileToken = '';
+            if (window.turnstile) {
+                turnstileToken = window.turnstile.getResponse('#turnstileWidget') || '';
+                if (!turnstileToken && websiteTrap.length === 0) {
+                    showError('Please verify you are human via the CAPTCHA widget.');
+                    return;
+                }
+            }
+
+            // Disable button, show loading
+            setLoading(true);
+
+            try {
+                const response = await fetch('http://localhost:5001/api/public/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fullName,
+                        email,
+                        company: company || undefined,
+                        phone: phone || undefined,
+                        subject,
+                        message,
+                        turnstileToken,
+                        website_trap: websiteTrap,
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Something went wrong.');
+                }
+
+                showToast(data.message || 'Your message has been successfully submitted.', 'success');
+                closeContactModal();
+            } catch (err) {
+                showError(err.message || 'Failed to connect to the server. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        });
+    }
+
+    const showError = (msg) => {
+        if (contactFormError) {
+            contactFormError.textContent = msg;
+            contactFormError.style.display = 'block';
+        }
+    };
+
+    const setLoading = (loading) => {
+        if (!contactSubmitBtn) return;
+        const btnText = contactSubmitBtn.querySelector('span');
+        const btnIcon = contactSubmitBtn.querySelector('svg');
+        
+        if (loading) {
+            contactSubmitBtn.disabled = true;
+            if (btnText) btnText.textContent = 'Sending...';
+            let spinner = contactSubmitBtn.querySelector('.spinner');
+            if (!spinner) {
+                spinner = document.createElement('span');
+                spinner.className = 'spinner';
+                contactSubmitBtn.appendChild(spinner);
+            }
+            spinner.style.display = 'inline-block';
+            if (btnIcon) btnIcon.style.display = 'none';
+        } else {
+            contactSubmitBtn.disabled = false;
+            if (btnText) btnText.textContent = 'Send Message';
+            const spinner = contactSubmitBtn.querySelector('.spinner');
+            if (spinner) spinner.style.display = 'none';
+            if (btnIcon) btnIcon.style.display = 'inline-block';
+        }
+    };
+
+    const showToast = (message, type) => {
+        let container = document.getElementById('toastContainer');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toastContainer';
+            container.style.position = 'fixed';
+            container.style.top = '2rem';
+            container.style.right = '2rem';
+            container.style.zIndex = '10005';
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column';
+            container.style.gap = '0.5rem';
+            document.body.appendChild(container);
+        }
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.style.background = type === 'success' ? 'var(--color-emerald-600)' : 'var(--color-rose-600)';
+        toast.style.color = '#ffffff';
+        toast.style.padding = '1rem 1.5rem';
+        toast.style.borderRadius = '8px';
+        toast.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.3)';
+        toast.style.fontFamily = 'sans-serif';
+        toast.style.fontSize = '14px';
+        toast.style.fontWeight = '500';
+        toast.style.display = 'flex';
+        toast.style.alignItems = 'center';
+        toast.style.gap = '0.75rem';
+        toast.style.animation = 'slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+
+        const icon = type === 'success' ? '✓' : '⚠️';
+        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+        
+        container.appendChild(toast);
+
+        if (!document.getElementById('toastAnimationStyles')) {
+            const style = document.createElement('style');
+            style.id = 'toastAnimationStyles';
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateY(-20px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        setTimeout(() => {
+            toast.style.animation = 'slideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+            if (!document.getElementById('toastOutAnimationStyles')) {
+                const style = document.createElement('style');
+                style.id = 'toastOutAnimationStyles';
+                style.textContent = `
+                    @keyframes slideOut {
+                        from { transform: translateY(0); opacity: 1; }
+                        to { transform: translateY(-20px); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    };
+};
+
+initContactForm();
+
