@@ -3286,38 +3286,19 @@ const initContactForm = () => {
       // Immediately set UI button status to loading and disable to prevent accidental duplicates
       setLoading(true);
 
-      // Trigger invisible Cloudflare Turnstile CAPTCHA execution
+      // Pick up the Turnstile token if the widget has already auto-verified
+      let turnstileToken = "";
       if (window.turnstile) {
         try {
-          window.turnstile.execute("#turnstileWidget");
-        } catch (err) {
-          console.error("Turnstile execution failed:", err);
-          // Fallback if execute crashes
-          submitFormData("");
+          turnstileToken = window.turnstile.getResponse("#turnstileWidget") || "";
+        } catch (e) {
+          console.warn("Turnstile getResponse failed:", e);
         }
-      } else {
-        // Script not available
-        submitFormData("");
       }
+
+      submitFormData(turnstileToken);
     });
   }
-
-  // Cloudflare Turnstile global callbacks
-  window.onTurnstileSuccess = (token) => {
-    submitFormData(token);
-  };
-
-  window.onTurnstileError = () => {
-    setLoading(false);
-    showError("Security check failed. Please refresh the page and try again.");
-    if (window.turnstile) {
-      try {
-        window.turnstile.reset("#turnstileWidget");
-      } catch (e) {
-        console.warn("Turnstile reset failed:", e);
-      }
-    }
-  };
 
   // Compile payload and submit POST request to BasukiMS backend API
   const submitFormData = async (turnstileToken) => {
