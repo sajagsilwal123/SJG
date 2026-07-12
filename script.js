@@ -3368,7 +3368,7 @@ const initContactForm = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:5001/api/v1/contact", {
+      const response = await fetch("https://api.basukitransport.com/api/v1/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
