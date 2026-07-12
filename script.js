@@ -3131,6 +3131,27 @@ const initContactForm = () => {
       contactFormError.style.display = "none";
       contactFormError.textContent = "";
     }
+
+    // 24 hours client-side lock check
+    let hasLock = false;
+    const lastSentStr = localStorage.getItem("basuki_last_contact_sent_at");
+    if (lastSentStr) {
+      const lastSentTime = parseInt(lastSentStr, 10);
+      const hoursLimit = 24;
+      const timeRemaining = lastSentTime + (hoursLimit * 60 * 60 * 1000) - Date.now();
+      if (timeRemaining > 0) {
+        hasLock = true;
+        const hoursLeft = Math.ceil(timeRemaining / (60 * 60 * 1000));
+        showError(`You have already sent a message. Please wait ${hoursLeft} hours before sending another.`);
+        if (contactSubmitBtn) {
+          contactSubmitBtn.disabled = true;
+        }
+      }
+    }
+
+    if (!hasLock && contactSubmitBtn) {
+      contactSubmitBtn.disabled = false;
+    }
     
     if (window.turnstile) {
       try {
@@ -3227,6 +3248,20 @@ const initContactForm = () => {
       // Clear previous error displays
       contactFormError.style.display = "none";
       contactFormError.textContent = "";
+
+      // 24 hours client-side lock check
+      const lastSentStr = localStorage.getItem("basuki_last_contact_sent_at");
+      if (lastSentStr) {
+        const lastSentTime = parseInt(lastSentStr, 10);
+        const hoursLimit = 24;
+        const timeRemaining = lastSentTime + (hoursLimit * 60 * 60 * 1000) - Date.now();
+        if (timeRemaining > 0) {
+          const hoursLeft = Math.ceil(timeRemaining / (60 * 60 * 1000));
+          showError(`Please wait ${hoursLeft} hours before sending another message.`);
+          return;
+        }
+      }
+
       const fields = contactForm.querySelectorAll("input, textarea");
       fields.forEach(field => field.classList.remove("invalid-field"));
 
@@ -3375,6 +3410,9 @@ const initContactForm = () => {
       if (!response.ok) {
         throw new Error(data.message || "Unable to send message.");
       }
+
+      // Store timestamp of successful message submission (24 hours lock)
+      localStorage.setItem("basuki_last_contact_sent_at", Date.now().toString());
 
       showToast(data.message || "Your message has been sent successfully.", "success");
       closeContactModal();
