@@ -3417,7 +3417,10 @@ const initContactForm = () => {
       showToast(data.message || "Your message has been sent successfully.", "success");
       closeContactModal();
     } catch (err) {
-      showError(err.message || "Failed to connect to the server. Please try again later.");
+      const errorMsg = (err && err.message && err.message.toLowerCase().includes("fetch"))
+        ? "Failed to connect to the server. Please check your connection and try again."
+        : (err.message || "Failed to connect to the server. Please try again later.");
+      showError(errorMsg);
     } finally {
       setLoading(false);
       if (window.turnstile) {
