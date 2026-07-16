@@ -11,7 +11,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -62,7 +68,8 @@
       flex-shrink: 0;
     }
 
-    .cv-back-btn:hover, .cv-back-btn:active {
+    .cv-back-btn:hover,
+    .cv-back-btn:active {
       background: rgba(255, 255, 255, 0.12);
       border-color: rgba(255, 255, 255, 0.2);
     }
@@ -100,7 +107,8 @@
       transition: opacity 0.2s;
     }
 
-    .cv-download-btn:hover, .cv-download-btn:active {
+    .cv-download-btn:hover,
+    .cv-download-btn:active {
       opacity: 0.85;
     }
 
@@ -218,56 +226,62 @@
   </div>
 
   <script>
-    // Specify the PDF.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
     const container = document.getElementById('pdfViewer');
     const fallback = document.getElementById('cvFallback');
 
-    // Load document
-    const loadingTask = pdfjsLib.getDocument('cv.pdf');
-    loadingTask.promise.then(pdf => {
-      // Clear loading state indicator
-      container.innerHTML = '';
-      
-      // Render each page
-      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-        pdf.getPage(pageNum).then(page => {
-          const canvas = document.createElement('canvas');
-          canvas.className = 'pdf-page-canvas';
-          container.appendChild(canvas);
-          
-          const context = canvas.getContext('2d');
-          
-          // Determine the viewport scale based on screen width
-          const unscaledViewport = page.getViewport({ scale: 1.0 });
-          const containerWidth = container.clientWidth - 32; // padding offset
-          const scale = containerWidth / unscaledViewport.width;
-          
-          // Render at high resolution based on screen width and pixel ratio
-          const viewport = page.getViewport({ scale: Math.max(scale, 1.5) * window.devicePixelRatio });
-          
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
-          
-          // Scale canvas display size back to fit container width
-          canvas.style.width = '100%';
-          canvas.style.maxWidth = `${unscaledViewport.width}px`;
-          
-          const renderContext = {
-            canvasContext: context,
-            viewport: viewport
-          };
-          
-          page.render(renderContext);
-        });
-      }
-    }).catch(err => {
-      console.error('Error rendering PDF with PDF.js:', err);
-      // Fallback to direct link UI
-      container.style.display = 'none';
-      fallback.style.display = 'flex';
-    });
+    if (typeof pdfjsLib === 'undefined') {
+      console.error('PDF.js library failed to load from CDN.');
+      if (container) container.style.display = 'none';
+      if (fallback) fallback.style.display = 'flex';
+    } else {
+      // Specify the PDF.js worker
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+      // Load document
+      const loadingTask = pdfjsLib.getDocument('cv.pdf');
+      loadingTask.promise.then(pdf => {
+        // Clear loading state indicator
+        container.innerHTML = '';
+
+        // Render each page
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+          pdf.getPage(pageNum).then(page => {
+            const canvas = document.createElement('canvas');
+            canvas.className = 'pdf-page-canvas';
+            container.appendChild(canvas);
+
+            const context = canvas.getContext('2d');
+
+            // Determine the viewport scale based on screen width
+            const unscaledViewport = page.getViewport({ scale: 1.0 });
+            const containerWidth = container.clientWidth - 32; // padding offset
+            const scale = containerWidth / unscaledViewport.width;
+
+            // Render at high resolution based on screen width and pixel ratio
+            const viewport = page.getViewport({ scale: Math.max(scale, 1.5) * window.devicePixelRatio });
+
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            // Scale canvas display size back to fit container width
+            canvas.style.width = '100%';
+            canvas.style.maxWidth = `${unscaledViewport.width}px`;
+
+            const renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+
+            page.render(renderContext);
+          });
+        }
+      }).catch(err => {
+        console.error('Error rendering PDF with PDF.js:', err);
+        // Fallback to direct link UI
+        if (container) container.style.display = 'none';
+        if (fallback) fallback.style.display = 'flex';
+      });
+    }
   </script>
 </body>
 

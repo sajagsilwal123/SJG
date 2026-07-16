@@ -188,7 +188,7 @@
               <span class="hero-name-first">Sajag</span> <span class="hero-name-last">Silwal</span>
               <span class="hero-name-nepali-wrapper">
                 <span class="hero-name-nepali" lang="ne">सजग</span>
-                <canvas id="heroFlagCanvas"></canvas>
+                <canvas id="heroFlagCanvas" aria-hidden="true"></canvas>
               </span>
             </span>
           </h1>
@@ -485,15 +485,15 @@
       </div>
 
       <!-- Category Filter Bar -->
-      <div class="work-filters" id="workFilters" role="tablist" aria-label="Filter projects by category">
-        <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All</button>
-        <button class="filter-btn" data-filter="Logistics & Enterprise" role="tab" aria-selected="false">Logistics &
+      <div class="work-filters" id="workFilters" role="group" aria-label="Filter projects by category">
+        <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-btn" data-filter="Logistics & Enterprise" aria-pressed="false">Logistics &
           Enterprise</button>
-        <button class="filter-btn" data-filter="AI & Automation" role="tab" aria-selected="false">AI &
+        <button class="filter-btn" data-filter="AI & Automation" aria-pressed="false">AI &
           Automation</button>
-        <button class="filter-btn" data-filter="FinTech" role="tab" aria-selected="false">FinTech</button>
-        <button class="filter-btn" data-filter="SaaS Platforms" role="tab" aria-selected="false">SaaS Platforms</button>
-        <button class="filter-btn" data-filter="EdTech" role="tab" aria-selected="false">EdTech</button>
+        <button class="filter-btn" data-filter="FinTech" aria-pressed="false">FinTech</button>
+        <button class="filter-btn" data-filter="SaaS Platforms" aria-pressed="false">SaaS Platforms</button>
+        <button class="filter-btn" data-filter="EdTech" aria-pressed="false">EdTech</button>
       </div>
 
       <div class="work-stack" id="workStack">
@@ -903,7 +903,7 @@
         </div>
 
         <footer class="footer">
-          © 2026 Sajag Silwal. All rights reserved.
+          © <span id="currentYear">2026</span> Sajag Silwal. All rights reserved.
         </footer>
       </div>
     </section>
@@ -938,7 +938,7 @@
 
         <figure class="gallery-figure">
           <div class="gallery-image-frame" id="galleryImageFrame">
-            <img alt="" class="gallery-image" id="galleryImage" draggable="false">
+            <img alt="Gallery image" class="gallery-image" id="galleryImage" draggable="false">
           </div>
           <figcaption class="gallery-meta-panel" data-gallery-chrome>
             <div class="gallery-meta-copy">

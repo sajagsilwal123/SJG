@@ -1054,7 +1054,7 @@ const initPdfViewer = () => {
   const pdfCloseBtn = document.getElementById("pdfCloseBtn");
   const pdfFrame = document.getElementById("pdfFrame");
 
-  if (!viewCvBtn || !pdfModal) return;
+  if (!viewCvBtn || !pdfModal || !pdfCloseBtn || !pdfFrame) return;
 
   const openModal = (e) => {
     // Check if on a mobile viewport, iPad, or tablet device to redirect to cv.html
@@ -2943,12 +2943,12 @@ const initWorkFilters = () => {
       // Remove active class from all buttons
       filterBtns.forEach((b) => {
         b.classList.remove("active");
-        b.setAttribute("aria-selected", "false");
+        b.setAttribute("aria-pressed", "false");
       });
 
       // Add active class to clicked button
       btn.classList.add("active");
-      btn.setAttribute("aria-selected", "true");
+      btn.setAttribute("aria-pressed", "true");
 
       const filterValue = btn.getAttribute("data-filter");
 
@@ -3246,8 +3246,10 @@ const initContactForm = () => {
       e.preventDefault();
 
       // Clear previous error displays
-      contactFormError.style.display = "none";
-      contactFormError.textContent = "";
+      if (contactFormError) {
+        contactFormError.style.display = "none";
+        contactFormError.textContent = "";
+      }
 
       // 24 hours client-side lock check
       const lastSentStr = localStorage.getItem("basuki_last_contact_sent_at");
