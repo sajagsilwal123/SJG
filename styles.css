@@ -1098,7 +1098,9 @@ button.mobile-menu-link {
    MOBILE HERO REFINEMENT
    Kept in a mobile-only query so tablet and desktop retain their layout.
 ============================================= */
-.hero-mobile-orbit {
+.hero-mobile-orbit-wrapper,
+.hero-mobile-orbit-outer,
+.hero-mobile-orbit-inner {
   display: none;
 }
 
@@ -1178,7 +1180,8 @@ button.mobile-menu-link {
   }
 
   .hero-image-wrapper {
-    margin-bottom: 24px;
+    margin-top: 16px;
+    margin-bottom: 30px;
   }
 
   .hero-image-container {
@@ -1193,15 +1196,16 @@ button.mobile-menu-link {
   .hero-image-container::before {
     content: "";
     position: absolute;
-    z-index: -1;
-    inset: -44px;
+    z-index: -2;
+    inset: -60px;
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      rgba(249, 115, 22, 0.16) 0%,
-      rgba(249, 115, 22, 0.05) 38%,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.04) 40%,
       transparent 70%
     );
+    filter: blur(40px);
   }
 
   .hero-image-placeholder {
@@ -1209,33 +1213,82 @@ button.mobile-menu-link {
     box-shadow: 0 8px 18px rgba(29, 29, 31, 0.1);
   }
 
-  .hero-mobile-orbit {
+  .hero-mobile-orbit-wrapper {
     display: block;
     position: absolute;
+    inset: 0;
     z-index: -1;
-    inset: -24px;
-    border: 1.5px solid var(--theme-border-strong);
-    border-radius: 50%;
-    opacity: 0.65;
-    -webkit-mask-image: conic-gradient(#000 0deg 282deg, transparent 282deg 360deg);
-    mask-image: conic-gradient(#000 0deg 282deg, transparent 282deg 360deg);
-    animation: hero-orbit 21s linear infinite;
-    will-change: transform;
+    transform: translateY(-2px);
   }
 
-  .hero-mobile-orbit-dot {
+  .hero-mobile-orbit-outer,
+  .hero-mobile-orbit-inner {
+    display: block;
     position: absolute;
-    top: -4px;
-    left: 50%;
-    width: 7px;
-    height: 7px;
-    margin-left: -3.5px;
+    border-radius: 50%;
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  .hero-mobile-orbit-outer {
+    top: -21px; bottom: -21px; left: -21px; right: -21px;
+    animation: hero-orbit-outer 22s linear infinite;
+  }
+
+  .hero-mobile-orbit-inner {
+    top: -9px; bottom: -9px; left: -9px; right: -9px;
+    animation: hero-orbit-inner 16s linear infinite;
+  }
+
+  .hero-mobile-orbit-outer::before,
+  .hero-mobile-orbit-inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+  }
+
+  .hero-mobile-orbit-outer::before {
+    border: 2px solid var(--theme-border-strong);
+    opacity: 0.3;
+    -webkit-mask-image: conic-gradient(transparent 0deg, transparent 90deg, black 130deg, black 360deg);
+    mask-image: conic-gradient(transparent 0deg, transparent 90deg, black 130deg, black 360deg);
+  }
+
+  .hero-mobile-orbit-inner::before {
+    border: 1.5px solid var(--theme-border-strong);
+    opacity: 0.18;
+    -webkit-mask-image: conic-gradient(black 0deg, black 230deg, transparent 270deg, transparent 360deg);
+    mask-image: conic-gradient(black 0deg, black 230deg, transparent 270deg, transparent 360deg);
+  }
+
+  .hero-mobile-orbit-dot-outer,
+  .hero-mobile-orbit-dot-inner {
+    position: absolute;
     border-radius: 50%;
     background: var(--color-orange-500);
-    box-shadow: 0 0 8px rgba(249, 115, 22, 0.58);
+    box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+  }
+
+  .hero-mobile-orbit-dot-outer {
+    top: -2px;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    transform: translateX(-50%);
+  }
+
+  .hero-mobile-orbit-dot-inner {
+    top: -1.5px;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    transform: translateX(-50%);
   }
 
   .hero-badge {
+    position: relative;
+    z-index: 10;
     margin: 0 auto 14px;
     padding: 6px 12px;
     border: 0;
@@ -1369,14 +1422,27 @@ button.mobile-menu-link {
   }
 }
 
-@keyframes hero-orbit {
+@keyframes hero-orbit-outer {
+  from {
+    transform: rotate(30deg);
+  }
   to {
-    transform: rotate(360deg);
+    transform: rotate(390deg);
+  }
+}
+
+@keyframes hero-orbit-inner {
+  from {
+    transform: rotate(220deg);
+  }
+  to {
+    transform: rotate(-140deg);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-mobile-orbit {
+  .hero-mobile-orbit-outer,
+  .hero-mobile-orbit-inner {
     animation: none;
   }
 }
@@ -2027,8 +2093,12 @@ button.mobile-menu-link {
   }
 
   .testimonials-nav {
-    display: none;
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
   }
+  .testimonials-prev { left: -10px; }
+  .testimonials-next { right: -10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
