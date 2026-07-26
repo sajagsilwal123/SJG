@@ -66,7 +66,17 @@ const TESTIMONIALS = [
         country: "NP",
         linkedin: "https://www.linkedin.com/in/sajan-bhandari-120065248/",
         testimonial: "Sajag's contribution to the Leo Multiple District 325 Nepal digital platform went beyond building software. He understood the needs of our volunteers and leaders, creating a system that makes community service easier to organize and manage across the country. His dedication to service made him a valuable part of this initiative.",
-        featured: true
+    },
+    {
+        id: "t5",
+        name: "Sambeg Shrestha",
+        role: "Senior Engineer",
+        organization: "KonnectCraft",
+        category: "Colleague",
+        image: "public/images/testimonials/sambeg-shrestha.jpg",
+        country: "NP",
+        linkedin: "https://www.linkedin.com/in/sthasam/",
+        testimonial: "Having worked alongside Sajag both as a classmate and a professional colleague, I've seen firsthand his strong technical skills and problem-solving abilities. He is a reliable team player who consistently delivers high-quality work on complex projects. His transition from academic excellence to professional engineering has been impressive.",
     },
     /*{
         id: "t5",
