@@ -6903,9 +6903,9 @@ dialog.contact-modal-overlay {
   padding: 0 !important;
   background: transparent !important;
   max-width: 100vw !important;
-  max-height: 100vh !important;
+  max-height: 100dvh !important;
   width: 100vw !important;
-  height: 100vh !important;
+  height: 100dvh !important;
   margin: 0 !important;
   position: fixed !important;
   inset: 0 !important;
@@ -6935,7 +6935,7 @@ dialog.contact-modal-overlay[open] {
 .contact-modal {
   width: 90vw;
   max-width: 580px;
-  max-height: 90vh;
+  max-height: 90dvh;
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-2xl);
@@ -6978,6 +6978,8 @@ dialog.contact-modal-overlay[open] {
   padding: 4px;
   border-radius: 50%;
   transition: background-color 0.2s, color 0.2s;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .contact-modal-close:hover {
@@ -7175,7 +7177,7 @@ dialog.testimonial-modal-overlay[open] {
 .testimonial-modal {
   width: 90vw;
   max-width: 500px;
-  max-height: 85vh;
+  max-height: 85dvh;
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-xl);
@@ -7218,6 +7220,8 @@ dialog.testimonial-modal-overlay[open] {
   color: var(--theme-text-secondary);
   cursor: pointer;
   transition: var(--transition-smooth);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .testimonial-modal-close:hover {
