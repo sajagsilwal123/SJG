@@ -55,7 +55,7 @@
   <meta name="twitter:image:alt" content="Sajag Silwal – Computer Engineer & Educator">
 
   <link rel="icon" href="favicon.png">
-  <link rel="stylesheet" href="styles.css?v=7.1">
+  <link rel="stylesheet" href="styles.css?v=7.4">
   <script>
     // Apply theme before first paint to prevent flash
     (function () {
@@ -152,7 +152,8 @@
           <li><a href="#work" class="mobile-menu-link">Work</a></li>
           <li><a href="#journey" class="mobile-menu-link">Journey</a></li>
           <li><button class="mobile-menu-link message-me-trigger" id="mobileMessageMeBtn"
-              style="background:none; border:none; color:inherit; font:inherit; cursor:pointer; padding:0.5rem 0; width:100%; text-align:left; outline:none;">Contact</button></li>
+              style="background:none; border:none; color:inherit; font:inherit; cursor:pointer; padding:0.5rem 0; width:100%; text-align:left; outline:none;">Contact</button>
+          </li>
         </ul>
       </div>
     </div>
@@ -188,13 +189,19 @@
               <span class="hero-name-first">Sajag</span> <span class="hero-name-last">Silwal</span>
               <span class="hero-name-nepali-wrapper">
                 <span class="hero-name-nepali" lang="ne">सजग</span>
+                <span class="hero-name-divider" aria-hidden="true" hidden>│</span>
                 <canvas id="heroFlagCanvas" aria-hidden="true"></canvas>
               </span>
             </span>
           </h1>
           <h2 class="hero-subtitle">
-            <span class="typed-static">Building Tech. <span class="text-emerald">Analyzing Markets.</span> <br>
-              <span class="text-rose">Mentoring Minds.</span> <span class="text-orange">Creating Impact.</span></span>
+            <span class="typed-static"><span class="hero-tagline-line"><span class="hero-tagline-emoji"
+                  aria-hidden="true">💻</span>Building Tech.</span> <span class="text-emerald hero-tagline-line"><span
+                  class="hero-tagline-emoji" aria-hidden="true">📈</span>Analyzing Markets.</span> <br
+                class="hero-tagline-break">
+              <span class="text-rose hero-tagline-line"><span class="hero-tagline-emoji"
+                  aria-hidden="true">🤝</span>Mentoring Minds.</span> <span class="text-orange hero-tagline-line"><span
+                  class="hero-tagline-emoji" aria-hidden="true">✦</span>Creating Impact.</span></span>
           </h2>
           <p class="hero-description">
             Backend & Product Engineer dedicated to building high-integrity software, optimizing operations, and
@@ -220,6 +227,9 @@
           <div class="hero-image-container">
             <div class="hero-image-frame hero-image-frame-1"></div>
             <div class="hero-image-frame hero-image-frame-2"></div>
+            <div class="hero-mobile-orbit" aria-hidden="true">
+              <span class="hero-mobile-orbit-dot"></span>
+            </div>
             <div class="hero-image-placeholder">
               <img src="profile.jpg" alt="Sajag Silwal" class="hero-profile-image" width="400" height="400"
                 fetchpriority="high">
@@ -617,6 +627,45 @@
             <div class="timeline-dot"></div>
           </div>
         </div>
+      </div>
+    </section>
+
+
+    <!-- RECOMMENDATIONS SECTION -->
+    <section id="recommendations" class="section recommendations-section" aria-labelledby="recommendationsTitle">
+      <div class="recommendations-container">
+        <div class="recommendations-header testimonial-reveal">
+          <p class="recommendations-eyebrow">Recommendations</p>
+          <h2 class="recommendations-title" id="recommendationsTitle">What People Say</h2>
+          <div class="section-title-bar"></div>
+          <p class="recommendations-subtitle">Real experiences from clients, colleagues, managers, and mentors
+            I've had the privilege of working with.</p>
+        </div>
+
+        <div class="testimonials-carousel testimonial-reveal" id="testimonialsCarousel" aria-roledescription="carousel"
+          aria-label="Recommendations">
+          <button class="testimonials-nav testimonials-prev" type="button" aria-label="Previous recommendation">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 18L9 12L15 6" />
+            </svg>
+          </button>
+
+          <div class="testimonials-viewport" tabindex="0" aria-label="Use the arrow keys to browse recommendations">
+            <div class="testimonials-track" id="testimonialsTrack"></div>
+          </div>
+
+          <button class="testimonials-nav testimonials-next" type="button" aria-label="Next recommendation">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 18L15 12L9 6" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="testimonials-indicators" id="testimonialsIndicators" role="tablist"
+          aria-label="Recommendation slides"></div>
+        <p class="visually-hidden" id="testimonialsStatus" aria-live="polite"></p>
       </div>
     </section>
 
@@ -1113,7 +1162,36 @@
     </div>
   </dialog>
 
-  <script src="script.js?v=4.1"></script>
+  <!-- TESTIMONIAL MODAL -->
+  <dialog class="testimonial-modal-overlay" id="testimonialModal" aria-modal="true"
+    aria-labelledby="testimonialModalName" tabindex="-1">
+    <div class="testimonial-modal">
+      <div class="testimonial-modal-header">
+        <div class="testimonial-modal-header-left">
+          <div class="testimonial-avatar" id="testimonialModalAvatar"></div>
+          <div class="testimonial-modal-person-copy">
+            <h3 class="testimonial-name" id="testimonialModalName"></h3>
+            <p class="testimonial-role" id="testimonialModalRole"></p>
+            <p class="testimonial-organization" id="testimonialModalOrg"></p>
+          </div>
+        </div>
+        <button type="button" class="testimonial-modal-close" id="testimonialModalCloseBtn"
+          aria-label="Close testimonial">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="testimonial-modal-body">
+        <p class="testimonial-modal-quote" id="testimonialModalQuote"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="src/constants/testimonials.js?v=1.0"></script>
+  <script src="script.js?v=4.2"></script>
 </body>
 
 </html>

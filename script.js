@@ -1274,6 +1274,340 @@ initAboutBioToggle();
 initAboutTabs();
 
 // =============================================
+// TESTIMONIALS CAROUSEL
+// Data lives in src/constants/testimonials.js so the UI stays API/CMS-ready.
+// =============================================
+const initTestimonials = () => {
+  const carousel = document.getElementById("testimonialsCarousel");
+  const track = document.getElementById("testimonialsTrack");
+  const indicators = document.getElementById("testimonialsIndicators");
+  const status = document.getElementById("testimonialsStatus");
+  if (!carousel || !track || !indicators || !status) return;
+
+  const testimonials = Array.isArray(window.TESTIMONIALS)
+    ? window.TESTIMONIALS
+    : [];
+  const previous = carousel.querySelector(".testimonials-prev");
+  const next = carousel.querySelector(".testimonials-next");
+  const viewport = carousel.querySelector(".testimonials-viewport");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let activeIndex = 0;
+  let position = 0;
+  let visibleCount = 1;
+  let pauseAutoplay = false;
+  let autoplayTimer;
+  let dragStartX = null;
+
+  const initialsFor = (name) =>
+    name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+
+  const createElement = (tag, className, text) => {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (text !== undefined) element.textContent = text;
+    return element;
+  };
+
+  const createCard = (testimonial, isClone = false) => {
+    const card = createElement("article", "testimonial-card");
+    if (testimonial.featured) card.classList.add("is-featured");
+    if (isClone) card.setAttribute("aria-hidden", "true");
+    
+    // Add pointer cursor since card is clickable
+    card.style.cursor = "pointer";
+    
+    // Bind click to open testimonial modal
+    card.addEventListener("click", () => {
+      openTestimonialModal(testimonial);
+    });
+
+    const person = createElement("div", "testimonial-person");
+    const avatar = createElement("div", "testimonial-avatar");
+    const fallback = createElement("span", "testimonial-avatar-fallback", initialsFor(testimonial.name));
+    avatar.appendChild(fallback);
+    if (testimonial.image) {
+      const image = document.createElement("img");
+      image.className = "testimonial-avatar-image";
+      image.src = testimonial.image;
+      image.alt = `Photo of ${testimonial.name}, ${testimonial.role} at ${testimonial.organization}`;
+      image.loading = "lazy";
+      image.decoding = "async";
+      image.addEventListener("error", () => image.remove());
+      avatar.appendChild(image);
+    }
+    person.appendChild(avatar);
+
+    const personCopy = createElement("div", "testimonial-person-copy");
+    personCopy.append(
+      createElement("h3", "testimonial-name", testimonial.name),
+      createElement("p", "testimonial-role", testimonial.role),
+      createElement("p", "testimonial-organization", testimonial.organization)
+    );
+    person.appendChild(personCopy);
+
+    const meta = createElement("div", "testimonial-meta");
+    meta.append(
+      createElement("span", "testimonial-category", testimonial.category)
+    );
+
+    const quote = createElement("p", "testimonial-quote", `“${testimonial.testimonial}”`);
+    const footer = createElement("footer", "testimonial-footer");
+    footer.appendChild(createElement("span", "testimonial-country", testimonial.country || ""));
+    
+    // Professional Links Configuration
+    const socialConfigs = [
+      { key: "linkedin", label: "LinkedIn", icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>' },
+      { key: "companyWebsite", label: "Company", icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>' },
+      { key: "personalWebsite", label: "Website", icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>' },
+      { key: "github", label: "GitHub", icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>' }
+    ];
+
+    const activeLinks = socialConfigs.filter(config => testimonial[config.key]);
+
+    if (activeLinks.length > 0) {
+      const linksContainer = createElement("div", "testimonial-social-links");
+      
+      activeLinks.forEach(config => {
+        const link = document.createElement("a");
+        link.className = "testimonial-social-link";
+        link.href = testimonial[config.key];
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.setAttribute("aria-label", `View ${testimonial.name}'s ${config.label} Profile`);
+        
+        // Structure: Icon + Label + Arrow
+        link.innerHTML = `
+          ${config.icon}
+          <span>${config.label}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        `;
+        
+        // Prevent click from bubbling up and opening the modal
+        link.addEventListener("click", (e) => e.stopPropagation());
+        
+        linksContainer.appendChild(link);
+      });
+      
+      footer.appendChild(linksContainer);
+    }
+    card.append(person, meta, quote, footer);
+    return card;
+  };
+  
+  // Testimonial Modal Logic
+  const testimonialModal = document.getElementById("testimonialModal");
+  const testimonialModalAvatar = document.getElementById("testimonialModalAvatar");
+  const testimonialModalName = document.getElementById("testimonialModalName");
+  const testimonialModalRole = document.getElementById("testimonialModalRole");
+  const testimonialModalOrg = document.getElementById("testimonialModalOrg");
+  const testimonialModalQuote = document.getElementById("testimonialModalQuote");
+  const closeTestimonialModalBtn = document.getElementById("testimonialModalCloseBtn");
+
+  const openTestimonialModal = (testimonial) => {
+    // Populate data
+    testimonialModalName.textContent = testimonial.name;
+    testimonialModalRole.textContent = testimonial.role;
+    testimonialModalOrg.textContent = testimonial.organization;
+    testimonialModalQuote.textContent = `“${testimonial.testimonial}”`;
+    
+    // Avatar
+    testimonialModalAvatar.replaceChildren();
+    const fallback = createElement("span", "testimonial-avatar-fallback", initialsFor(testimonial.name));
+    testimonialModalAvatar.appendChild(fallback);
+    if (testimonial.image) {
+      const image = document.createElement("img");
+      image.className = "testimonial-avatar-image";
+      image.src = testimonial.image;
+      image.alt = `Photo of ${testimonial.name}, ${testimonial.role} at ${testimonial.organization}`;
+      image.addEventListener("error", () => image.remove());
+      testimonialModalAvatar.appendChild(image);
+    }
+
+    // Open Modal
+    testimonialModal.showModal();
+    // Use requestAnimationFrame for transition
+    requestAnimationFrame(() => {
+      testimonialModal.classList.add("active");
+    });
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeTestimonialModal = () => {
+    testimonialModal.classList.remove("active");
+    // Wait for transition before closing
+    setTimeout(() => {
+      testimonialModal.close();
+      document.body.style.overflow = "";
+    }, 350);
+  };
+
+  if (closeTestimonialModalBtn) {
+    closeTestimonialModalBtn.addEventListener("click", closeTestimonialModal);
+  }
+  
+  if (testimonialModal) {
+    testimonialModal.addEventListener("click", (e) => {
+      if (e.target === testimonialModal) {
+        closeTestimonialModal();
+      }
+    });
+    testimonialModal.addEventListener("cancel", (e) => {
+      e.preventDefault();
+      closeTestimonialModal();
+    });
+  }
+
+  const getVisibleCount = () => {
+    if (window.innerWidth >= 1024) return 3;
+    if (window.innerWidth >= 768) return 2;
+    return 1;
+  };
+
+  const setReveal = () => {
+    document.querySelectorAll(".testimonial-reveal").forEach((element) => {
+      element.classList.add("is-visible");
+    });
+  };
+
+  if (!testimonials.length) {
+    carousel.classList.add("is-empty");
+    track.appendChild(createElement("p", "testimonials-empty", "Recommendations coming soon."));
+    setReveal();
+    return;
+  }
+
+  const updateCards = () => {
+    [...track.children].forEach((card) => card.classList.remove("is-active"));
+    const activeCard = track.children[position + Math.floor(visibleCount / 2)];
+    if (activeCard) activeCard.classList.add("is-active");
+  };
+
+  const updateIndicators = () => {
+    [...indicators.children].forEach((indicator, index) => {
+      const isActive = index === activeIndex;
+      indicator.setAttribute("aria-selected", isActive ? "true" : "false");
+      indicator.tabIndex = isActive ? 0 : -1;
+    });
+    status.textContent = `Recommendation ${activeIndex + 1} of ${testimonials.length}`;
+  };
+
+  const checkBounds = () => {
+    if (position <= 0) {
+      position += testimonials.length;
+      moveTrack(false);
+    } else if (position >= testimonials.length + visibleCount) {
+      position -= testimonials.length;
+      moveTrack(false);
+    }
+  };
+
+  const moveTrack = (animate = true) => {
+    const activeCard = track.children[position];
+    if (!activeCard) return;
+    
+    const shouldAnimate = animate && !reducedMotion;
+    track.style.transition = shouldAnimate ? "transform 520ms cubic-bezier(0.22, 1, 0.36, 1)" : "none";
+    track.style.transform = `translate3d(-${activeCard.offsetLeft}px, 0, 0)`;
+    
+    updateCards();
+    updateIndicators();
+
+    if (!shouldAnimate) {
+      checkBounds();
+    }
+  };
+
+  const build = () => {
+    visibleCount = getVisibleCount();
+    track.replaceChildren();
+    const leading = testimonials.slice(-visibleCount);
+    const trailing = testimonials.slice(0, visibleCount);
+    leading.forEach((item) => track.appendChild(createCard(item, true)));
+    testimonials.forEach((item) => track.appendChild(createCard(item)));
+    trailing.forEach((item) => track.appendChild(createCard(item, true)));
+    position = visibleCount + activeIndex;
+
+    indicators.replaceChildren();
+    testimonials.forEach((item, index) => {
+      const indicator = createElement("button", "testimonial-indicator");
+      indicator.type = "button";
+      indicator.setAttribute("role", "tab");
+      indicator.setAttribute("aria-label", `Show recommendation from ${item.name}`);
+      indicator.addEventListener("click", () => {
+        activeIndex = index;
+        position = visibleCount + activeIndex;
+        moveTrack();
+      });
+      indicators.appendChild(indicator);
+    });
+    requestAnimationFrame(() => moveTrack(false));
+  };
+
+  const changeSlide = (direction) => {
+    const newPosition = position + direction;
+    if (newPosition < 0 || newPosition >= track.children.length) return;
+    
+    position = newPosition;
+    activeIndex = (activeIndex + direction + testimonials.length) % testimonials.length;
+    moveTrack();
+  };
+
+  track.addEventListener("transitionend", checkBounds);
+
+  previous.addEventListener("click", () => changeSlide(-1));
+  next.addEventListener("click", () => changeSlide(1));
+  viewport.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") changeSlide(-1);
+    if (event.key === "ArrowRight") changeSlide(1);
+  });
+  viewport.addEventListener("pointerdown", (event) => {
+    dragStartX = event.clientX;
+    pauseAutoplay = true;
+  });
+  viewport.addEventListener("pointerup", (event) => {
+    if (dragStartX === null) return;
+    const distance = event.clientX - dragStartX;
+    if (Math.abs(distance) > 40) changeSlide(distance > 0 ? -1 : 1);
+    dragStartX = null;
+    pauseAutoplay = false;
+  });
+  viewport.addEventListener("wheel", (event) => {
+    if (Math.abs(event.deltaX) <= Math.abs(event.deltaY) || Math.abs(event.deltaX) < 18) return;
+    event.preventDefault();
+    changeSlide(event.deltaX > 0 ? 1 : -1);
+  }, { passive: false });
+  carousel.addEventListener("mouseenter", () => { pauseAutoplay = true; });
+  carousel.addEventListener("mouseleave", () => { pauseAutoplay = false; });
+  carousel.addEventListener("focusin", () => { pauseAutoplay = true; });
+  carousel.addEventListener("focusout", () => { pauseAutoplay = false; });
+  window.addEventListener("resize", () => {
+    const nextVisibleCount = getVisibleCount();
+    if (nextVisibleCount !== visibleCount) build();
+    else requestAnimationFrame(() => moveTrack(false));
+  });
+
+  if (!reducedMotion && testimonials.length > 1) {
+    autoplayTimer = window.setInterval(() => {
+      if (!pauseAutoplay) changeSlide(1);
+    }, 6200);
+  }
+  void autoplayTimer;
+  build();
+
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setReveal();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealObserver.observe(carousel);
+};
+
+initTestimonials();
+
+// =============================================
 // RICH TEXT PARSER — formatRichText()
 // =============================================
 // Converts lightweight inline markup tokens into semantic HTML.
@@ -1898,6 +2232,7 @@ const initSelectedWork = () => {
     const card = document.createElement("article");
     card.className = "work-card";
     card.setAttribute("data-work-index", index);
+    card.style.cursor = "pointer"; // Make it clear the whole card is clickable
 
     card.innerHTML = `
             <div class="work-card-content">
@@ -1924,16 +2259,13 @@ const initSelectedWork = () => {
             </div>
         `;
 
-    // Attach event listener to trigger popup details modal
-    const btn = card.querySelector(".work-card-view-more");
-    if (btn) {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (window.openWorkModal) {
-          window.openWorkModal(project, num);
-        }
-      });
-    }
+    // Attach event listener to trigger popup details modal on the entire card
+    card.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (window.openWorkModal) {
+        window.openWorkModal(project, num);
+      }
+    });
 
     stack.appendChild(card);
   });
