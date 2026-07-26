@@ -1211,6 +1211,8 @@ button.mobile-menu-link {
   .hero-image-placeholder {
     border-width: 3px;
     box-shadow: 0 8px 18px rgba(29, 29, 31, 0.1);
+    transform: translate(var(--px-img, 0px), var(--py-img, 0px));
+    will-change: transform;
   }
 
   .hero-mobile-orbit-wrapper {
@@ -1232,11 +1234,14 @@ button.mobile-menu-link {
 
   .hero-mobile-orbit-outer {
     top: -21px; bottom: -21px; left: -21px; right: -21px;
+    transform: translate(var(--px-outer, 0px), var(--py-outer, 0px));
     animation: hero-orbit-outer 22s linear infinite;
   }
 
   .hero-mobile-orbit-inner {
     top: -9px; bottom: -9px; left: -9px; right: -9px;
+    margin: 1px 0 0 1px; /* Optical asymmetry */
+    transform: translate(var(--px-inner, 0px), var(--py-inner, 0px));
     animation: hero-orbit-inner 16s linear infinite;
   }
 
@@ -1249,15 +1254,16 @@ button.mobile-menu-link {
   }
 
   .hero-mobile-orbit-outer::before {
-    border: 2px solid var(--theme-border-strong);
+    border: 1.5px solid var(--theme-border-strong);
     opacity: 0.3;
     -webkit-mask-image: conic-gradient(transparent 0deg, transparent 90deg, black 130deg, black 360deg);
     mask-image: conic-gradient(transparent 0deg, transparent 90deg, black 130deg, black 360deg);
   }
 
   .hero-mobile-orbit-inner::before {
-    border: 1.5px solid var(--theme-border-strong);
+    border: 1px solid var(--theme-border-strong);
     opacity: 0.18;
+    filter: blur(0.5px);
     -webkit-mask-image: conic-gradient(black 0deg, black 230deg, transparent 270deg, transparent 360deg);
     mask-image: conic-gradient(black 0deg, black 230deg, transparent 270deg, transparent 360deg);
   }
@@ -1271,7 +1277,7 @@ button.mobile-menu-link {
   }
 
   .hero-mobile-orbit-dot-outer {
-    top: -2px;
+    top: -2.25px;
     left: 50%;
     width: 6px;
     height: 6px;
@@ -1279,10 +1285,11 @@ button.mobile-menu-link {
   }
 
   .hero-mobile-orbit-dot-inner {
-    top: -1.5px;
+    top: -2px;
     left: 50%;
     width: 5px;
     height: 5px;
+    filter: blur(0.5px);
     transform: translateX(-50%);
   }
 
@@ -1424,19 +1431,19 @@ button.mobile-menu-link {
 
 @keyframes hero-orbit-outer {
   from {
-    transform: rotate(30deg);
+    rotate: 30deg;
   }
   to {
-    transform: rotate(390deg);
+    rotate: 390deg;
   }
 }
 
 @keyframes hero-orbit-inner {
   from {
-    transform: rotate(220deg);
+    rotate: 220deg;
   }
   to {
-    transform: rotate(-140deg);
+    rotate: -140deg;
   }
 }
 

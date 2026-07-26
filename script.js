@@ -3864,3 +3864,90 @@ const initContactForm = () => {
 };
 
 initContactForm();
+
+// ==========================================
+// Hero Image Parallax (Mobile Orbit & Desktop)
+// ==========================================
+function initHeroParallax() {
+  const heroSection = document.querySelector('.hero');
+  const heroImageContainer = document.querySelector('.hero-image-container');
+  
+  if (!heroSection || !heroImageContainer) return;
+
+  // Variables to store current and target offsets for smooth interpolation (LERP)
+  let targetX = 0;
+  let targetY = 0;
+  let currentX = 0;
+  let currentY = 0;
+  let animationFrameId = null;
+
+  // Render loop for smooth parallax interpolation
+  function renderParallax() {
+    // LERP (Linear Interpolation) for smoothness
+    currentX += (targetX - currentX) * 0.1;
+    currentY += (targetY - currentY) * 0.1;
+
+    // Apply multiplier bounds for each layer
+    const normalizedX = currentX;
+    const normalizedY = currentY;
+
+    // Update CSS variables for each layer
+    // We apply these to the container so all child orbits and images can read them
+    heroImageContainer.style.setProperty('--px-outer', `${normalizedX * 2.5}px`);
+    heroImageContainer.style.setProperty('--py-outer', `${normalizedY * 2.5}px`);
+    
+    heroImageContainer.style.setProperty('--px-inner', `${normalizedX * 4.5}px`);
+    heroImageContainer.style.setProperty('--py-inner', `${normalizedY * 4.5}px`);
+    
+    heroImageContainer.style.setProperty('--px-img', `${normalizedX * 1.5}px`);
+    heroImageContainer.style.setProperty('--py-img', `${normalizedY * 1.5}px`);
+
+    animationFrameId = requestAnimationFrame(renderParallax);
+  }
+
+  // Start the render loop
+  renderParallax();
+
+  // Desktop Mouse Parallax (for testing interactions generically)
+  heroSection.addEventListener('mousemove', (e) => {
+    const rect = heroSection.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    // Normalize to range [-1, 1]
+    const mouseX = (e.clientX - centerX) / (rect.width / 2);
+    const mouseY = (e.clientY - centerY) / (rect.height / 2);
+    
+    // Limit maximum shift
+    targetX = Math.max(-1, Math.min(1, mouseX));
+    targetY = Math.max(-1, Math.min(1, mouseY));
+  });
+
+  heroSection.addEventListener('mouseleave', () => {
+    targetX = 0;
+    targetY = 0;
+  });
+
+  // Mobile Device Tilt Parallax (DeviceOrientation)
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', (event) => {
+      const beta = event.beta; // Front-to-back tilt in degrees
+      const gamma = event.gamma; // Left-to-right tilt in degrees
+
+      if (beta === null || gamma === null) return;
+      
+      // Calculate normalized tilts based on typical holding angles (roughly 45 degrees tilt)
+      const normalizedBeta = (beta - 45) / 45; 
+      const normalizedGamma = gamma / 45;
+
+      targetX = Math.max(-1, Math.min(1, normalizedGamma));
+      targetY = Math.max(-1, Math.min(1, normalizedBeta));
+    });
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHeroParallax);
+} else {
+  initHeroParallax();
+}
