@@ -50,10 +50,10 @@ const TESTIMONIALS = [
         role: "PhD Student",
         organization: "Rochester Institute of Technology(RIT)",
         category: "Collegue, Classmate",
-        image: "public/images/testimonials/satish-khatri.jpg",
+        image: "public/images/testimonials/image-adhikari.jpg",
         country: "NP",
         linkedin: "https://www.linkedin.com/in/image-adhikari/",
-        companyWebsite: "https://imageadhikari.com.np/",
+        website: "https://imageadhikari.com.np/",
         testimonial: "Studying with Sajag during our undergrad and workingh alongside him both during those years and beyond, I can confidently say he is one of the most dedicated people I know when it comes to anything he chooses to pursue. He consistently demonstrated a strong grasp of engineering concepts and problem-solving skills whenever we worked together. Beyond his technical expertise, he is a capable leader who communicates clearly, making collaboration effortless. I highly recommend him to anyone looking for a skilled, dependable, and enthusiastic engineer who consistently delivers high-quality results.",
         featured: false
     },
