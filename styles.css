@@ -4590,10 +4590,12 @@ button.mobile-menu-link {
   transform: translateY(-2px) scale(1.015);
 }
 
-.overview-card-icon {
-  font-size: 2.25rem;
-  margin-bottom: var(--spacing-4);
-  line-height: 1;
+.overview-card-accent {
+  width: 40px;
+  height: 4px;
+  border-radius: 999px;
+  background-color: var(--color-orange-500, #FF7A00);
+  margin: 0 auto var(--spacing-4);
 }
 
 .overview-card-title {
