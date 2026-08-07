@@ -131,15 +131,16 @@ initTheme();
 const navbar = document.getElementById("navbar");
 const navLinks = document.querySelectorAll(".navbar-link");
 const sections = document.querySelectorAll("#about, #work, #journey, #connect");
-let lastScrollTop = 0;
 
 window.addEventListener("scroll", () => {
   const scrollTop = window.scrollY;
 
-  if (scrollTop > 50) {
-    navbar.classList.add("scrolled");
-  } else {
-    navbar.classList.remove("scrolled");
+  if (navbar) {
+    if (scrollTop > 50) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
   }
 
   // Scrollspy: highlight active nav link
@@ -168,37 +169,38 @@ window.addEventListener("scroll", () => {
       link.classList.add("active");
     }
   });
-
-  lastScrollTop = scrollTop;
 });
 
 // Mobile menu toggle
 const navbarToggle = document.getElementById("navbarToggle");
 const mobileMenu = document.getElementById("mobileMenu");
-const menuIcon = navbarToggle.querySelector(".menu-icon");
-const closeIcon = navbarToggle.querySelector(".close-icon");
 
-navbarToggle.addEventListener("click", () => {
-  const isOpen = mobileMenu.classList.toggle("open");
-  navbarToggle.setAttribute("aria-expanded", isOpen);
-  menuIcon.style.display = isOpen ? "none" : "block";
-  closeIcon.style.display = isOpen ? "block" : "none";
-});
+if (navbarToggle && mobileMenu) {
+  const menuIcon = navbarToggle.querySelector(".menu-icon");
+  const closeIcon = navbarToggle.querySelector(".close-icon");
 
-// Close mobile menu when clicking a link
-const mobileMenuLinks = mobileMenu.querySelectorAll(".mobile-menu-link");
-mobileMenuLinks.forEach((link) => {
-  link.addEventListener("click", () => {
-    mobileMenu.classList.remove("open");
-    navbarToggle.setAttribute("aria-expanded", "false");
-    menuIcon.style.display = "block";
-    closeIcon.style.display = "none";
+  navbarToggle.addEventListener("click", () => {
+    const isOpen = mobileMenu.classList.toggle("open");
+    navbarToggle.setAttribute("aria-expanded", isOpen);
+    if (menuIcon) menuIcon.style.display = isOpen ? "none" : "block";
+    if (closeIcon) closeIcon.style.display = isOpen ? "block" : "none";
   });
-});
 
-// Card selection toggle (experience, hobby, and timeline cards)
+  // Close mobile menu when clicking a link
+  const mobileMenuLinks = mobileMenu.querySelectorAll(".mobile-menu-link");
+  mobileMenuLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      mobileMenu.classList.remove("open");
+      navbarToggle.setAttribute("aria-expanded", "false");
+      if (menuIcon) menuIcon.style.display = "block";
+      if (closeIcon) closeIcon.style.display = "none";
+    });
+  });
+}
+
+// Card selection toggle (hobby and timeline cards)
 document
-  .querySelectorAll(".experience-card, .hobby-card, .timeline-card")
+  .querySelectorAll(".hobby-card, .timeline-card")
   .forEach((card) => {
     card.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -206,14 +208,14 @@ document
 
       // Deselect all cards
       document
-        .querySelectorAll(".experience-card, .hobby-card, .timeline-card")
+        .querySelectorAll(".hobby-card, .timeline-card")
         .forEach((c) => c.classList.remove("selected"));
 
       if (isSelected) {
         card.classList.add("closed-by-user");
       } else {
         document
-          .querySelectorAll(".experience-card, .hobby-card, .timeline-card")
+          .querySelectorAll(".hobby-card, .timeline-card")
           .forEach((c) => c.classList.remove("closed-by-user"));
         card.classList.add("selected");
       }
@@ -227,7 +229,7 @@ document
 // Click anywhere else to deselect all cards
 document.addEventListener("click", () => {
   document
-    .querySelectorAll(".experience-card, .hobby-card, .timeline-card")
+    .querySelectorAll(".hobby-card, .timeline-card")
     .forEach((c) => c.classList.remove("selected", "closed-by-user"));
 });
 
@@ -241,7 +243,9 @@ if (currentYearEl) {
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
     e.preventDefault();
-    const target = document.querySelector(this.getAttribute("href"));
+    const href = this.getAttribute("href");
+    if (href === "#") return;
+    const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({
         behavior: "smooth",
@@ -301,7 +305,8 @@ function initCarousels() {
 
     // Click and keyboard interaction on dots to navigate
     dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => {
+      dot.addEventListener("click", (e) => {
+        e.stopPropagation();
         currentIndex = index;
         showSlide(currentIndex);
       });
@@ -728,6 +733,7 @@ const initUnpluggedGallery = () => {
     closeGallery();
   });
 
+  // Escape is handled once via the dialog "cancel" listener above
   modal.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {
       e.preventDefault();
@@ -736,10 +742,6 @@ const initUnpluggedGallery = () => {
     if (e.key === "ArrowRight") {
       e.preventDefault();
       showImage(currentIndex + 1);
-    }
-    if (e.key === "Escape") {
-      e.preventDefault();
-      closeGallery();
     }
   });
 
@@ -1056,6 +1058,8 @@ const initPdfViewer = () => {
 
   if (!viewCvBtn || !pdfModal || !pdfCloseBtn || !pdfFrame) return;
 
+  let previousBodyOverflow = "";
+
   const openModal = (e) => {
     // Check if on a mobile viewport, iPad, or tablet device to redirect to cv.html
     const isMobileOrTablet =
@@ -1078,6 +1082,7 @@ const initPdfViewer = () => {
       pdfFrame.src = "cv.pdf";
     }
     pdfModal.showModal();
+    previousBodyOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     // Add active class on next frame to trigger CSS transitions smoothly
@@ -1088,7 +1093,7 @@ const initPdfViewer = () => {
 
   const closeModal = () => {
     pdfModal.classList.remove("active");
-    document.body.style.overflow = "";
+    document.body.style.overflow = previousBodyOverflow;
 
     // Wait for CSS transitions (0.35s / 350ms) before calling close()
     setTimeout(() => {
@@ -1155,13 +1160,7 @@ const initTypedText = () => {
   subtitle.appendChild(typedOutput);
 
   const typeSpeed = 90;
-  const deleteSpeed = 25;
-  const pauseAfterType = 2200;
-  const pauseAfterDelete = 400;
-  const totalCycles = 1;
-  let currentCycle = 0;
   let charIndex = 0;
-  let isDeleting = false;
 
   const buildHTML = (upTo) => {
     let html = "";
@@ -1188,34 +1187,14 @@ const initTypedText = () => {
   };
 
   const tick = () => {
-    if (!isDeleting) {
-      charIndex++;
-      typedOutput.innerHTML = buildHTML(charIndex);
+    charIndex++;
+    typedOutput.innerHTML = buildHTML(charIndex);
 
-      if (charIndex === chars.length) {
-        currentCycle++;
-        if (currentCycle >= totalCycles) {
-          return;
-        }
-        // Pause then start deleting
-        setTimeout(() => {
-          isDeleting = true;
-          tick();
-        }, pauseAfterType);
-        return;
-      }
-      setTimeout(tick, typeSpeed + Math.random() * 25);
-    } else {
-      charIndex--;
-      typedOutput.innerHTML = buildHTML(charIndex);
-
-      if (charIndex === 0) {
-        isDeleting = false;
-        setTimeout(tick, pauseAfterDelete);
-        return;
-      }
-      setTimeout(tick, deleteSpeed);
+    // Single pass: stop once the full text is typed
+    if (charIndex === chars.length) {
+      return;
     }
+    setTimeout(tick, typeSpeed + Math.random() * 25);
   };
 
   setTimeout(tick, 600);
@@ -1297,6 +1276,7 @@ const initTestimonials = () => {
   let pauseAutoplay = false;
   let autoplayTimer;
   let dragStartX = null;
+  let suppressCardClick = false;
 
   const initialsFor = (name) =>
     name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
@@ -1315,11 +1295,29 @@ const initTestimonials = () => {
     
     // Add pointer cursor since card is clickable
     card.style.cursor = "pointer";
-    
-    // Bind click to open testimonial modal
+
+    // Bind click to open testimonial modal (suppressed right after a drag)
     card.addEventListener("click", () => {
+      if (suppressCardClick) return;
       openTestimonialModal(testimonial);
     });
+
+    // Make real cards keyboard-operable like the hobby cards
+    // (clones stay aria-hidden and are not focusable)
+    if (!isClone) {
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+      card.setAttribute(
+        "aria-label",
+        `Read full recommendation from ${testimonial.name}`
+      );
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openTestimonialModal(testimonial);
+        }
+      });
+    }
 
     const person = createElement("div", "testimonial-person");
     const avatar = createElement("div", "testimonial-avatar");
@@ -1402,6 +1400,7 @@ const initTestimonials = () => {
   const testimonialModalOrg = document.getElementById("testimonialModalOrg");
   const testimonialModalQuote = document.getElementById("testimonialModalQuote");
   const closeTestimonialModalBtn = document.getElementById("testimonialModalCloseBtn");
+  let previousBodyOverflow = "";
 
   const openTestimonialModal = (testimonial) => {
     // Populate data
@@ -1429,6 +1428,7 @@ const initTestimonials = () => {
     requestAnimationFrame(() => {
       testimonialModal.classList.add("active");
     });
+    previousBodyOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
   };
 
@@ -1437,7 +1437,7 @@ const initTestimonials = () => {
     // Wait for transition before closing
     setTimeout(() => {
       testimonialModal.close();
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousBodyOverflow;
     }, 350);
   };
 
@@ -1568,6 +1568,14 @@ const initTestimonials = () => {
     if (dragStartX === null) return;
     const distance = event.clientX - dragStartX;
     if (Math.abs(distance) > 40) changeSlide(distance > 0 ? -1 : 1);
+    if (Math.abs(distance) > 8) {
+      // A real drag happened: swallow the native click that follows
+      // so it doesn't open the testimonial modal unintentionally.
+      suppressCardClick = true;
+      setTimeout(() => {
+        suppressCardClick = false;
+      }, 0);
+    }
     dragStartX = null;
     pauseAutoplay = false;
   });
@@ -1591,7 +1599,6 @@ const initTestimonials = () => {
       if (!pauseAutoplay) changeSlide(1);
     }, 6200);
   }
-  void autoplayTimer;
   build();
 
   const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -2277,7 +2284,8 @@ const initSelectedWork = () => {
 const initWorkModal = () => {
   const modal = document.getElementById("workModal");
   if (!modal) return;
-  modal.setAttribute("tabindex", "-1");
+
+  let previousBodyOverflow = "";
 
   const renderProjectLinks = (project) => {
     if (!project.projectLinks?.length) return "";
@@ -2389,7 +2397,7 @@ const initWorkModal = () => {
                     <button class="mobile-header-back-btn" id="mobileBackBtn" aria-label="Go back">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                     </button>
-                    <span class="project-modal-mobile-header-title" id="mobileHeaderTitle">${
+                    <span class="project-modal-mobile-header-title" id="workModalTitle">${
                       project.title
                     }</span>
                     <button class="mobile-header-share-btn" id="mobileShareBtn" aria-label="Share case study">
@@ -2581,7 +2589,7 @@ const initWorkModal = () => {
       ".project-modal-mobile-content"
     );
     const header = modal.querySelector(".project-modal-mobile-header");
-    const headerTitle = modal.querySelector("#mobileHeaderTitle");
+    const headerTitle = modal.querySelector("#workModalTitle");
 
     if (scrollContainer && header && headerTitle) {
       scrollContainer.addEventListener("scroll", () => {
@@ -2671,7 +2679,7 @@ const initWorkModal = () => {
                 <div class="project-modal-tablet-header">
                     <div class="tablet-header-left">
                         <span class="tablet-header-num">${num}</span>
-                        <span class="project-modal-tablet-header-title" id="tabletHeaderTitle">${
+                        <span class="project-modal-tablet-header-title" id="workModalTitle">${
                           project.title
                         }</span>
                     </div>
@@ -2878,7 +2886,7 @@ const initWorkModal = () => {
     // Bind scroll header animations
     const scrollContainer = modal.querySelector(".project-modal-tablet-scroll");
     const header = modal.querySelector(".project-modal-tablet-header");
-    const headerTitle = modal.querySelector("#tabletHeaderTitle");
+    const headerTitle = modal.querySelector("#workModalTitle");
 
     if (scrollContainer && header && headerTitle) {
       scrollContainer.addEventListener("scroll", () => {
@@ -3236,6 +3244,7 @@ const initWorkModal = () => {
       if (mobileContent) mobileContent.scrollTop = 0;
       if (tabletScroll) tabletScroll.scrollTop = 0;
     }, 10);
+    previousBodyOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
   };
 
@@ -3244,7 +3253,7 @@ const initWorkModal = () => {
     document.body.classList.remove("body-modal-open", "body-modal-open-tablet");
     setTimeout(() => {
       modal.close();
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousBodyOverflow;
     }, 350);
   };
 
@@ -3374,6 +3383,8 @@ const initContactForm = () => {
 
   if (!contactModal) return;
 
+  let previousBodyOverflow = "";
+
   // Anti-Spam Behavioral & Timers State
   let openedAt = 0;
   let mouseMoved = false;
@@ -3434,6 +3445,7 @@ const initContactForm = () => {
   // Open / Close Modal Logic
   const openContactModal = () => {
     contactModal.showModal();
+    previousBodyOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     requestAnimationFrame(() => {
       contactModal.classList.add("active");
@@ -3496,7 +3508,7 @@ const initContactForm = () => {
 
   const closeContactModal = () => {
     contactModal.classList.remove("active");
-    document.body.style.overflow = "";
+    document.body.style.overflow = previousBodyOverflow;
     setTimeout(() => {
       contactModal.close();
     }, 350);
@@ -3537,7 +3549,7 @@ const initContactForm = () => {
   if (contactForm) {
     contactForm.addEventListener("mousemove", onFormMouseMove);
     
-    contactForm.addEventListener("keypress", () => {
+    contactForm.addEventListener("keydown", () => {
       keyboardKeyPressCount++;
     });
 
