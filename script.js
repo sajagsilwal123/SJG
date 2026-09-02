@@ -1831,7 +1831,7 @@ const PROJECTS = [
         label: "INTELLIGENT SYSTEMS",
         title: "Operational Automation",
         content:
-          "Spearheaded the design of advanced capabilities, including **GatiAI**—the platform's proprietary AI system powered by **Qwen**:\n\n- **AI-assisted document processing** for automated license and permit verification\n- **Intelligent compliance monitoring** to prevent regulatory violations\n- **Predictive financial insights** for fleet fuel and maintenance costs\n- **Automated dispatch workflows** based on vehicle proximity",
+          "Spearheaded the design of advanced capabilities, including **GatiAI**—the platform's proprietary AI system powered by **Qwen**:\n\n- **Intelligent compliance monitoring** to prevent regulatory violations\n- **Predictive financial insights** for fleet fuel and maintenance costs\n- **Automated dispatch workflows** based on vehicle proximity",
       },
       {
         label: "RESULTS & IMPACT",
